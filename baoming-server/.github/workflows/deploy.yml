@@ -1,0 +1,59 @@
+name: Deploy baoming-server
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: Build with Maven
+        run: mvn -B package -DskipTests
+
+      - name: Upload JAR artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: baoming-server-jar
+          path: target/*.jar
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Download JAR artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: baoming-server-jar
+          path: target/
+
+      - name: Deploy to server (SSH)
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            # Stop existing service
+            sudo systemctl stop baoming-server || true
+            # Backup old jar
+            mv /opt/baoming-server/app.jar /opt/baoming-server/app.jar.bak 2>/dev/null || true
+            # Deploy new jar
+            # (Upload via scp handled separately or use rsync)
+            sudo systemctl start baoming-server
+            sudo systemctl status baoming-server --no-pager

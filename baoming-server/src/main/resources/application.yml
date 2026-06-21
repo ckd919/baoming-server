@@ -1,0 +1,38 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: baoming-server
+  datasource:
+    url: jdbc:postgresql://127.0.0.1:5432/mydb
+    username: postgres
+    password: Aled2239
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 10
+      idle-timeout: 30000
+  jackson:
+    default-property-inclusion: non_null
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      id-type: auto
+      logic-delete-field: deleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+
+app:
+  jwt:
+    secret: baoming_jwt_secret_2024_key
+    expiration-days: 7
+  cors:
+    allowed-origins: "http://localhost:3000,http://127.0.0.1:3000"
+
+logging:
+  level:
+    com.xiaozongxiong.baoming: DEBUG
