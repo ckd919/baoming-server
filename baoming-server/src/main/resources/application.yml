@@ -28,7 +28,7 @@ mybatis-plus:
 
 app:
   jwt:
-    secret: ${APP_JWT_SECRET:baoming_jwt_secret_2024_key}
+    secret: ${APP_JWT_SECRET:baoming-jwt-secret-key-2024-min-32chars}
     expiration-days: ${APP_JWT_EXPIRATION_DAYS:7}
   cors:
     allowed-origins: ${APP_CORS_ALLOWED_ORIGINS:http://localhost:3000,http://127.0.0.1:3000}
