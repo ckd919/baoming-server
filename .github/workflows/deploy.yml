@@ -3,12 +3,9 @@ name: Deploy baoming-server
 on:
   push:
     branches: [main]
-    paths:
-      - 'baoming-server/**'
   pull_request:
     branches: [main]
-    paths:
-      - 'baoming-server/**'
+  workflow_dispatch:
 
 jobs:
   # ============================================================
