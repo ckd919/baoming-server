@@ -128,7 +128,7 @@ SPRING_DATASOURCE_PASSWORD=Aled2239
 # --- JWT ---
 APP_JWT_SECRET=baoming_jwt_secret_2024_key
 # --- CORS ---
-APP_CORS_ALLOWED_ORIGINS=http://8.134.252.128,http://localhost:3000,http://127.0.0.1:3000
+APP_CORS_ALLOWED_ORIGINS=https://ledbell.cn,http://ledbell.cn,http://8.134.252.128,http://localhost:3000,http://127.0.0.1:3000
 # --- 日志级别 ---
 LOG_LEVEL=DEBUG
 ENV_EOF
