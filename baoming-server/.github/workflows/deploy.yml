@@ -7,6 +7,9 @@ on:
     branches: [main]
 
 jobs:
+  # ============================================================
+  # 阶段 1：构建 + 测试
+  # ============================================================
   build:
     runs-on: ubuntu-latest
 
@@ -30,6 +33,9 @@ jobs:
           name: baoming-server-jar
           path: target/*.jar
 
+  # ============================================================
+  # 阶段 2：部署到服务器（仅 main 分支）
+  # ============================================================
   deploy:
     needs: build
     runs-on: ubuntu-latest
@@ -42,18 +48,83 @@ jobs:
           name: baoming-server-jar
           path: target/
 
-      - name: Deploy to server (SSH)
+      - name: Rename JAR to app.jar
+        run: |
+          mv target/*.jar target/app.jar
+          echo "JAR file: $(ls -lh target/app.jar)"
+
+      # ---------- 上传 JAR 到服务器 ----------
+      - name: Upload JAR to server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          port: ${{ secrets.SERVER_PORT || 22 }}
+          source: "target/app.jar"
+          target: "/opt/baoming-server/"
+          strip_components: 1
+
+      # ---------- 写入环境变量文件 ----------
+      - name: Write environment file on server
         uses: appleboy/ssh-action@v1.0.0
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
+          port: ${{ secrets.SERVER_PORT || 22 }}
           script: |
-            # Stop existing service
+            cat > /opt/baoming-server/.env << 'EOF'
+            SPRING_DATASOURCE_URL=${{ secrets.DB_URL }}
+            SPRING_DATASOURCE_USERNAME=${{ secrets.DB_USERNAME }}
+            SPRING_DATASOURCE_PASSWORD=${{ secrets.DB_PASSWORD }}
+            APP_JWT_SECRET=${{ secrets.JWT_SECRET }}
+            APP_CORS_ALLOWED_ORIGINS=${{ secrets.CORS_ORIGINS }}
+            EOF
+            chmod 600 /opt/baoming-server/.env
+
+      # ---------- 重启服务 ----------
+      - name: Restart application
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          port: ${{ secrets.SERVER_PORT || 22 }}
+          script: |
+            set -e
+            echo "=== Stopping old service ==="
             sudo systemctl stop baoming-server || true
-            # Backup old jar
-            mv /opt/baoming-server/app.jar /opt/baoming-server/app.jar.bak 2>/dev/null || true
-            # Deploy new jar
-            # (Upload via scp handled separately or use rsync)
+
+            echo "=== Deploying new JAR ==="
+            sudo cp /opt/baoming-server/app.jar /opt/baoming-server/app.jar.bak 2>/dev/null || true
+            sudo mv /opt/baoming-server/app.jar /opt/baoming-server/app.jar
+
+            echo "=== Starting service ==="
             sudo systemctl start baoming-server
-            sudo systemctl status baoming-server --no-pager
+
+            echo "=== Service status ==="
+            sudo systemctl status baoming-server --no-pager --lines=20
+
+      # ---------- 健康检查 ----------
+      - name: Health check
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          port: ${{ secrets.SERVER_PORT || 22 }}
+          script: |
+            echo "=== Waiting for app to start ==="
+            for i in $(seq 1 30); do
+              if curl -sf http://localhost:8080/api/health > /dev/null 2>&1; then
+                echo "✅ App is healthy!"
+                curl -s http://localhost:8080/api/health
+                exit 0
+              fi
+              echo "Waiting... ($i/30)"
+              sleep 2
+            done
+            echo "❌ Health check failed!"
+            sudo journalctl -u baoming-server --no-pager -n 50
+            exit 1

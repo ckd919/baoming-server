@@ -1,0 +1,32 @@
+[Unit]
+Description=baoming-server - 小棕熊预约报名后端服务
+After=network.target postgresql.service
+Wants=network.target
+
+[Service]
+Type=simple
+User=baoming
+Group=baoming
+WorkingDirectory=/opt/baoming-server
+EnvironmentFile=/opt/baoming-server/.env
+ExecStart=/usr/bin/java -Xmx256m -Xms128m -jar /opt/baoming-server/app.jar
+ExecStop=/bin/kill -15 $MAINPID
+
+# 自动重启策略
+Restart=on-failure
+RestartSec=10
+
+# 日志管理
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=baoming-server
+
+# 安全加固
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/baoming-server /tmp
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
