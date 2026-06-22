@@ -32,4 +32,6 @@
 }
 .btn-block.data-v-59ff5a46 { margin-top: 20rpx;
 }
+.create-btns.data-v-59ff5a46 { display: flex; gap: 16rpx; margin-top: 20rpx;
+}
 

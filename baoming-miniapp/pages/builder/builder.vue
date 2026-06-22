@@ -48,6 +48,7 @@
     <!-- 保存 -->
     <view class="fixed-bottom">
       <button class="btn-outline" @click="preview">👁 预览</button>
+      <button class="btn-outline" @click="saveDraft">📦 暂存</button>
       <button class="btn-primary" @click="saveForm">💾 保存并发布</button>
     </view>
 
@@ -172,6 +173,19 @@ export default {
       const ni = i + offset
       if (ni < 0 || ni >= this.fields.length) return
       const tmp = this.fields[i]; this.fields.splice(i, 1); this.fields.splice(ni, 0, tmp)
+    },
+
+    async saveDraft() {
+      try {
+        await updateActivity(this.activity.id, { fields: this.fields.map(f => ({
+          id: f.id, type: f.type, label: f.label, placeholder: f.placeholder,
+          required: f.required, options: f.options, maxImages: f.maxImages
+        })) })
+        uni.showToast({ title: '已暂存', icon: 'success' })
+        setTimeout(() => uni.navigateBack(), 500)
+      } catch (err) {
+        uni.showToast({ title: '暂存失败: ' + err.message, icon: 'none' })
+      }
     },
 
     async saveForm() {

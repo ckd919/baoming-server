@@ -262,6 +262,17 @@ var _api = __webpack_require__(/*! @/store/api.js */ 46);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var _default = {
   data: function data() {
     return {
@@ -281,7 +292,8 @@ var _default = {
       endTimeOnly: '',
       templates: [],
       selectedTpl: '',
-      loading: false
+      loading: false,
+      draftLoading: false
     };
   },
   onLoad: function onLoad(options) {
@@ -399,10 +411,9 @@ var _default = {
         this.form.endTime = new Date(this.endDate + 'T' + this.endTimeOnly).getTime();
       }
     },
-    handleSubmit: function handleSubmit() {
+    /** 编辑模式保存 */handleSubmit: function handleSubmit() {
       var _this3 = this;
       return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee3() {
-        var id, fields, tpl;
         return _regenerator.default.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
@@ -419,11 +430,7 @@ var _default = {
               case 3:
                 _this3.loading = true;
                 _context3.prev = 4;
-                if (!_this3.isEdit) {
-                  _context3.next = 12;
-                  break;
-                }
-                _context3.next = 8;
+                _context3.next = 7;
                 return (0, _api.updateActivity)(_this3.editId, {
                   name: _this3.form.name,
                   description: _this3.form.description,
@@ -432,7 +439,7 @@ var _default = {
                   endTime: _this3.form.endTime || null,
                   maxParticipants: _this3.form.maxParticipants || 0
                 });
-              case 8:
+              case 7:
                 uni.showToast({
                   title: '修改成功',
                   icon: 'success'
@@ -440,15 +447,115 @@ var _default = {
                 setTimeout(function () {
                   return uni.navigateBack();
                 }, 500);
-                _context3.next = 19;
+                _context3.next = 14;
+                break;
+              case 11:
+                _context3.prev = 11;
+                _context3.t0 = _context3["catch"](4);
+                uni.showToast({
+                  title: '修改失败: ' + _context3.t0.message,
+                  icon: 'none'
+                });
+              case 14:
+                _context3.prev = 14;
+                _this3.loading = false;
+                return _context3.finish(14);
+              case 17:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3, null, [[4, 11, 14, 17]]);
+      }))();
+    },
+    /** 暂存草稿：保存并返回列表 */handleSaveDraft: function handleSaveDraft() {
+      var _this4 = this;
+      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee4() {
+        var id;
+        return _regenerator.default.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                if (_this4.form.name.trim()) {
+                  _context4.next = 3;
+                  break;
+                }
+                uni.showToast({
+                  title: '请输入活动名称',
+                  icon: 'none'
+                });
+                return _context4.abrupt("return");
+              case 3:
+                _this4.draftLoading = true;
+                _context4.prev = 4;
+                id = Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+                _context4.next = 8;
+                return (0, _api.createActivity)({
+                  id: id,
+                  name: _this4.form.name,
+                  description: _this4.form.description,
+                  location: _this4.form.location,
+                  startTime: _this4.form.startTime || null,
+                  endTime: _this4.form.endTime || null,
+                  maxParticipants: _this4.form.maxParticipants || 0,
+                  status: 'draft',
+                  fields: [],
+                  createdAt: Date.now()
+                });
+              case 8:
+                uni.showToast({
+                  title: '已保存为草稿',
+                  icon: 'success'
+                });
+                setTimeout(function () {
+                  return uni.navigateBack();
+                }, 500);
+                _context4.next = 15;
                 break;
               case 12:
-                // 创建模式
+                _context4.prev = 12;
+                _context4.t0 = _context4["catch"](4);
+                uni.showToast({
+                  title: '保存失败: ' + _context4.t0.message,
+                  icon: 'none'
+                });
+              case 15:
+                _context4.prev = 15;
+                _this4.draftLoading = false;
+                return _context4.finish(15);
+              case 18:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4, null, [[4, 12, 15, 18]]);
+      }))();
+    },
+    /** 创建并设置表单 */handleCreateAndBuild: function handleCreateAndBuild() {
+      var _this5 = this;
+      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee5() {
+        var id, fields, tpl;
+        return _regenerator.default.wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                if (_this5.form.name.trim()) {
+                  _context5.next = 3;
+                  break;
+                }
+                uni.showToast({
+                  title: '请输入活动名称',
+                  icon: 'none'
+                });
+                return _context5.abrupt("return");
+              case 3:
+                _this5.loading = true;
+                _context5.prev = 4;
                 id = Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
                 fields = [];
-                if (_this3.selectedTpl) {
-                  tpl = _this3.templates.find(function (t) {
-                    return t.id === _this3.selectedTpl;
+                if (_this5.selectedTpl) {
+                  tpl = _this5.templates.find(function (t) {
+                    return t.id === _this5.selectedTpl;
                   });
                   if (tpl) {
                     fields = (tpl.fields || []).map(function (f) {
@@ -464,20 +571,20 @@ var _default = {
                     });
                   }
                 }
-                _context3.next = 17;
+                _context5.next = 10;
                 return (0, _api.createActivity)({
                   id: id,
-                  name: _this3.form.name,
-                  description: _this3.form.description,
-                  location: _this3.form.location,
-                  startTime: _this3.form.startTime || null,
-                  endTime: _this3.form.endTime || null,
-                  maxParticipants: _this3.form.maxParticipants || 0,
+                  name: _this5.form.name,
+                  description: _this5.form.description,
+                  location: _this5.form.location,
+                  startTime: _this5.form.startTime || null,
+                  endTime: _this5.form.endTime || null,
+                  maxParticipants: _this5.form.maxParticipants || 0,
                   status: 'draft',
                   fields: fields,
                   createdAt: Date.now()
                 });
-              case 17:
+              case 10:
                 uni.showToast({
                   title: '创建成功',
                   icon: 'success'
@@ -487,26 +594,25 @@ var _default = {
                     url: "/pages/builder/builder?id=".concat(id)
                   });
                 }, 500);
-              case 19:
-                _context3.next = 24;
+                _context5.next = 17;
                 break;
-              case 21:
-                _context3.prev = 21;
-                _context3.t0 = _context3["catch"](4);
+              case 14:
+                _context5.prev = 14;
+                _context5.t0 = _context5["catch"](4);
                 uni.showToast({
-                  title: (_this3.isEdit ? '修改' : '创建') + '失败: ' + _context3.t0.message,
+                  title: '创建失败: ' + _context5.t0.message,
                   icon: 'none'
                 });
-              case 24:
-                _context3.prev = 24;
-                _this3.loading = false;
-                return _context3.finish(24);
-              case 27:
+              case 17:
+                _context5.prev = 17;
+                _this5.loading = false;
+                return _context5.finish(17);
+              case 20:
               case "end":
-                return _context3.stop();
+                return _context5.stop();
             }
           }
-        }, _callee3, null, [[4, 21, 24, 27]]);
+        }, _callee5, null, [[4, 14, 17, 20]]);
       }))();
     }
   }

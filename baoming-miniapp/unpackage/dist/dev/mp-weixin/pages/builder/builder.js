@@ -417,7 +417,7 @@ var _default = {
       this.fields.splice(i, 1);
       this.fields.splice(ni, 0, tmp);
     },
-    saveForm: function saveForm() {
+    saveDraft: function saveDraft() {
       var _this4 = this;
       return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee2() {
         return _regenerator.default.wrap(function _callee2$(_context2) {
@@ -441,13 +441,11 @@ var _default = {
                 });
               case 3:
                 uni.showToast({
-                  title: '保存成功',
+                  title: '已暂存',
                   icon: 'success'
                 });
                 setTimeout(function () {
-                  uni.navigateTo({
-                    url: "/pages/publish/publish?id=".concat(_this4.activity.id)
-                  });
+                  return uni.navigateBack();
                 }, 500);
                 _context2.next = 10;
                 break;
@@ -455,7 +453,7 @@ var _default = {
                 _context2.prev = 7;
                 _context2.t0 = _context2["catch"](0);
                 uni.showToast({
-                  title: '保存失败: ' + _context2.t0.message,
+                  title: '暂存失败: ' + _context2.t0.message,
                   icon: 'none'
                 });
               case 10:
@@ -464,6 +462,55 @@ var _default = {
             }
           }
         }, _callee2, null, [[0, 7]]);
+      }))();
+    },
+    saveForm: function saveForm() {
+      var _this5 = this;
+      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee3() {
+        return _regenerator.default.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.prev = 0;
+                _context3.next = 3;
+                return (0, _api.updateActivity)(_this5.activity.id, {
+                  fields: _this5.fields.map(function (f) {
+                    return {
+                      id: f.id,
+                      type: f.type,
+                      label: f.label,
+                      placeholder: f.placeholder,
+                      required: f.required,
+                      options: f.options,
+                      maxImages: f.maxImages
+                    };
+                  })
+                });
+              case 3:
+                uni.showToast({
+                  title: '保存成功',
+                  icon: 'success'
+                });
+                setTimeout(function () {
+                  uni.navigateTo({
+                    url: "/pages/publish/publish?id=".concat(_this5.activity.id)
+                  });
+                }, 500);
+                _context3.next = 10;
+                break;
+              case 7:
+                _context3.prev = 7;
+                _context3.t0 = _context3["catch"](0);
+                uni.showToast({
+                  title: '保存失败: ' + _context3.t0.message,
+                  icon: 'none'
+                });
+              case 10:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3, null, [[0, 7]]);
       }))();
     },
     preview: function preview() {

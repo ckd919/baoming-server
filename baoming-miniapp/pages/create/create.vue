@@ -65,9 +65,20 @@
       </scroll-view>
     </view>
 
-    <button class="btn-primary btn-block" @click="handleSubmit" :loading="loading" :disabled="loading">
-      {{ loading ? '保存中...' : (isEdit ? '💾 保存修改' : '创建活动 → 设置表单') }}
+    <!-- 编辑模式：保存修改 -->
+    <button v-if="isEdit" class="btn-primary btn-block" @click="handleSubmit" :loading="loading" :disabled="loading">
+      {{ loading ? '保存中...' : '💾 保存修改' }}
     </button>
+
+    <!-- 创建模式：暂存草稿 + 设置表单 -->
+    <view v-else class="create-btns">
+      <button class="btn-outline" style="flex:1" @click="handleSaveDraft" :loading="draftLoading" :disabled="draftLoading">
+        {{ draftLoading ? '保存中...' : '📦 暂存草稿' }}
+      </button>
+      <button class="btn-primary" style="flex:1" @click="handleCreateAndBuild" :loading="loading" :disabled="loading">
+        {{ loading ? '创建中...' : '📝 创建并设置表单' }}
+      </button>
+    </view>
   </view>
 </template>
 
@@ -84,7 +95,8 @@ export default {
       endDate: '', endTimeOnly: '',
       templates: [],
       selectedTpl: '',
-      loading: false
+      loading: false,
+      draftLoading: false
     }
   },
   onLoad(options) {
@@ -145,53 +157,83 @@ export default {
         this.form.endTime = new Date(this.endDate + 'T' + this.endTimeOnly).getTime()
       }
     },
+    /** 编辑模式保存 */
     async handleSubmit() {
       if (!this.form.name.trim()) {
         uni.showToast({ title: '请输入活动名称', icon: 'none' }); return
       }
       this.loading = true
       try {
-        if (this.isEdit) {
-          // 编辑模式：更新现有活动
-          await updateActivity(this.editId, {
-            name: this.form.name,
-            description: this.form.description,
-            location: this.form.location,
-            startTime: this.form.startTime || null,
-            endTime: this.form.endTime || null,
-            maxParticipants: this.form.maxParticipants || 0
-          })
-          uni.showToast({ title: '修改成功', icon: 'success' })
-          setTimeout(() => uni.navigateBack(), 500)
-        } else {
-          // 创建模式
-          const id = Date.now().toString(36) + Math.random().toString(36).slice(2, 6)
-          let fields = []
-          if (this.selectedTpl) {
-            const tpl = this.templates.find(t => t.id === this.selectedTpl)
-            if (tpl) {
-              fields = (tpl.fields || []).map(f => ({
-                id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
-                type: f.type, label: f.label, placeholder: '', required: f.required || false,
-                options: f.options ? [...f.options] : [], maxImages: f.maxImages || 9
-              }))
-            }
-          }
-          await createActivity({
-            id, name: this.form.name, description: this.form.description,
-            location: this.form.location,
-            startTime: this.form.startTime || null,
-            endTime: this.form.endTime || null,
-            maxParticipants: this.form.maxParticipants || 0,
-            status: 'draft', fields, createdAt: Date.now()
-          })
-          uni.showToast({ title: '创建成功', icon: 'success' })
-          setTimeout(() => {
-            uni.navigateTo({ url: `/pages/builder/builder?id=${id}` })
-          }, 500)
-        }
+        await updateActivity(this.editId, {
+          name: this.form.name, description: this.form.description,
+          location: this.form.location,
+          startTime: this.form.startTime || null,
+          endTime: this.form.endTime || null,
+          maxParticipants: this.form.maxParticipants || 0
+        })
+        uni.showToast({ title: '修改成功', icon: 'success' })
+        setTimeout(() => uni.navigateBack(), 500)
       } catch (err) {
-        uni.showToast({ title: (this.isEdit ? '修改' : '创建') + '失败: ' + err.message, icon: 'none' })
+        uni.showToast({ title: '修改失败: ' + err.message, icon: 'none' })
+      } finally { this.loading = false }
+    },
+
+    /** 暂存草稿：保存并返回列表 */
+    async handleSaveDraft() {
+      if (!this.form.name.trim()) {
+        uni.showToast({ title: '请输入活动名称', icon: 'none' }); return
+      }
+      this.draftLoading = true
+      try {
+        const id = Date.now().toString(36) + Math.random().toString(36).slice(2, 6)
+        await createActivity({
+          id, name: this.form.name, description: this.form.description,
+          location: this.form.location,
+          startTime: this.form.startTime || null,
+          endTime: this.form.endTime || null,
+          maxParticipants: this.form.maxParticipants || 0,
+          status: 'draft', fields: [], createdAt: Date.now()
+        })
+        uni.showToast({ title: '已保存为草稿', icon: 'success' })
+        setTimeout(() => uni.navigateBack(), 500)
+      } catch (err) {
+        uni.showToast({ title: '保存失败: ' + err.message, icon: 'none' })
+      } finally { this.draftLoading = false }
+    },
+
+    /** 创建并设置表单 */
+    async handleCreateAndBuild() {
+      if (!this.form.name.trim()) {
+        uni.showToast({ title: '请输入活动名称', icon: 'none' }); return
+      }
+      this.loading = true
+      try {
+        const id = Date.now().toString(36) + Math.random().toString(36).slice(2, 6)
+        let fields = []
+        if (this.selectedTpl) {
+          const tpl = this.templates.find(t => t.id === this.selectedTpl)
+          if (tpl) {
+            fields = (tpl.fields || []).map(f => ({
+              id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
+              type: f.type, label: f.label, placeholder: '', required: f.required || false,
+              options: f.options ? [...f.options] : [], maxImages: f.maxImages || 9
+            }))
+          }
+        }
+        await createActivity({
+          id, name: this.form.name, description: this.form.description,
+          location: this.form.location,
+          startTime: this.form.startTime || null,
+          endTime: this.form.endTime || null,
+          maxParticipants: this.form.maxParticipants || 0,
+          status: 'draft', fields, createdAt: Date.now()
+        })
+        uni.showToast({ title: '创建成功', icon: 'success' })
+        setTimeout(() => {
+          uni.navigateTo({ url: `/pages/builder/builder?id=${id}` })
+        }, 500)
+      } catch (err) {
+        uni.showToast({ title: '创建失败: ' + err.message, icon: 'none' })
       } finally { this.loading = false }
     }
   }
@@ -219,4 +261,5 @@ export default {
 .tpl-name { font-size: 26rpx; font-weight: 500; }
 .tpl-fields { font-size: 22rpx; color: #999; margin-top: 4rpx; }
 .btn-block { margin-top: 20rpx; }
+.create-btns { display: flex; gap: 16rpx; margin-top: 20rpx; }
 </style>
