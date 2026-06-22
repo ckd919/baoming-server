@@ -98,7 +98,6 @@ const FIELD_TYPES = {
   radio: { icon: '🔘', name: '单选' },
   checkbox: { icon: '☑️', name: '多选' },
   select: { icon: '📋', name: '下拉选择' },
-  phone: { icon: '📱', name: '手机号' },
   email: { icon: '📧', name: '邮箱' },
   idcard: { icon: '🪪', name: '身份证' },
   location: { icon: '📍', name: '地理位置' },
@@ -110,7 +109,7 @@ const GROUPS = [
   { key: 'base', label: '基础', types: ['name','text','textarea','number'] },
   { key: 'choice', label: '选择', types: ['radio','checkbox','select'] },
   { key: 'date', label: '日期', types: ['date','time'] },
-  { key: 'contact', label: '联系', types: ['phone','email','idcard','location'] },
+  { key: 'contact', label: '联系', types: ['email','idcard','location'] },
   { key: 'media', label: '附件', types: ['image'] },
   { key: 'pay', label: '收款', types: ['fee'] },
 ]
