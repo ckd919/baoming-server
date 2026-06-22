@@ -9,12 +9,14 @@ import com.xiaozongxiong.baoming.auth.mapper.UserMapper;
 import com.xiaozongxiong.baoming.model.User;
 import com.xiaozongxiong.baoming.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.NoSuchElementException;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -37,9 +39,12 @@ public class AuthService {
 
     @Transactional
     public LoginResponse adminRegister(AdminRegisterRequest req) {
+        log.info("管理员注册请求: phone={}, nickname={}", req.getPhone(), req.getNickname());
+
         // Check if phone already exists
         User existing = findUserByPhone(req.getPhone());
         if (existing != null) {
+            log.warn("注册失败: 手机号 {} 已被注册", req.getPhone());
             throw new IllegalStateException("该手机号已被注册");
         }
 
@@ -51,8 +56,14 @@ public class AuthService {
                         ? req.getNickname()
                         : "管理员" + req.getPhone().substring(req.getPhone().length() - 4))
                 .build();
+        log.info("创建管理员用户: phone={}, nickname={}", user.getPhone(), user.getNickname());
+
         userMapper.insert(user);
+        log.info("管理员用户已插入数据库: id={}", user.getId());
+
         String token = jwtUtil.generateToken(user);
+        log.info("管理员 JWT 已生成: id={}, role={}", user.getId(), user.getRole());
+
         return LoginResponse.from(user, token, true);
     }
 
