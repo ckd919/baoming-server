@@ -24,8 +24,10 @@ public class SubmissionController {
 
     @PostMapping("/api/form/{activityId}/submit")
     public ResponseEntity<?> submit(@PathVariable String activityId,
-                                    @Valid @RequestBody SubmitRequest req) {
-        return ResponseEntity.ok(submissionService.submit(activityId, req));
+                                    @Valid @RequestBody SubmitRequest req,
+                                    @AuthenticationPrincipal UserPrincipal principal) {
+        Integer userId = principal != null ? principal.getId() : null;
+        return ResponseEntity.ok(submissionService.submit(activityId, req, userId));
     }
 
     // ---- Admin ----

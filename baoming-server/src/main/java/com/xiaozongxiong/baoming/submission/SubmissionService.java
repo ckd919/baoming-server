@@ -66,7 +66,7 @@ public class SubmissionService {
     }
 
     @Transactional
-    public SubmitResponse submit(String activityId, SubmitRequest req) {
+    public SubmitResponse submit(String activityId, SubmitRequest req, Integer userId) {
         Activity activity = activityMapper.selectById(activityId);
         if (activity == null) throw new NoSuchElementException("活动不存在");
         if (!"published".equals(activity.getStatus())) throw new IllegalStateException("活动未开放报名");
@@ -78,14 +78,22 @@ public class SubmissionService {
                 throw new SecurityException("报名链接无效");
         }
 
+        // 优先使用已登录用户，其次使用请求中的手机号
         User user = null;
-        if (req.getPhone() != null && !req.getPhone().isEmpty()) {
+        String phone = req.getPhone();
+        if (userId != null) {
+            user = userMapper.selectById(userId);
+            if (user != null && (phone == null || phone.isEmpty())) {
+                phone = user.getPhone();  // 自动获取已绑定手机号
+            }
+        }
+        if (user == null && phone != null && !phone.isEmpty()) {
             LambdaQueryWrapper<User> userWrapper = new LambdaQueryWrapper<>();
-            userWrapper.eq(User::getPhone, req.getPhone());
+            userWrapper.eq(User::getPhone, phone);
             user = userMapper.selectOne(userWrapper);
             if (user == null) {
-                user = User.builder().phone(req.getPhone()).role("USER")
-                    .nickname("用户" + req.getPhone().substring(req.getPhone().length() - 4)).build();
+                user = User.builder().phone(phone).role("USER")
+                    .nickname("用户" + phone.substring(phone.length() - 4)).build();
                 userMapper.insert(user);
             }
         }
@@ -95,8 +103,9 @@ public class SubmissionService {
         catch (JsonProcessingException e) { dataJson = "{}"; }
 
         Submission submission = Submission.builder()
-                .id(req.getId()).activityId(activityId).userId(user != null ? user.getId() : null)
-                .phone(req.getPhone()).data(dataJson)
+                .id(req.getId()).activityId(activityId)
+                .userId(user != null ? user.getId() : null)
+                .phone(phone).data(dataJson)
                 .submittedAt(req.getSubmittedAt() != null ? req.getSubmittedAt() : System.currentTimeMillis()).build();
         submissionMapper.insert(submission);
         activityMapper.incrementSubmissionCount(activityId);
