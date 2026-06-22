@@ -67,8 +67,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/form/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/templates/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/health").permitAll()
-                        // ==================== 活动管理（需 ADMIN 角色） ====================
-                        .requestMatchers("/api/activities/**").hasRole("ADMIN")
+                        // ==================== 活动管理（登录即可，服务层校验所有权） ====================
+                        .requestMatchers("/api/activities/**").authenticated()
                         // ==================== 用户自助接口（登录即可） ====================
                         .requestMatchers(HttpMethod.GET, "/api/user/submissions").authenticated()
                         .requestMatchers(HttpMethod.GET, "/api/user/managed-activities").authenticated()
