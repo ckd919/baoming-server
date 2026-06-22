@@ -205,30 +205,35 @@ export default {
           }
         }
 
-        // 判断当前用户是否是创建者/管理员（始终有分享权限）
+        // 判断当前用户身份
         const userStr = uni.getStorageSync('bm_user')
-        let isPrivileged = false
+        let isCreator = false
+        let isAdmin = this.activity.isAdmin || false
         if (userStr && this.activity.userId) {
           try {
             const user = JSON.parse(userStr)
-            isPrivileged = (user.id === this.activity.userId)
+            isCreator = (user.id === this.activity.userId)
           } catch (e) {}
         }
 
-        // 判断分享权限
+        // 分享权限规则：
+        // "creator" → 仅创建者
+        // "admins"  → 创建者 + 管理员
+        // "all"     → 所有人
         const shareLevel = this.activity.shareLevel || (this.activity.allowShare === false ? 'creator' : 'all')
-        this.canShare = shareLevel === 'all' || isPrivileged
+        if (shareLevel === 'creator') {
+          this.canShare = isCreator                  // 仅创建者
+        } else if (shareLevel === 'admins') {
+          this.canShare = isCreator || isAdmin       // 创建者 + 管理员
+        } else {
+          this.canShare = true                        // 所有人
+        }
 
         // #ifdef MP-WEIXIN
-        // 创建者/管理员始终可以分享
-        if (isPrivileged) {
+        if (this.canShare) {
           wx.showShareMenu({ menus: ['shareAppMessage', 'shareTimeline'] })
-        } else if (this.activity.groupRestricted) {
-          wx.hideShareMenu({ menus: ['shareAppMessage', 'shareTimeline'] })
-        } else if (!this.canShare) {
-          wx.hideShareMenu({ menus: ['shareAppMessage', 'shareTimeline'] })
         } else {
-          wx.showShareMenu({ menus: ['shareAppMessage', 'shareTimeline'] })
+          wx.hideShareMenu({ menus: ['shareAppMessage', 'shareTimeline'] })
         }
         // #endif
 

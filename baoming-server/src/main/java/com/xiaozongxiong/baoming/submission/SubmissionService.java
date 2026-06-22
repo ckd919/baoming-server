@@ -4,9 +4,11 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xiaozongxiong.baoming.activity.ActivityService;
+import com.xiaozongxiong.baoming.activity.mapper.ActivityAdminMapper;
 import com.xiaozongxiong.baoming.activity.mapper.ActivityMapper;
 import com.xiaozongxiong.baoming.auth.mapper.UserMapper;
 import com.xiaozongxiong.baoming.model.Activity;
+import com.xiaozongxiong.baoming.model.ActivityAdmin;
 import com.xiaozongxiong.baoming.model.Submission;
 import com.xiaozongxiong.baoming.model.User;
 import com.xiaozongxiong.baoming.security.JwtUtil;
@@ -30,15 +32,15 @@ public class SubmissionService {
     private final JwtUtil jwtUtil;
     private final ObjectMapper objectMapper;
     private final ActivityService activityService;
+    private final ActivityAdminMapper activityAdminMapper;
 
-    /** 获取公开表单（群限制时需登录） */
+    /** 获取公开表单（群限制时需登录，返回当前用户是否管理员） */
     public Map<String, Object> getPublicForm(String activityId, String token, Integer userId) {
         LambdaQueryWrapper<Activity> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(Activity::getId, activityId).eq(Activity::getStatus, "published");
         Activity activity = activityMapper.selectOne(wrapper);
         if (activity == null) throw new NoSuchElementException("活动不存在或未发布");
 
-        // 群限制访问：必须已登录
         if (Boolean.TRUE.equals(activity.getGroupRestricted())) {
             if (userId == null) {
                 throw new SecurityException("此活动仅限群成员访问，请先登录");
@@ -51,12 +53,20 @@ public class SubmissionService {
             }
         }
 
-        return Map.of("activity", buildPublicActivityMap(activity));
+        // 检查当前用户是否为管理员
+        boolean isAdmin = false;
+        if (userId != null) {
+            LambdaQueryWrapper<ActivityAdmin> adminWrapper = new LambdaQueryWrapper<>();
+            adminWrapper.eq(ActivityAdmin::getActivityId, activityId)
+                        .eq(ActivityAdmin::getUserId, userId);
+            isAdmin = activityAdminMapper.selectOne(adminWrapper) != null;
+        }
+
+        return Map.of("activity", buildPublicActivityMap(activity, isAdmin));
     }
 
     @Transactional
     public SubmitResponse submit(String activityId, SubmitRequest req) {
-        // 1. Validate activity
         Activity activity = activityMapper.selectById(activityId);
         if (activity == null) throw new NoSuchElementException("活动不存在");
         if (!"published".equals(activity.getStatus())) throw new IllegalStateException("活动未开放报名");
@@ -65,89 +75,59 @@ public class SubmissionService {
 
         if (activity.getInviteToken() != null && !activity.getInviteToken().isEmpty()) {
             if (req.getToken() == null || !req.getToken().equals(activity.getInviteToken()))
-                throw new SecurityException("报名链接无效，请联系群管理员获取正确链接");
+                throw new SecurityException("报名链接无效");
         }
 
-        // 2. Auto-login or create user (phone optional now for wechat users)
         User user = null;
         if (req.getPhone() != null && !req.getPhone().isEmpty()) {
             LambdaQueryWrapper<User> userWrapper = new LambdaQueryWrapper<>();
             userWrapper.eq(User::getPhone, req.getPhone());
             user = userMapper.selectOne(userWrapper);
             if (user == null) {
-                user = User.builder()
-                        .phone(req.getPhone())
-                        .role("USER")
-                        .nickname("用户" + req.getPhone().substring(req.getPhone().length() - 4))
-                        .build();
+                user = User.builder().phone(req.getPhone()).role("USER")
+                    .nickname("用户" + req.getPhone().substring(req.getPhone().length() - 4)).build();
                 userMapper.insert(user);
             }
         }
 
-        // 3. Create submission
         String dataJson;
-        try {
-            dataJson = req.getData() != null ? objectMapper.writeValueAsString(req.getData()) : "{}";
-        } catch (JsonProcessingException e) {
-            dataJson = "{}";
-        }
+        try { dataJson = req.getData() != null ? objectMapper.writeValueAsString(req.getData()) : "{}"; }
+        catch (JsonProcessingException e) { dataJson = "{}"; }
 
         Submission submission = Submission.builder()
-                .id(req.getId())
-                .activityId(activityId)
-                .userId(user != null ? user.getId() : null)
-                .phone(req.getPhone())
-                .data(dataJson)
-                .submittedAt(req.getSubmittedAt() != null ? req.getSubmittedAt() : System.currentTimeMillis())
-                .build();
+                .id(req.getId()).activityId(activityId).userId(user != null ? user.getId() : null)
+                .phone(req.getPhone()).data(dataJson)
+                .submittedAt(req.getSubmittedAt() != null ? req.getSubmittedAt() : System.currentTimeMillis()).build();
         submissionMapper.insert(submission);
-
-        // 4. Increment counter
         activityMapper.incrementSubmissionCount(activityId);
 
-        // 5. Issue JWT if user exists
         String token = user != null ? jwtUtil.generateToken(user) : null;
-
         return SubmitResponse.builder().ok(true).id(req.getId()).token(token).build();
     }
 
-    /** 查看活动提交数据（创建者 + 管理员均可） */
     public Map<String, Object> getActivitySubmissions(String activityId, Integer userId) {
-        // 使用 activityService 的权限校验（支持创建者+管理员）
-        if (!activityService.canManage(activityId, userId)) {
+        if (!activityService.canManage(activityId, userId))
             throw new NoSuchElementException("活动不存在或无权限");
-        }
 
         List<Submission> submissions = submissionMapper.findByActivityId(activityId);
         List<Map<String, Object>> list = submissions.stream().map(s -> {
             Map<String, Object> map = new LinkedHashMap<>();
-            map.put("id", s.getId());
-            map.put("phone", s.getPhone());
-            try {
-                map.put("data", s.getData() != null ? objectMapper.readValue(s.getData(), Map.class) : Collections.emptyMap());
-            } catch (JsonProcessingException e) {
-                map.put("data", Collections.emptyMap());
-            }
+            map.put("id", s.getId()); map.put("phone", s.getPhone());
+            try { map.put("data", s.getData() != null ? objectMapper.readValue(s.getData(), Map.class) : Collections.emptyMap()); }
+            catch (JsonProcessingException e) { map.put("data", Collections.emptyMap()); }
             map.put("submittedAt", s.getSubmittedAt());
             return map;
         }).collect(Collectors.toList());
-
         return Map.of("submissions", list);
     }
 
-    /** 清空活动提交数据（创建者 + 管理员均可） */
     @Transactional
     public Map<String, Object> clearActivitySubmissions(String activityId, Integer userId) {
-        if (!activityService.canManage(activityId, userId)) {
+        if (!activityService.canManage(activityId, userId))
             throw new NoSuchElementException("活动不存在或无权限");
-        }
-
         submissionMapper.deleteByActivityId(activityId);
         Activity activity = activityMapper.selectById(activityId);
-        if (activity != null) {
-            activity.setSubmissionCount(0);
-            activityMapper.updateById(activity);
-        }
+        if (activity != null) { activity.setSubmissionCount(0); activityMapper.updateById(activity); }
         return Map.of("ok", true);
     }
 
@@ -167,17 +147,15 @@ public class SubmissionService {
         Submission sub = submissionMapper.selectById(submissionId);
         if (sub == null) throw new NoSuchElementException("报名记录不存在");
         if (!Objects.equals(sub.getUserId(), userId)) throw new SecurityException("无权操作");
-
         Activity act = activityMapper.selectById(sub.getActivityId());
         if (act == null) throw new NoSuchElementException("活动不存在");
-        if (!"published".equals(act.getStatus())) throw new IllegalStateException("活动已结束，无法取消报名");
-
+        if (!"published".equals(act.getStatus())) throw new IllegalStateException("活动已结束");
         submissionMapper.deleteById(submissionId);
         activityMapper.decrementSubmissionCount(sub.getActivityId());
         return Map.of("ok", true);
     }
 
-    private Map<String, Object> buildPublicActivityMap(Activity a) {
+    private Map<String, Object> buildPublicActivityMap(Activity a, boolean isAdmin) {
         Map<String, Object> map = new LinkedHashMap<>();
         map.put("id", a.getId());
         map.put("userId", a.getUserId());
@@ -188,11 +166,8 @@ public class SubmissionService {
         map.put("endTime", a.getEndTime());
         map.put("maxParticipants", a.getMaxParticipants());
         map.put("status", a.getStatus());
-        try {
-            map.put("fields", a.getFields() != null ? objectMapper.readValue(a.getFields(), List.class) : Collections.emptyList());
-        } catch (JsonProcessingException e) {
-            map.put("fields", Collections.emptyList());
-        }
+        try { map.put("fields", a.getFields() != null ? objectMapper.readValue(a.getFields(), List.class) : Collections.emptyList()); }
+        catch (JsonProcessingException e) { map.put("fields", Collections.emptyList()); }
         map.put("submissionCount", a.getSubmissionCount());
         map.put("requireToken", a.getInviteToken() != null && !a.getInviteToken().isEmpty());
         map.put("wechatOnly", a.getWechatOnly());
@@ -200,6 +175,7 @@ public class SubmissionService {
         map.put("shareLevel", a.getShareLevel() != null ? a.getShareLevel() : (Boolean.FALSE.equals(a.getAllowShare()) ? "creator" : "all"));
         map.put("groupRestricted", a.getGroupRestricted());
         map.put("requireLogin", Boolean.TRUE.equals(a.getGroupRestricted()));
+        map.put("isAdmin", isAdmin);
         return map;
     }
 }

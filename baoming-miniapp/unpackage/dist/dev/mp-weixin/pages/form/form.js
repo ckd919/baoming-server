@@ -316,7 +316,7 @@ var _default = {
     loadActivity: function loadActivity(id) {
       var _this = this;
       return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee() {
-        var token, userStr, isPrivileged, user, shareLevel;
+        var token, userStr, isCreator, isAdmin, user, shareLevel;
         return _regenerator.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -371,35 +371,36 @@ var _default = {
                 });
                 return _context.abrupt("return");
               case 17:
-                // 判断当前用户是否是创建者/管理员（始终有分享权限）
+                // 判断当前用户身份
                 userStr = uni.getStorageSync('bm_user');
-                isPrivileged = false;
+                isCreator = false;
+                isAdmin = _this.activity.isAdmin || false;
                 if (userStr && _this.activity.userId) {
                   try {
                     user = JSON.parse(userStr);
-                    isPrivileged = user.id === _this.activity.userId;
+                    isCreator = user.id === _this.activity.userId;
                   } catch (e) {}
                 }
 
-                // 判断分享权限
+                // 分享权限规则：
+                // "creator" → 仅创建者
+                // "admins"  → 创建者 + 管理员
+                // "all"     → 所有人
                 shareLevel = _this.activity.shareLevel || (_this.activity.allowShare === false ? 'creator' : 'all');
-                _this.canShare = shareLevel === 'all' || isPrivileged;
+                if (shareLevel === 'creator') {
+                  _this.canShare = isCreator; // 仅创建者
+                } else if (shareLevel === 'admins') {
+                  _this.canShare = isCreator || isAdmin; // 创建者 + 管理员
+                } else {
+                  _this.canShare = true; // 所有人
+                }
 
-                // 创建者/管理员始终可以分享
-                if (isPrivileged) {
+                if (_this.canShare) {
                   wx.showShareMenu({
-                    menus: ['shareAppMessage', 'shareTimeline']
-                  });
-                } else if (_this.activity.groupRestricted) {
-                  wx.hideShareMenu({
-                    menus: ['shareAppMessage', 'shareTimeline']
-                  });
-                } else if (!_this.canShare) {
-                  wx.hideShareMenu({
                     menus: ['shareAppMessage', 'shareTimeline']
                   });
                 } else {
-                  wx.showShareMenu({
+                  wx.hideShareMenu({
                     menus: ['shareAppMessage', 'shareTimeline']
                   });
                 }
@@ -413,21 +414,21 @@ var _default = {
                 (_this.activity.fields || []).forEach(function (f) {
                   _this.formData[f.id] = f.type === 'checkbox' ? [] : '';
                 });
-                _context.next = 30;
+                _context.next = 31;
                 break;
-              case 27:
-                _context.prev = 27;
+              case 28:
+                _context.prev = 28;
                 _context.t0 = _context["catch"](0);
                 uni.showToast({
                   title: '加载失败',
                   icon: 'none'
                 });
-              case 30:
+              case 31:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[0, 27]]);
+        }, _callee, null, [[0, 28]]);
       }))();
     },
     toggleCheck: function toggleCheck(fid, opt) {
