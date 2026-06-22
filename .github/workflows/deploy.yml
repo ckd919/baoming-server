@@ -84,8 +84,58 @@ jobs:
             SPRING_DATASOURCE_PASSWORD=${{ secrets.DB_PASSWORD }}
             APP_JWT_SECRET=${{ secrets.JWT_SECRET }}
             APP_CORS_ALLOWED_ORIGINS=${{ secrets.CORS_ORIGINS }}
+            APP_WECHAT_APPID=${{ secrets.WECHAT_APPID }}
+            APP_WECHAT_SECRET=${{ secrets.WECHAT_SECRET }}
             ENV_EOF
             chmod 600 /opt/baoming-server/.env
+
+      # ---------- 数据库迁移 ----------
+      - name: Run database migration
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          port: ${{ secrets.SERVER_PORT || 22 }}
+          script: |
+            echo "=== Running database migration ==="
+            # 从环境变量读取数据库连接信息
+            source /opt/baoming-server/.env
+
+            # 迁移 SQL（幂等操作，可重复执行）
+            psql "$SPRING_DATASOURCE_URL" << 'SQL_EOF'
+            -- V1: 角色权限分离
+            ALTER TABLE users ADD COLUMN IF NOT EXISTS role VARCHAR(10) DEFAULT 'USER';
+            UPDATE users SET role = 'ADMIN' WHERE phone = '13310843925' AND (role IS NULL OR role = 'USER');
+            ALTER TABLE users ALTER COLUMN role SET DEFAULT 'USER';
+            ALTER TABLE users ALTER COLUMN role SET NOT NULL;
+            ALTER TABLE users ALTER COLUMN password DROP NOT NULL;
+            ALTER TABLE submissions ADD COLUMN IF NOT EXISTS user_id INTEGER;
+            ALTER TABLE submissions ADD COLUMN IF NOT EXISTS phone VARCHAR(11);
+            CREATE INDEX IF NOT EXISTS idx_submissions_user_id ON submissions(user_id);
+            CREATE INDEX IF NOT EXISTS idx_submissions_phone ON submissions(phone);
+            CREATE INDEX IF NOT EXISTS idx_users_role ON users(role);
+
+            -- V2: 管理员管理 + 分享权限 + 微信登录
+            ALTER TABLE users ADD COLUMN IF NOT EXISTS openid VARCHAR(100);
+            ALTER TABLE users ADD COLUMN IF NOT EXISTS avatar_url VARCHAR(500) DEFAULT '';
+            ALTER TABLE users ALTER COLUMN phone DROP NOT NULL;
+            CREATE INDEX IF NOT EXISTS idx_users_openid ON users(openid);
+            ALTER TABLE activities ADD COLUMN IF NOT EXISTS share_level VARCHAR(20) DEFAULT 'all';
+            UPDATE activities SET share_level = 'creator' WHERE allow_share = false AND share_level = 'all';
+            CREATE TABLE IF NOT EXISTS activity_admins (
+                id          SERIAL PRIMARY KEY,
+                activity_id VARCHAR(20) NOT NULL REFERENCES activities(id) ON DELETE CASCADE,
+                user_id     INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+                role        VARCHAR(20) DEFAULT 'admin',
+                created_at  BIGINT NOT NULL DEFAULT 0,
+                UNIQUE(activity_id, user_id)
+            );
+            CREATE INDEX IF NOT EXISTS idx_aa_activity ON activity_admins(activity_id);
+            CREATE INDEX IF NOT EXISTS idx_aa_user ON activity_admins(user_id);
+            SQL_EOF
+
+            echo "=== Migration completed ==="
 
       # ---------- 重启服务 ----------
       - name: Restart application

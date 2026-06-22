@@ -55,6 +55,9 @@ public class Activity {
     @TableField("allowed_groups")
     private String allowedGroups;
 
+    @TableField("share_level")
+    private String shareLevel;
+
     @TableField("created_at")
     private Long createdAt;
 

@@ -3,6 +3,7 @@ package com.xiaozongxiong.baoming.submission;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xiaozongxiong.baoming.activity.ActivityService;
 import com.xiaozongxiong.baoming.activity.mapper.ActivityMapper;
 import com.xiaozongxiong.baoming.auth.mapper.UserMapper;
 import com.xiaozongxiong.baoming.model.Activity;
@@ -28,6 +29,7 @@ public class SubmissionService {
     private final UserMapper userMapper;
     private final JwtUtil jwtUtil;
     private final ObjectMapper objectMapper;
+    private final ActivityService activityService;
 
     public Map<String, Object> getPublicForm(String activityId, String token) {
         LambdaQueryWrapper<Activity> wrapper = new LambdaQueryWrapper<>();
@@ -58,17 +60,20 @@ public class SubmissionService {
                 throw new SecurityException("报名链接无效，请联系群管理员获取正确链接");
         }
 
-        // 2. Auto-login or create user
-        LambdaQueryWrapper<User> userWrapper = new LambdaQueryWrapper<>();
-        userWrapper.eq(User::getPhone, req.getPhone());
-        User user = userMapper.selectOne(userWrapper);
-        if (user == null) {
-            user = User.builder()
-                    .phone(req.getPhone())
-                    .role("USER")
-                    .nickname("用户" + req.getPhone().substring(req.getPhone().length() - 4))
-                    .build();
-            userMapper.insert(user);
+        // 2. Auto-login or create user (phone optional now for wechat users)
+        User user = null;
+        if (req.getPhone() != null && !req.getPhone().isEmpty()) {
+            LambdaQueryWrapper<User> userWrapper = new LambdaQueryWrapper<>();
+            userWrapper.eq(User::getPhone, req.getPhone());
+            user = userMapper.selectOne(userWrapper);
+            if (user == null) {
+                user = User.builder()
+                        .phone(req.getPhone())
+                        .role("USER")
+                        .nickname("用户" + req.getPhone().substring(req.getPhone().length() - 4))
+                        .build();
+                userMapper.insert(user);
+            }
         }
 
         // 3. Create submission
@@ -82,7 +87,7 @@ public class SubmissionService {
         Submission submission = Submission.builder()
                 .id(req.getId())
                 .activityId(activityId)
-                .userId(user.getId())
+                .userId(user != null ? user.getId() : null)
                 .phone(req.getPhone())
                 .data(dataJson)
                 .submittedAt(req.getSubmittedAt() != null ? req.getSubmittedAt() : System.currentTimeMillis())
@@ -92,17 +97,18 @@ public class SubmissionService {
         // 4. Increment counter
         activityMapper.incrementSubmissionCount(activityId);
 
-        // 5. Issue JWT for user
-        String token = jwtUtil.generateToken(user);
+        // 5. Issue JWT if user exists
+        String token = user != null ? jwtUtil.generateToken(user) : null;
 
         return SubmitResponse.builder().ok(true).id(req.getId()).token(token).build();
     }
 
+    /** 查看活动提交数据（创建者 + 管理员均可） */
     public Map<String, Object> getActivitySubmissions(String activityId, Integer userId) {
-        LambdaQueryWrapper<Activity> actWrapper = new LambdaQueryWrapper<>();
-        actWrapper.eq(Activity::getId, activityId).eq(Activity::getUserId, userId);
-        if (activityMapper.selectOne(actWrapper) == null)
+        // 使用 activityService 的权限校验（支持创建者+管理员）
+        if (!activityService.canManage(activityId, userId)) {
             throw new NoSuchElementException("活动不存在或无权限");
+        }
 
         List<Submission> submissions = submissionMapper.findByActivityId(activityId);
         List<Map<String, Object>> list = submissions.stream().map(s -> {
@@ -121,12 +127,12 @@ public class SubmissionService {
         return Map.of("submissions", list);
     }
 
+    /** 清空活动提交数据（创建者 + 管理员均可） */
     @Transactional
     public Map<String, Object> clearActivitySubmissions(String activityId, Integer userId) {
-        LambdaQueryWrapper<Activity> actWrapper = new LambdaQueryWrapper<>();
-        actWrapper.eq(Activity::getId, activityId).eq(Activity::getUserId, userId);
-        if (activityMapper.selectOne(actWrapper) == null)
+        if (!activityService.canManage(activityId, userId)) {
             throw new NoSuchElementException("活动不存在或无权限");
+        }
 
         submissionMapper.deleteByActivityId(activityId);
         Activity activity = activityMapper.selectById(activityId);
@@ -181,6 +187,8 @@ public class SubmissionService {
         map.put("submissionCount", a.getSubmissionCount());
         map.put("requireToken", a.getInviteToken() != null && !a.getInviteToken().isEmpty());
         map.put("wechatOnly", a.getWechatOnly());
+        map.put("allowShare", a.getAllowShare());
+        map.put("shareLevel", a.getShareLevel() != null ? a.getShareLevel() : (Boolean.FALSE.equals(a.getAllowShare()) ? "creator" : "all"));
         return map;
     }
 }

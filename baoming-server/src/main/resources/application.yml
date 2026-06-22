@@ -32,6 +32,9 @@ app:
     expiration-days: ${APP_JWT_EXPIRATION_DAYS:7}
   cors:
     allowed-origins: ${APP_CORS_ALLOWED_ORIGINS:http://localhost:3000,http://127.0.0.1:3000,https://ledbell.cn,http://ledbell.cn,https://8.134.252.128,http://8.134.252.128}
+  wechat:
+    appid: wxa0606d69df5b21f0
+    secret: 4c3c58b0321b0ac44e75b84b415408bc
 
 logging:
   level:

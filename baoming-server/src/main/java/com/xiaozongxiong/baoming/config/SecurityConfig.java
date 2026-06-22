@@ -31,14 +31,9 @@ public class SecurityConfig {
         this.jwtAuthFilter = jwtAuthFilter;
     }
 
-    /**
-     * CORS 配置源 — 在 Spring Security 过滤器链级别处理 CORS
-     * 比 WebMvcConfigurer.addCorsMappings 更早执行，确保预检请求不被 Security 拦截
-     */
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        // 解析配置中的允许来源
         List<String> origins = Arrays.stream(allowedOrigins.split(","))
                 .map(String::trim)
                 .filter(s -> !s.isEmpty())
@@ -57,27 +52,29 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                // 启用 CORS，使用上面定义的 CorsConfigurationSource
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         // CORS 预检请求必须放行
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        // Public endpoints
+                        // ==================== 公开接口 ====================
                         .requestMatchers(HttpMethod.POST, "/api/auth/admin/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/auth/admin/register").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/auth/user/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/auth/wechat-login").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/form/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/form/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/templates/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/health").permitAll()
-                        // Admin endpoints
+                        // ==================== 活动管理（需 ADMIN 角色） ====================
                         .requestMatchers("/api/activities/**").hasRole("ADMIN")
-                        // User self-service endpoints
+                        // ==================== 用户自助接口（登录即可） ====================
                         .requestMatchers(HttpMethod.GET, "/api/user/submissions").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/api/user/managed-activities").authenticated()
                         .requestMatchers(HttpMethod.DELETE, "/api/submissions/*/cancel").authenticated()
-                        // Auth required for /me
+                        .requestMatchers(HttpMethod.POST, "/api/auth/bind-phone").authenticated()
+                        .requestMatchers(HttpMethod.PUT, "/api/auth/profile").authenticated()
                         .requestMatchers(HttpMethod.GET, "/api/auth/me").authenticated()
                         .anyRequest().authenticated()
                 )

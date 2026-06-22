@@ -24,6 +24,7 @@ public class LoginResponse {
         private String phone;
         private String nickname;
         private String role;
+        private String avatarUrl;
     }
 
     public static LoginResponse from(User user, String token, Boolean isNew) {
@@ -34,6 +35,7 @@ public class LoginResponse {
                         .phone(user.getPhone())
                         .nickname(user.getNickname() != null ? user.getNickname() : "")
                         .role(user.getRole() != null ? user.getRole() : "USER")
+                        .avatarUrl(user.getAvatarUrl() != null ? user.getAvatarUrl() : "")
                         .build())
                 .isNew(isNew)
                 .build();

@@ -25,6 +25,9 @@ public class User {
     private String role;
     private String openid;
 
+    @TableField("avatar_url")
+    private String avatarUrl;
+
     @TableField("created_at")
     private LocalDateTime createdAt;
 }
