@@ -17,6 +17,7 @@ public class ActivityResponse {
     private static final ObjectMapper mapper = new ObjectMapper();
 
     private String id;
+    private Integer userId;
     private String name;
     private String description;
     private String location;
@@ -39,6 +40,7 @@ public class ActivityResponse {
     public static ActivityResponse from(Activity a) {
         return ActivityResponse.builder()
                 .id(a.getId())
+                .userId(a.getUserId())
                 .name(a.getName())
                 .description(a.getDescription())
                 .location(a.getLocation())
