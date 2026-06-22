@@ -9,7 +9,7 @@
       </view>
       <view class="section">
         <text class="section-title">二、信息收集</text>
-        <text class="section-text">本小程序仅在以下场景收集您的信息：\n\n1. 微信授权信息：用于登录认证，包括微信昵称和头像，无需手机号即可使用。\n\n2. 手机号码（选填）：可通过微信绑定或手动输入，仅用于身份核验，仅管理员可见。\n\n3. 姓名/身份证号/邮箱等：根据活动管理员配置的报名表单字段收集，仅在用户主动提交报名时收集。</text>
+        <text class="section-text">本小程序仅在以下场景收集您的信息：\n\n1. 手机号码：用于登录认证和活动报名身份核验，收集方式为用户主动填写，仅管理员可见。\n\n2. 姓名/身份证号/邮箱等：根据活动管理员配置的报名表单字段收集，仅在用户主动提交报名时收集。</text>
       </view>
       <view class="section">
         <text class="section-title">三、信息使用目的</text>

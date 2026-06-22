@@ -82,15 +82,15 @@
       <!-- 隐私安全设置 -->
       <view class="section-card">
         <text class="section-title">隐私安全设置</text>
-        <text class="section-desc">以下信息用于核验您的身份</text>
+        <text class="section-desc">以下信息用于活动报名时的身份核验</text>
 
         <!-- 手机号：支持微信绑定或手工输入 -->
         <view class="privacy-field">
           <view class="pf-left">
             <text class="pf-icon">📱</text>
             <view class="pf-info">
-              <text class="pf-label">手机号码（选填）</text>
-              <text class="pf-val">{{ userPhone || '未绑定' }}</text>
+              <text class="pf-label">手机号码</text>
+              <text class="pf-val">{{ userPhone || '未绑定，报名时可能需要填写' }}</text>
             </view>
           </view>
           <view v-if="!userPhone" class="pf-actions">
