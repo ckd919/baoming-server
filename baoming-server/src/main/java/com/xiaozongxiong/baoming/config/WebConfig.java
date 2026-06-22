@@ -1,23 +1,14 @@
 package com.xiaozongxiong.baoming.config;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+/**
+ * Web MVC 配置
+ * 注意：CORS 配置统一在 SecurityConfig.corsConfigurationSource() 中管理，
+ * 避免双重 CORS 配置冲突导致 "Invalid CORS request" 错误。
+ */
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
-
-    @Value("${app.cors.allowed-origins}")
-    private String allowedOrigins;
-
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowedOriginPatterns(allowedOrigins.split(","))
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                .allowedHeaders("*")
-                .allowCredentials(true)
-                .maxAge(3600);
-    }
+    // CORS 由 SecurityConfig 中的 CorsConfigurationSource 统一处理
 }
