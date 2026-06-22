@@ -103,6 +103,10 @@ export async function updateProfile(profileData) {
   return data.user
 }
 
+export async function deleteAccount() {
+  return await request('DELETE', '/auth/account')
+}
+
 // ==================== 活动 CRUD ====================
 export async function getActivities(status = '', keyword = '') {
   const params = []

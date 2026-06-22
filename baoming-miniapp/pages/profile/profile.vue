@@ -161,6 +161,14 @@
           <text class="mi-arrow">›</text>
         </view>
 
+        <view class="menu-item" @click="handleDeleteAccount">
+          <view class="mi-left">
+            <text class="mi-icon">🗑️</text>
+            <text class="mi-label" style="color:#D32F2F">注销账号</text>
+          </view>
+          <text class="mi-arrow" style="color:#D32F2F">›</text>
+        </view>
+
         <view class="menu-item" @click="handleLogout">
           <view class="mi-left">
             <text class="mi-icon">🚪</text>
@@ -176,7 +184,7 @@
 </template>
 
 <script>
-import { wechatAuthLogin, bindPhone, login, getMyProfile, updateProfile } from '@/store/api.js'
+import { wechatAuthLogin, bindPhone, login, getMyProfile, updateProfile, deleteAccount } from '@/store/api.js'
 
 export default {
   data() {
@@ -404,6 +412,37 @@ export default {
     },
 
     // ========== 退出登录 ==========
+
+    async handleDeleteAccount() {
+      const res = await new Promise(r => uni.showModal({
+        title: '注销账号',
+        content: '注销后你的账号数据将被永久删除，包括你创建的活动和报名记录。此操作不可恢复！',
+        confirmText: '确认注销',
+        cancelText: '取消',
+        success: e => r(e.confirm)
+      }))
+      if (!res) return
+      // 二次确认
+      const res2 = await new Promise(r => uni.showModal({
+        title: '再次确认',
+        content: '真的确定要注销吗？此操作不可逆！',
+        confirmText: '是的，注销',
+        cancelText: '取消',
+        success: e => r(e.confirm)
+      }))
+      if (!res2) return
+      try {
+        await deleteAccount()
+        uni.removeStorageSync('bm_token')
+        uni.removeStorageSync('bm_user')
+        getApp().globalData.token = ''
+        getApp().globalData.user = null
+        uni.showToast({ title: '账号已注销', icon: 'success' })
+        setTimeout(() => this.checkLoginState(), 500)
+      } catch (err) {
+        uni.showToast({ title: '注销失败: ' + err.message, icon: 'none' })
+      }
+    },
 
     handleLogout() {
       uni.showModal({

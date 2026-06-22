@@ -336,6 +336,14 @@ var _api = __webpack_require__(/*! @/store/api.js */ 46);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 var _default = {
   data: function data() {
     return {
@@ -754,8 +762,88 @@ var _default = {
       }))();
     },
     // ========== 退出登录 ==========
-    handleLogout: function handleLogout() {
+    handleDeleteAccount: function handleDeleteAccount() {
       var _this7 = this;
+      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee7() {
+        var res, res2;
+        return _regenerator.default.wrap(function _callee7$(_context7) {
+          while (1) {
+            switch (_context7.prev = _context7.next) {
+              case 0:
+                _context7.next = 2;
+                return new Promise(function (r) {
+                  return uni.showModal({
+                    title: '注销账号',
+                    content: '注销后你的账号数据将被永久删除，包括你创建的活动和报名记录。此操作不可恢复！',
+                    confirmText: '确认注销',
+                    cancelText: '取消',
+                    success: function success(e) {
+                      return r(e.confirm);
+                    }
+                  });
+                });
+              case 2:
+                res = _context7.sent;
+                if (res) {
+                  _context7.next = 5;
+                  break;
+                }
+                return _context7.abrupt("return");
+              case 5:
+                _context7.next = 7;
+                return new Promise(function (r) {
+                  return uni.showModal({
+                    title: '再次确认',
+                    content: '真的确定要注销吗？此操作不可逆！',
+                    confirmText: '是的，注销',
+                    cancelText: '取消',
+                    success: function success(e) {
+                      return r(e.confirm);
+                    }
+                  });
+                });
+              case 7:
+                res2 = _context7.sent;
+                if (res2) {
+                  _context7.next = 10;
+                  break;
+                }
+                return _context7.abrupt("return");
+              case 10:
+                _context7.prev = 10;
+                _context7.next = 13;
+                return (0, _api.deleteAccount)();
+              case 13:
+                uni.removeStorageSync('bm_token');
+                uni.removeStorageSync('bm_user');
+                getApp().globalData.token = '';
+                getApp().globalData.user = null;
+                uni.showToast({
+                  title: '账号已注销',
+                  icon: 'success'
+                });
+                setTimeout(function () {
+                  return _this7.checkLoginState();
+                }, 500);
+                _context7.next = 24;
+                break;
+              case 21:
+                _context7.prev = 21;
+                _context7.t0 = _context7["catch"](10);
+                uni.showToast({
+                  title: '注销失败: ' + _context7.t0.message,
+                  icon: 'none'
+                });
+              case 24:
+              case "end":
+                return _context7.stop();
+            }
+          }
+        }, _callee7, null, [[10, 21]]);
+      }))();
+    },
+    handleLogout: function handleLogout() {
+      var _this8 = this;
       uni.showModal({
         title: '退出登录',
         content: '确定要退出登录吗？',
@@ -765,11 +853,11 @@ var _default = {
             uni.removeStorageSync('bm_user');
             getApp().globalData.token = '';
             getApp().globalData.user = null;
-            _this7.isLoggedIn = false;
-            _this7.userPhone = '';
-            _this7.userNickname = '';
-            _this7.userAvatar = '';
-            _this7.userRole = '';
+            _this8.isLoggedIn = false;
+            _this8.userPhone = '';
+            _this8.userNickname = '';
+            _this8.userAvatar = '';
+            _this8.userRole = '';
             uni.showToast({
               title: '已退出',
               icon: 'success'

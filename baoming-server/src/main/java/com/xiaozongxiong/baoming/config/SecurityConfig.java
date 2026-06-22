@@ -75,6 +75,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.DELETE, "/api/submissions/*/cancel").authenticated()
                         .requestMatchers(HttpMethod.POST, "/api/auth/bind-phone").authenticated()
                         .requestMatchers(HttpMethod.PUT, "/api/auth/profile").authenticated()
+                        .requestMatchers(HttpMethod.DELETE, "/api/auth/account").authenticated()
                         .requestMatchers(HttpMethod.GET, "/api/auth/me").authenticated()
                         .anyRequest().authenticated()
                 )

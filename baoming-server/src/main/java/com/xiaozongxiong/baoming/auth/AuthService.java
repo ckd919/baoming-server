@@ -23,6 +23,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.time.Instant;
 import java.util.Base64;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 @Slf4j
@@ -223,6 +224,18 @@ public class AuthService {
 
         userMapper.updateById(user);
         return LoginResponse.from(user, null, false);
+    }
+
+    @Transactional
+    public Map<String, Object> deleteAccount(Integer userId) {
+        User user = userMapper.selectById(userId);
+        if (user == null) throw new NoSuchElementException("用户不存在");
+
+        // 删除用户的所有活动管理员关联
+        userMapper.deleteById(userId);  // 级联会处理 activity_admins
+        // submissions 的 user_id 是 ON DELETE SET NULL，自动处理
+
+        return Map.of("ok", true, "message", "账号已注销");
     }
 
     // ==================== 私有辅助方法 ====================

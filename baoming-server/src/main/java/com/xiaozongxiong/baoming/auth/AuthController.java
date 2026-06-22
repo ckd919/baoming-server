@@ -55,11 +55,17 @@ public class AuthController {
         return ResponseEntity.ok(Map.of("user", resp.getUser()));
     }
 
-    /** 更新个人信息（昵称、头像） */
+    /** 更新个人信息（昵称、头像、手机号） */
     @PutMapping("/profile")
     public ResponseEntity<?> updateProfile(@Valid @RequestBody UpdateProfileRequest req,
                                            @AuthenticationPrincipal UserPrincipal principal) {
         LoginResponse resp = authService.updateProfile(principal.getId(), req);
         return ResponseEntity.ok(Map.of("user", resp.getUser()));
+    }
+
+    /** 注销账号 */
+    @DeleteMapping("/account")
+    public ResponseEntity<?> deleteAccount(@AuthenticationPrincipal UserPrincipal principal) {
+        return ResponseEntity.ok(authService.deleteAccount(principal.getId()));
     }
 }
