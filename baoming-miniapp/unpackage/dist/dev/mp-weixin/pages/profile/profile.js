@@ -109,6 +109,12 @@ var render = function () {
     _vm.e1 = function ($event) {
       _vm.showDevLogin = !_vm.showDevLogin
     }
+    _vm.e2 = function ($event) {
+      _vm.showPhoneInput = !_vm.showPhoneInput
+    }
+    _vm.e3 = function ($event) {
+      _vm.showNicknameEdit = !_vm.showNicknameEdit
+    }
   }
 }
 var recyclableRender = false
@@ -314,6 +320,22 @@ var _api = __webpack_require__(/*! @/store/api.js */ 46);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var _default = {
   data: function data() {
     return {
@@ -330,7 +352,15 @@ var _default = {
       userAvatar: '',
       userNickname: '',
       userPhone: '',
-      userRole: ''
+      userRole: '',
+      // 手机手工输入
+      showPhoneInput: false,
+      manualPhone: '',
+      savingPhone: false,
+      // 昵称编辑
+      showNicknameEdit: false,
+      editNickname: '',
+      savingNickname: false
     };
   },
   onShow: function onShow() {
@@ -418,7 +448,7 @@ var _default = {
         this.userAvatar = url;
         uni.setStorageSync('bm_avatar', url);
         // 同步更新到后端
-        updateProfile({
+        (0, _api.updateProfile)({
           avatarUrl: url
         }).catch(function () {});
       } else {
@@ -559,8 +589,7 @@ var _default = {
         }, _callee3, null, [[4, 17]]);
       }))();
     },
-    // ========== 开发者登录 ==========
-    handleDevLogin: function handleDevLogin() {
+    /** 手工输入手机号保存 */savePhone: function savePhone() {
       var _this4 = this;
       return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee4() {
         var user;
@@ -568,54 +597,165 @@ var _default = {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                if (_this4.agreed) {
+                if (!(!_this4.manualPhone || _this4.manualPhone.length < 11)) {
                   _context4.next = 3;
+                  break;
+                }
+                uni.showToast({
+                  title: '请输入正确的手机号',
+                  icon: 'none'
+                });
+                return _context4.abrupt("return");
+              case 3:
+                _this4.savingPhone = true;
+                _context4.prev = 4;
+                _context4.next = 7;
+                return (0, _api.updateProfile)({
+                  phone: _this4.manualPhone
+                });
+              case 7:
+                user = _context4.sent;
+                getApp().globalData.user = user;
+                _this4.userPhone = user.phone || _this4.manualPhone;
+                _this4.showPhoneInput = false;
+                _this4.manualPhone = '';
+                uni.showToast({
+                  title: '手机号保存成功',
+                  icon: 'success'
+                });
+                _context4.next = 18;
+                break;
+              case 15:
+                _context4.prev = 15;
+                _context4.t0 = _context4["catch"](4);
+                uni.showToast({
+                  title: _context4.t0.message || '保存失败',
+                  icon: 'none'
+                });
+              case 18:
+                _context4.prev = 18;
+                _this4.savingPhone = false;
+                return _context4.finish(18);
+              case 21:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4, null, [[4, 15, 18, 21]]);
+      }))();
+    },
+    /** 修改昵称 */saveNickname: function saveNickname() {
+      var _this5 = this;
+      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee5() {
+        var user;
+        return _regenerator.default.wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                if (_this5.editNickname.trim()) {
+                  _context5.next = 3;
+                  break;
+                }
+                uni.showToast({
+                  title: '请输入新昵称',
+                  icon: 'none'
+                });
+                return _context5.abrupt("return");
+              case 3:
+                _this5.savingNickname = true;
+                _context5.prev = 4;
+                _context5.next = 7;
+                return (0, _api.updateProfile)({
+                  nickname: _this5.editNickname.trim()
+                });
+              case 7:
+                user = _context5.sent;
+                getApp().globalData.user = user;
+                _this5.userNickname = user.nickname || _this5.editNickname.trim();
+                uni.setStorageSync('bm_nickname', _this5.userNickname);
+                _this5.showNicknameEdit = false;
+                uni.showToast({
+                  title: '昵称已更新',
+                  icon: 'success'
+                });
+                _context5.next = 18;
+                break;
+              case 15:
+                _context5.prev = 15;
+                _context5.t0 = _context5["catch"](4);
+                uni.showToast({
+                  title: _context5.t0.message || '更新失败',
+                  icon: 'none'
+                });
+              case 18:
+                _context5.prev = 18;
+                _this5.savingNickname = false;
+                return _context5.finish(18);
+              case 21:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5, null, [[4, 15, 18, 21]]);
+      }))();
+    },
+    // ========== 开发者登录 ==========
+    handleDevLogin: function handleDevLogin() {
+      var _this6 = this;
+      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee6() {
+        var user;
+        return _regenerator.default.wrap(function _callee6$(_context6) {
+          while (1) {
+            switch (_context6.prev = _context6.next) {
+              case 0:
+                if (_this6.agreed) {
+                  _context6.next = 3;
                   break;
                 }
                 uni.showToast({
                   title: '请先同意隐私协议',
                   icon: 'none'
                 });
-                return _context4.abrupt("return");
+                return _context6.abrupt("return");
               case 3:
-                _this4.loading = true;
-                _context4.prev = 4;
-                _context4.next = 7;
-                return (0, _api.login)(_this4.devPhone, _this4.devPassword);
+                _this6.loading = true;
+                _context6.prev = 4;
+                _context6.next = 7;
+                return (0, _api.login)(_this6.devPhone, _this6.devPassword);
               case 7:
-                user = _context4.sent;
+                user = _context6.sent;
                 getApp().globalData.user = user;
                 uni.showToast({
                   title: '登录成功',
                   icon: 'success'
                 });
                 setTimeout(function () {
-                  _this4.checkLoginState();
+                  _this6.checkLoginState();
                 }, 300);
-                _context4.next = 16;
+                _context6.next = 16;
                 break;
               case 13:
-                _context4.prev = 13;
-                _context4.t0 = _context4["catch"](4);
+                _context6.prev = 13;
+                _context6.t0 = _context6["catch"](4);
                 uni.showToast({
-                  title: _context4.t0.message || '登录失败',
+                  title: _context6.t0.message || '登录失败',
                   icon: 'none'
                 });
               case 16:
-                _context4.prev = 16;
-                _this4.loading = false;
-                return _context4.finish(16);
+                _context6.prev = 16;
+                _this6.loading = false;
+                return _context6.finish(16);
               case 19:
               case "end":
-                return _context4.stop();
+                return _context6.stop();
             }
           }
-        }, _callee4, null, [[4, 13, 16, 19]]);
+        }, _callee6, null, [[4, 13, 16, 19]]);
       }))();
     },
     // ========== 退出登录 ==========
     handleLogout: function handleLogout() {
-      var _this5 = this;
+      var _this7 = this;
       uni.showModal({
         title: '退出登录',
         content: '确定要退出登录吗？',
@@ -625,11 +765,11 @@ var _default = {
             uni.removeStorageSync('bm_user');
             getApp().globalData.token = '';
             getApp().globalData.user = null;
-            _this5.isLoggedIn = false;
-            _this5.userPhone = '';
-            _this5.userNickname = '';
-            _this5.userAvatar = '';
-            _this5.userRole = '';
+            _this7.isLoggedIn = false;
+            _this7.userPhone = '';
+            _this7.userNickname = '';
+            _this7.userAvatar = '';
+            _this7.userRole = '';
             uni.showToast({
               title: '已退出',
               icon: 'success'

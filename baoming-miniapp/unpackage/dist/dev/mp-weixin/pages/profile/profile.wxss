@@ -145,6 +145,18 @@
   padding: 8rpx 20rpx; border-radius: 24rpx;
   flex-shrink: 0; margin-left: 12rpx;
 }
+.pf-actions.data-v-60cb334c { display: flex; align-items: center; gap: 8rpx; flex-shrink: 0;
+}
+.pf-or.data-v-60cb334c { font-size: 20rpx; color: #ccc;
+}
+.phone-input-row.data-v-60cb334c {
+  display: flex; gap: 12rpx; align-items: center;
+  padding: 12rpx 0 20rpx; border-bottom: 2rpx solid #f5f1ec;
+}
+.phone-input-row .form-input.data-v-60cb334c { flex: 1;
+}
+.phone-input-row .btn-sm.data-v-60cb334c { padding: 14rpx 24rpx; font-size: 24rpx; white-space: nowrap;
+}
 
 /* 菜单 */
 .menu-card.data-v-60cb334c {

@@ -112,12 +112,22 @@ var render = function () {
   })
   if (!_vm._isMounted) {
     _vm.e0 = function (e) {
-      return (_vm.form.startTime = e.detail.value)
+      _vm.form.startDate = e.detail.value
+      _vm.mergeStartTime()
     }
     _vm.e1 = function (e) {
-      return (_vm.form.endTime = e.detail.value)
+      _vm.form.startTimeOnly = e.detail.value
+      _vm.mergeStartTime()
     }
-    _vm.e2 = function ($event, tpl) {
+    _vm.e2 = function (e) {
+      _vm.form.endDate = e.detail.value
+      _vm.mergeEndTime()
+    }
+    _vm.e3 = function (e) {
+      _vm.form.endTimeOnly = e.detail.value
+      _vm.mergeEndTime()
+    }
+    _vm.e4 = function ($event, tpl) {
       var _temp = arguments[arguments.length - 1].currentTarget.dataset,
         _temp2 = _temp.eventParams || _temp["event-params"],
         tpl = _temp2.tpl
@@ -240,6 +250,16 @@ var _api = __webpack_require__(/*! @/store/api.js */ 46);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var _default = {
   data: function data() {
     return {
@@ -251,6 +271,10 @@ var _default = {
         endTime: '',
         maxParticipants: 0
       },
+      startDate: '',
+      startTimeOnly: '',
+      endDate: '',
+      endTimeOnly: '',
       templates: [],
       selectedTpl: '',
       loading: false
@@ -292,6 +316,16 @@ var _default = {
           }
         }, _callee, null, [[0, 7]]);
       }))();
+    },
+    mergeStartTime: function mergeStartTime() {
+      if (this.startDate && this.startTimeOnly) {
+        this.form.startTime = new Date(this.startDate + 'T' + this.startTimeOnly).getTime();
+      }
+    },
+    mergeEndTime: function mergeEndTime() {
+      if (this.endDate && this.endTimeOnly) {
+        this.form.endTime = new Date(this.endDate + 'T' + this.endTimeOnly).getTime();
+      }
     },
     handleCreate: function handleCreate() {
       var _this2 = this;
@@ -339,8 +373,8 @@ var _default = {
                   name: _this2.form.name,
                   description: _this2.form.description,
                   location: _this2.form.location,
-                  startTime: _this2.form.startTime ? new Date(_this2.form.startTime).getTime() : null,
-                  endTime: _this2.form.endTime ? new Date(_this2.form.endTime).getTime() : null,
+                  startTime: _this2.form.startTime || null,
+                  endTime: _this2.form.endTime || null,
                   maxParticipants: _this2.form.maxParticipants || 0,
                   status: 'draft',
                   fields: fields,

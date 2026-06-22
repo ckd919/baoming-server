@@ -21,15 +21,25 @@
       <text class="card-title">时间设置</text>
       <view class="form-group">
         <text class="form-label">报名开始时间</text>
-        <picker mode="date" @change="e => form.startTime = e.detail.value">
-          <view class="picker-box">{{ form.startTime || '请选择' }}</view>
-        </picker>
+        <view class="datetime-row">
+          <picker mode="date" :value="form.startDate" @change="e => { form.startDate = e.detail.value; mergeStartTime() }">
+            <view class="picker-box picker-half">{{ form.startDate || '选择日期' }}</view>
+          </picker>
+          <picker mode="time" :value="form.startTimeOnly" @change="e => { form.startTimeOnly = e.detail.value; mergeStartTime() }">
+            <view class="picker-box picker-half">{{ form.startTimeOnly || '选择时间' }}</view>
+          </picker>
+        </view>
       </view>
       <view class="form-group">
         <text class="form-label">报名截止时间</text>
-        <picker mode="date" @change="e => form.endTime = e.detail.value">
-          <view class="picker-box">{{ form.endTime || '请选择' }}</view>
-        </picker>
+        <view class="datetime-row">
+          <picker mode="date" :value="form.endDate" @change="e => { form.endDate = e.detail.value; mergeEndTime() }">
+            <view class="picker-box picker-half">{{ form.endDate || '选择日期' }}</view>
+          </picker>
+          <picker mode="time" :value="form.endTimeOnly" @change="e => { form.endTimeOnly = e.detail.value; mergeEndTime() }">
+            <view class="picker-box picker-half">{{ form.endTimeOnly || '选择时间' }}</view>
+          </picker>
+        </view>
       </view>
     </view>
 
@@ -68,6 +78,8 @@ export default {
   data() {
     return {
       form: { name: '', description: '', location: '', startTime: '', endTime: '', maxParticipants: 0 },
+      startDate: '', startTimeOnly: '',
+      endDate: '', endTimeOnly: '',
       templates: [],
       selectedTpl: '',
       loading: false
@@ -81,6 +93,16 @@ export default {
     async loadTemplates() {
       try { const data = await getTemplates(); this.templates = data.templates || [] }
       catch { /* ignore */ }
+    },
+    mergeStartTime() {
+      if (this.startDate && this.startTimeOnly) {
+        this.form.startTime = new Date(this.startDate + 'T' + this.startTimeOnly).getTime()
+      }
+    },
+    mergeEndTime() {
+      if (this.endDate && this.endTimeOnly) {
+        this.form.endTime = new Date(this.endDate + 'T' + this.endTimeOnly).getTime()
+      }
     },
     async handleCreate() {
       if (!this.form.name.trim()) {
@@ -103,8 +125,8 @@ export default {
         await createActivity({
           id, name: this.form.name, description: this.form.description,
           location: this.form.location,
-          startTime: this.form.startTime ? new Date(this.form.startTime).getTime() : null,
-          endTime: this.form.endTime ? new Date(this.form.endTime).getTime() : null,
+          startTime: this.form.startTime || null,
+          endTime: this.form.endTime || null,
           maxParticipants: this.form.maxParticipants || 0,
           status: 'draft', fields, createdAt: Date.now()
         })
@@ -126,6 +148,8 @@ export default {
 .form-label { display: block; font-size: 28rpx; font-weight: 500; margin-bottom: 12rpx; }
 .form-textarea { width: 100%; min-height: 140rpx; padding: 20rpx; background: #f9f8f6; border-radius: 12rpx; font-size: 28rpx; }
 .picker-box { padding: 20rpx 28rpx; background: #f9f8f6; border-radius: 12rpx; font-size: 28rpx; color: #666; }
+.datetime-row { display: flex; gap: 16rpx; }
+.picker-half { flex: 1; }
 .card-title { font-size: 30rpx; font-weight: 600; display: block; margin-bottom: 20rpx; }
 
 .tpl-scroll { white-space: nowrap; }

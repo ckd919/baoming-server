@@ -84,20 +84,28 @@
         <text class="section-title">隐私安全设置</text>
         <text class="section-desc">以下信息用于活动报名时的身份核验</text>
 
-        <!-- 手机号：可选绑定 -->
+        <!-- 手机号：支持微信绑定或手工输入 -->
         <view class="privacy-field">
           <view class="pf-left">
             <text class="pf-icon">📱</text>
             <view class="pf-info">
               <text class="pf-label">手机号码</text>
-              <text class="pf-val">{{ userPhone || '未绑定，报名时部分活动可能要求填写' }}</text>
+              <text class="pf-val">{{ userPhone || '未绑定，报名时可能需要填写' }}</text>
             </view>
           </view>
-          <button v-if="!userPhone" class="bind-btn" open-type="getPhoneNumber"
-                  @getphonenumber="handleBindPhone">
-            绑定
-          </button>
+          <view v-if="!userPhone" class="pf-actions">
+            <button class="bind-btn" open-type="getPhoneNumber"
+                    @getphonenumber="handleBindPhone">微信绑定</button>
+            <text class="pf-or">或</text>
+            <button class="bind-btn" @click="showPhoneInput = !showPhoneInput">手动输入</button>
+          </view>
           <text v-else class="pf-status bound">✓ 已绑定</text>
+        </view>
+
+        <!-- 手工输入手机号 -->
+        <view v-if="showPhoneInput && !userPhone" class="phone-input-row">
+          <input class="form-input" v-model="manualPhone" type="number" maxlength="11" placeholder="输入手机号码" />
+          <button class="btn-primary btn-sm" @click="savePhone" :loading="savingPhone">保存</button>
         </view>
 
         <!-- 微信昵称 -->
@@ -109,9 +117,15 @@
               <text class="pf-val">{{ userNickname || '未设置' }}</text>
             </view>
           </view>
-          <button class="bind-btn" open-type="chooseAvatar" @chooseavatar="onChooseAvatar">
-            换头像
+          <button class="bind-btn" @click="showNicknameEdit = !showNicknameEdit">
+            {{ showNicknameEdit ? '取消' : '修改' }}
           </button>
+        </view>
+
+        <!-- 编辑昵称 -->
+        <view v-if="showNicknameEdit" class="phone-input-row">
+          <input class="form-input" v-model="editNickname" placeholder="输入新昵称" />
+          <button class="btn-primary btn-sm" @click="saveNickname" :loading="savingNickname">保存</button>
         </view>
 
         <!-- 微信头像 -->
@@ -123,7 +137,9 @@
               <text class="pf-val">{{ userAvatar ? '已设置' : '未设置' }}</text>
             </view>
           </view>
-          <text class="pf-status" :class="userAvatar ? 'bound' : ''">{{ userAvatar ? '✓' : '未设置' }}</text>
+          <button class="bind-btn" open-type="chooseAvatar" @chooseavatar="onChooseAvatar">
+            更换
+          </button>
         </view>
       </view>
 
@@ -160,7 +176,7 @@
 </template>
 
 <script>
-import { wechatAuthLogin, bindPhone, login, getMyProfile } from '@/store/api.js'
+import { wechatAuthLogin, bindPhone, login, getMyProfile, updateProfile } from '@/store/api.js'
 
 export default {
   data() {
@@ -179,7 +195,17 @@ export default {
       userAvatar: '',
       userNickname: '',
       userPhone: '',
-      userRole: ''
+      userRole: '',
+
+      // 手机手工输入
+      showPhoneInput: false,
+      manualPhone: '',
+      savingPhone: false,
+
+      // 昵称编辑
+      showNicknameEdit: false,
+      editNickname: '',
+      savingNickname: false
     }
   },
   onShow() {
@@ -317,6 +343,42 @@ export default {
         uni.hideLoading()
         uni.showToast({ title: err.message || '绑定失败', icon: 'none' })
       }
+    },
+
+    /** 手工输入手机号保存 */
+    async savePhone() {
+      if (!this.manualPhone || this.manualPhone.length < 11) {
+        uni.showToast({ title: '请输入正确的手机号', icon: 'none' }); return
+      }
+      this.savingPhone = true
+      try {
+        const user = await updateProfile({ phone: this.manualPhone })
+        getApp().globalData.user = user
+        this.userPhone = user.phone || this.manualPhone
+        this.showPhoneInput = false
+        this.manualPhone = ''
+        uni.showToast({ title: '手机号保存成功', icon: 'success' })
+      } catch (err) {
+        uni.showToast({ title: err.message || '保存失败', icon: 'none' })
+      } finally { this.savingPhone = false }
+    },
+
+    /** 修改昵称 */
+    async saveNickname() {
+      if (!this.editNickname.trim()) {
+        uni.showToast({ title: '请输入新昵称', icon: 'none' }); return
+      }
+      this.savingNickname = true
+      try {
+        const user = await updateProfile({ nickname: this.editNickname.trim() })
+        getApp().globalData.user = user
+        this.userNickname = user.nickname || this.editNickname.trim()
+        uni.setStorageSync('bm_nickname', this.userNickname)
+        this.showNicknameEdit = false
+        uni.showToast({ title: '昵称已更新', icon: 'success' })
+      } catch (err) {
+        uni.showToast({ title: err.message || '更新失败', icon: 'none' })
+      } finally { this.savingNickname = false }
     },
 
     // ========== 开发者登录 ==========
@@ -501,6 +563,16 @@ export default {
   padding: 8rpx 20rpx; border-radius: 24rpx;
   flex-shrink: 0; margin-left: 12rpx;
 }
+
+.pf-actions { display: flex; align-items: center; gap: 8rpx; flex-shrink: 0; }
+.pf-or { font-size: 20rpx; color: #ccc; }
+
+.phone-input-row {
+  display: flex; gap: 12rpx; align-items: center;
+  padding: 12rpx 0 20rpx; border-bottom: 2rpx solid #f5f1ec;
+}
+.phone-input-row .form-input { flex: 1; }
+.phone-input-row .btn-sm { padding: 14rpx 24rpx; font-size: 24rpx; white-space: nowrap; }
 
 /* 菜单 */
 .menu-card {

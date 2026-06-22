@@ -210,6 +210,16 @@ public class AuthService {
 
         if (req.getNickname() != null) user.setNickname(req.getNickname());
         if (req.getAvatarUrl() != null) user.setAvatarUrl(req.getAvatarUrl());
+        if (req.getPhone() != null) {
+            // 检查手机号是否已被其他用户绑定
+            LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
+            wrapper.eq(User::getPhone, req.getPhone());
+            User exist = userMapper.selectOne(wrapper);
+            if (exist != null && !exist.getId().equals(userId)) {
+                throw new IllegalArgumentException("该手机号已被其他用户绑定");
+            }
+            user.setPhone(req.getPhone());
+        }
 
         userMapper.updateById(user);
         return LoginResponse.from(user, null, false);
