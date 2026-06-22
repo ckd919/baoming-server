@@ -1,6 +1,7 @@
 package com.xiaozongxiong.baoming.auth;
 
 import com.xiaozongxiong.baoming.auth.dto.AdminLoginRequest;
+import com.xiaozongxiong.baoming.auth.dto.AdminRegisterRequest;
 import com.xiaozongxiong.baoming.auth.dto.LoginResponse;
 import com.xiaozongxiong.baoming.auth.dto.UserPhoneLoginRequest;
 import com.xiaozongxiong.baoming.security.UserPrincipal;
@@ -21,6 +22,11 @@ public class AuthController {
     @PostMapping("/admin/login")
     public ResponseEntity<?> adminLogin(@Valid @RequestBody AdminLoginRequest req) {
         return ResponseEntity.ok(authService.adminLogin(req));
+    }
+
+    @PostMapping("/admin/register")
+    public ResponseEntity<?> adminRegister(@Valid @RequestBody AdminRegisterRequest req) {
+        return ResponseEntity.ok(authService.adminRegister(req));
     }
 
     @PostMapping("/user/login")

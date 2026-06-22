@@ -1,0 +1,121 @@
+name: Deploy baoming-font-end
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  # ============================================================
+  # 阶段 1：构建
+  # ============================================================
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: baoming-font-end
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: baoming-font-end/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Upload dist artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: baoming-font-end-dist
+          path: baoming-font-end/dist/
+
+  # ============================================================
+  # 阶段 2：部署到服务器（仅 main 分支）
+  # ============================================================
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Download dist artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: baoming-font-end-dist
+          path: dist/
+
+      # ---------- 打包 dist 为 tar.gz ----------
+      - name: Create tarball
+        run: |
+          tar -czf dist.tar.gz -C dist .
+          echo "Tarball size: $(ls -lh dist.tar.gz)"
+
+      # ---------- 上传 tarball 到服务器 /tmp ----------
+      - name: Upload tarball to server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          port: ${{ secrets.SERVER_PORT || 22 }}
+          source: "dist.tar.gz"
+          target: "/tmp/"
+
+      # ---------- 解压并更新静态文件 ----------
+      - name: Deploy static files and reload nginx
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          port: ${{ secrets.SERVER_PORT || 22 }}
+          script: |
+            echo "=== Deploying frontend static files ==="
+            sudo mkdir -p /var/www/baoming
+
+            # 备份旧文件
+            if [ -d /var/www/baoming ] && [ "$(ls -A /var/www/baoming 2>/dev/null)" ]; then
+              sudo tar -czf /tmp/baoming-frontend-backup-$(date +%Y%m%d-%H%M%S).tar.gz -C /var/www/baoming . 2>/dev/null || true
+              echo "Backup saved to /tmp/"
+            fi
+
+            # 清空并解压新文件
+            sudo rm -rf /var/www/baoming/*
+            sudo tar -xzf /tmp/dist.tar.gz -C /var/www/baoming/
+            sudo chown -R baoming:baoming /var/www/baoming/
+            rm /tmp/dist.tar.gz
+
+            # 重载 nginx
+            sudo systemctl reload nginx
+            echo "=== Frontend deployed at $(date '+%Y-%m-%d %H:%M:%S') ==="
+
+      # ---------- 健康检查 ----------
+      - name: Health check
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          port: ${{ secrets.SERVER_PORT || 22 }}
+          script: |
+            echo "=== Checking frontend availability ==="
+            HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" http://localhost/ 2>/dev/null || echo "000")
+            if [ "$HTTP_CODE" = "200" ] || [ "$HTTP_CODE" = "302" ]; then
+              echo "✅ Frontend is healthy (HTTP $HTTP_CODE)"
+              exit 0
+            else
+              echo "⚠️  Frontend returned HTTP $HTTP_CODE (may need nginx config update)"
+              sudo nginx -T 2>/dev/null | head -50 || true
+              exit 0
+            fi

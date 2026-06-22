@@ -2,6 +2,7 @@ package com.xiaozongxiong.baoming.auth;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.xiaozongxiong.baoming.auth.dto.AdminLoginRequest;
+import com.xiaozongxiong.baoming.auth.dto.AdminRegisterRequest;
 import com.xiaozongxiong.baoming.auth.dto.LoginResponse;
 import com.xiaozongxiong.baoming.auth.dto.UserPhoneLoginRequest;
 import com.xiaozongxiong.baoming.auth.mapper.UserMapper;
@@ -32,6 +33,27 @@ public class AuthService {
         }
         String token = jwtUtil.generateToken(user);
         return LoginResponse.from(user, token, false);
+    }
+
+    @Transactional
+    public LoginResponse adminRegister(AdminRegisterRequest req) {
+        // Check if phone already exists
+        User existing = findUserByPhone(req.getPhone());
+        if (existing != null) {
+            throw new IllegalStateException("该手机号已被注册");
+        }
+
+        User user = User.builder()
+                .phone(req.getPhone())
+                .password(passwordEncoder.encode(req.getPassword()))
+                .role("ADMIN")
+                .nickname(req.getNickname() != null && !req.getNickname().isBlank()
+                        ? req.getNickname()
+                        : "管理员" + req.getPhone().substring(req.getPhone().length() - 4))
+                .build();
+        userMapper.insert(user);
+        String token = jwtUtil.generateToken(user);
+        return LoginResponse.from(user, token, true);
     }
 
     @Transactional

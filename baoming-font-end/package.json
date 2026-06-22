@@ -1,0 +1,17 @@
+{
+  "name": "baoming-font-end",
+  "version": "2.0.0",
+  "description": "小棕熊预约报名 - H5前端 (Java Spring Boot 后端)",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^5.4.0"
+  },
+  "dependencies": {
+    "tweetsodium": "^0.0.4"
+  }
+}

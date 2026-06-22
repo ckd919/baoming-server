@@ -66,6 +66,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         // Public endpoints
                         .requestMatchers(HttpMethod.POST, "/api/auth/admin/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/auth/admin/register").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/auth/user/login").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/form/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/form/**").permitAll()
