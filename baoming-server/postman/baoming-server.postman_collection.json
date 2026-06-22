@@ -1,0 +1,504 @@
+{
+	"info": {
+		"_postman_id": "baoming-server-api-v1",
+		"name": "baoming-server 小棕熊预约报名 API",
+		"description": "# baoming-server API 接口集合\n\n## 服务器信息\n- **生产环境**: http://8.134.252.128\n- **Nginx 代理**: 80 端口 (对外)\n- **直连端口**: 8080 (Spring Boot)\n\n## 认证方式\n- **Token 类型**: Bearer Token (JWT)\n- **获取方式**: 调用 `登录` 接口获取 token，自动填充到环境变量 `{{token}}`\n\n## 预设测试账号\n| 角色 | 手机号 | 密码 |\n|------|--------|------|\n| 管理员 | 13310843925 | Aled2239 |\n\n## 使用说明\n1. 先执行 `管理员登录` 获取 token\n2. 脚本自动将 token 存入环境变量\n3. 后续需要认证的接口自动携带 `Authorization: Bearer {{token}}`",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{ "key": "baseUrl", "value": "http://8.134.252.128", "type": "string" },
+		{ "key": "token", "value": "", "type": "string" },
+		{ "key": "activityId", "value": "", "type": "string" },
+		{ "key": "submissionId", "value": "", "type": "string" }
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [{ "key": "token", "value": "{{token}}", "type": "string" }]
+	},
+	"item": [
+		{
+			"name": "🏥 健康检查",
+			"item": [
+				{
+					"name": "健康检查",
+					"event": [],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/health",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "health"]
+						},
+						"description": "服务健康检查，返回 `{\"status\":\"ok\"}`"
+					},
+					"response": [
+						{
+							"name": "成功",
+							"status": "OK",
+							"code": 200,
+							"body": "{\"status\":\"ok\"}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "🔐 认证",
+			"item": [
+				{
+					"name": "管理员登录",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json = pm.response.json();",
+									"if (json.token) {",
+									"    pm.environment.set('token', json.token);",
+									"    pm.environment.set('adminPhone', '13310843925');",
+									"    console.log('✅ Token 已保存: ' + json.token.substring(0, 30) + '...');",
+									"    console.log('📱 用户: ' + json.user.phone + ' | 角色: ' + json.user.role);",
+									"} else {",
+									"    console.error('❌ 登录失败: ' + JSON.stringify(json));",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"phone\": \"13310843925\",\n    \"password\": \"Aled2239\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/admin/login",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "auth", "admin", "login"]
+						},
+						"description": "管理员用手机号+密码登录，返回 JWT token"
+					},
+					"response": [
+						{
+							"name": "登录成功",
+							"status": "OK",
+							"code": 200,
+							"body": "{\n    \"token\": \"eyJhbGciOiJIUzI1NiJ9...\",\n    \"user\": {\n        \"id\": 1,\n        \"phone\": \"13310843925\",\n        \"nickname\": \"管理员\",\n        \"role\": \"ADMIN\"\n    },\n    \"isNew\": false\n}"
+						}
+					]
+				},
+				{
+					"name": "管理员注册",
+					"event": [],
+					"request": {
+						"method": "POST",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"phone\": \"13800138001\",\n    \"password\": \"123456\",\n    \"nickname\": \"新管理员\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/admin/register",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "auth", "admin", "register"]
+						},
+						"description": "注册新管理员账号\n\n- phone: 11位手机号\n- password: 至少6位\n- nickname: 可选昵称"
+					}
+				},
+				{
+					"name": "用户登录（手机号）",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json = pm.response.json();",
+									"if (json.token) {",
+									"    pm.environment.set('token', json.token);",
+									"    pm.environment.set('userPhone', json.user.phone);",
+									"    console.log('✅ 用户 Token 已保存');",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"phone\": \"13800138002\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/user/login",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "auth", "user", "login"]
+						},
+						"description": "普通用户用手机号登录（无需密码），新用户自动注册。\n\n返回 isNew=true 表示新创建的用户。"
+					}
+				},
+				{
+					"name": "获取当前用户信息",
+					"event": [],
+					"request": {
+						"method": "GET",
+						"header": [
+							{ "key": "Authorization", "value": "Bearer {{token}}" }
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/me",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "auth", "me"]
+						},
+						"description": "获取当前登录用户的信息。需要在请求头中携带有效的 Bearer Token。\n\n返回：user 对象包含 id, phone, nickname, role。"
+					}
+				}
+			]
+		},
+		{
+			"name": "📋 活动管理（需 ADMIN 角色）",
+			"item": [
+				{
+					"name": "获取活动列表",
+					"event": [],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/activities?status=&keyword=&page=1&count=50",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "activities"],
+							"query": [
+								{ "key": "status", "value": "", "description": "可选: draft / published / ended" },
+								{ "key": "keyword", "value": "", "description": "可选: 搜索关键词" },
+								{ "key": "page", "value": "1" },
+								{ "key": "count", "value": "50" }
+							]
+						},
+						"description": "获取当前管理员的活列表，支持按状态/关键词过滤和分页。\n\n查询参数（均可选）：\n- status: draft | published | ended\n- keyword: 搜索名称/描述\n- page: 页码（默认1）\n- count: 每页数量（默认50）"
+					}
+				},
+				{
+					"name": "获取单个活动",
+					"event": [],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/activities/{{activityId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "activities", "{{activityId}}"]
+						},
+						"description": "获取指定活动的详细信息"
+					}
+				},
+				{
+					"name": "创建活动",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json = pm.response.json();",
+									"if (json.activity && json.activity.id) {",
+									"    pm.environment.set('activityId', json.activity.id);",
+									"    console.log('✅ 活动已创建: ' + json.activity.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"ACT20240601001\",\n    \"name\": \"2024端午龙舟赛\",\n    \"description\": \"一年一度的端午龙舟赛报名\",\n    \"location\": \"广州市珠江新城滨江公园\",\n    \"startTime\": 1717545600000,\n    \"endTime\": 1717632000000,\n    \"maxParticipants\": 200,\n    \"status\": \"draft\",\n    \"fields\": [\n        {\n            \"id\": \"name\",\n            \"type\": \"text\",\n            \"label\": \"姓名\",\n            \"required\": true\n        },\n        {\n            \"id\": \"team\",\n            \"type\": \"select\",\n            \"label\": \"队伍\",\n            \"required\": true,\n            \"options\": [\"红队\", \"蓝队\", \"绿队\"]\n        },\n        {\n            \"id\": \"phone\",\n            \"type\": \"phone\",\n            \"label\": \"联系电话\",\n            \"required\": true\n        },\n        {\n            \"id\": \"age\",\n            \"type\": \"number\",\n            \"label\": \"年龄\",\n            \"required\": false\n        }\n    ],\n    \"allowShare\": true,\n    \"wechatOnly\": false,\n    \"allowedGroups\": [],\n    \"createdAt\": 1717200000000\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/activities",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "activities"]
+						},
+						"description": "创建新活动\n\n字段说明：\n- id: 活动唯一ID（自定义字符串）\n- fields: 表单字段定义数组\n  - id: 字段标识\n  - type: text(文本) | number(数字) | select(下拉) | phone(手机) | email(邮箱) | date(日期) | time(时间) | textarea(多行文本) | radio(单选) | checkbox(多选) | image(图片) | idcard(身份证)\n  - label: 显示标签\n  - required: 是否必填\n  - options: 选项列表(select/radio/checkbox类型)"
+					}
+				},
+				{
+					"name": "更新活动",
+					"event": [],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"2024端午龙舟赛（更新版）\",\n    \"description\": \"修改了描述的龙舟赛报名\",\n    \"location\": \"广州市珠江新城滨江公园2号门\",\n    \"startTime\": 1717545600000,\n    \"endTime\": 1717718400000,\n    \"maxParticipants\": 300,\n    \"status\": \"draft\",\n    \"allowShare\": true,\n    \"fields\": [\n        {\n            \"id\": \"name\",\n            \"type\": \"text\",\n            \"label\": \"姓名\",\n            \"required\": true\n        },\n        {\n            \"id\": \"team\",\n            \"type\": \"select\",\n            \"label\": \"队伍\",\n            \"required\": true,\n            \"options\": [\"红队\", \"蓝队\", \"绿队\", \"黑队\"]\n        },\n        {\n            \"id\": \"phone\",\n            \"type\": \"phone\",\n            \"label\": \"联系电话\",\n            \"required\": true\n        }\n    ]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/activities/{{activityId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "activities", "{{activityId}}"]
+						},
+						"description": "更新活动信息。只需传要修改的字段，未传的字段保持不变。"
+					}
+				},
+				{
+					"name": "软删除活动",
+					"event": [],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/activities/{{activityId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "activities", "{{activityId}}"]
+						},
+						"description": "软删除活动（逻辑删除，可恢复）"
+					}
+				},
+				{
+					"name": "恢复活动",
+					"event": [],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/activities/{{activityId}}/restore",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "activities", "{{activityId}}", "restore"]
+						},
+						"description": "恢复被软删除的活动"
+					}
+				},
+				{
+					"name": "永久删除活动",
+					"event": [],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/activities/{{activityId}}/permanent",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "activities", "{{activityId}}", "permanent"]
+						},
+						"description": "永久删除活动（不可恢复！）"
+					}
+				},
+				{
+					"name": "重新生成分享 Token",
+					"event": [],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/activities/{{activityId}}/regenerate-token",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "activities", "{{activityId}}", "regenerate-token"]
+						},
+						"description": "重新生成活动的邀请 token，旧的 token 将失效"
+					}
+				},
+				{
+					"name": "批量导出活动",
+					"event": [],
+					"request": {
+						"method": "POST",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"ids\": [\"ACT20240601001\", \"ACT20240601002\"]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/activities/batch-export",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "activities", "batch-export"]
+						},
+						"description": "批量导出多个活动的报名数据"
+					}
+				}
+			]
+		},
+		{
+			"name": "📝 表单与提交（公开接口）",
+			"item": [
+				{
+					"name": "获取公开表单",
+					"event": [],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/form/{{activityId}}?token=",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "form", "{{activityId}}"],
+							"query": [
+								{ "key": "token", "value": "", "description": "可选: 邀请 token" }
+							]
+						},
+						"description": "获取活动的公开报名表单（无需登录）。\n支持可选的 ?token= 参数用于邀请验证。"
+					}
+				},
+				{
+					"name": "提交报名",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json = pm.response.json();",
+									"if (json.id) {",
+									"    pm.environment.set('submissionId', json.id);",
+									"    console.log('✅ 提交成功: ' + json.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"SUB20240601001\",\n    \"phone\": \"13900139000\",\n    \"data\": {\n        \"name\": \"张三\",\n        \"team\": \"红队\",\n        \"phone\": \"13900139000\",\n        \"age\": 28\n    },\n    \"submittedAt\": 1717200000000,\n    \"token\": \"\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/form/{{activityId}}/submit",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "form", "{{activityId}}", "submit"]
+						},
+						"description": "提交报名表单（无需登录）\n\n字段说明：\n- id: 提交唯一ID（自定义）\n- phone: 提交人手机号\n- data: 表单数据（key-value，键名对应活动 fields 中的 id）\n- submittedAt: 提交时间戳\n- token: 可选邀请 token"
+					},
+					"response": [
+						{
+							"name": "提交成功",
+							"status": "OK",
+							"code": 200,
+							"body": "{\n    \"ok\": true,\n    \"id\": \"SUB20240601001\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "📊 提交管理（需 ADMIN 角色）",
+			"item": [
+				{
+					"name": "获取活动提交列表",
+					"event": [],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/activities/{{activityId}}/submissions",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "activities", "{{activityId}}", "submissions"]
+						},
+						"description": "获取指定活动的所有报名提交记录（管理员专用）"
+					}
+				},
+				{
+					"name": "清空活动提交",
+					"event": [],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/activities/{{activityId}}/submissions",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "activities", "{{activityId}}", "submissions"]
+						},
+						"description": "清空指定活动的所有提交记录（管理员专用，不可恢复！）"
+					}
+				}
+			]
+		},
+		{
+			"name": "👤 用户自服务",
+			"item": [
+				{
+					"name": "获取我的提交",
+					"event": [],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/user/submissions",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "user", "submissions"]
+						},
+						"description": "获取当前登录用户的所有报名提交记录"
+					}
+				},
+				{
+					"name": "取消提交",
+					"event": [],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/submissions/{{submissionId}}/cancel",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "submissions", "{{submissionId}}", "cancel"]
+						},
+						"description": "取消自己的报名提交"
+					}
+				}
+			]
+		},
+		{
+			"name": "📄 模板管理（公开接口）",
+			"item": [
+				{
+					"name": "获取模板列表",
+					"event": [],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/templates?category=",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "templates"],
+							"query": [
+								{ "key": "category", "value": "", "description": "可选: 模板分类" }
+							]
+						},
+						"description": "获取表单模板列表，可用于创建活动时快速选择。\n可选 ?category= 参数过滤分类。"
+					}
+				},
+				{
+					"name": "获取模板详情",
+					"event": [],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/templates/tpl001",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "templates", "tpl001"]
+						},
+						"description": "获取指定模板的详细信息"
+					}
+				}
+			]
+		}
+	]
+}
