@@ -102,29 +102,31 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  var l0 = _vm.__map(_vm.templates, function (tpl, __i0__) {
-    var $orig = _vm.__get_orig(tpl)
-    var g0 = (tpl.fields && tpl.fields.length) || 0
-    return {
-      $orig: $orig,
-      g0: g0,
-    }
-  })
+  var l0 = !_vm.isEdit
+    ? _vm.__map(_vm.templates, function (tpl, __i0__) {
+        var $orig = _vm.__get_orig(tpl)
+        var g0 = (tpl.fields && tpl.fields.length) || 0
+        return {
+          $orig: $orig,
+          g0: g0,
+        }
+      })
+    : null
   if (!_vm._isMounted) {
     _vm.e0 = function (e) {
-      _vm.form.startDate = e.detail.value
+      _vm.startDate = e.detail.value
       _vm.mergeStartTime()
     }
     _vm.e1 = function (e) {
-      _vm.form.startTimeOnly = e.detail.value
+      _vm.startTimeOnly = e.detail.value
       _vm.mergeStartTime()
     }
     _vm.e2 = function (e) {
-      _vm.form.endDate = e.detail.value
+      _vm.endDate = e.detail.value
       _vm.mergeEndTime()
     }
     _vm.e3 = function (e) {
-      _vm.form.endTimeOnly = e.detail.value
+      _vm.endTimeOnly = e.detail.value
       _vm.mergeEndTime()
     }
     _vm.e4 = function ($event, tpl) {
@@ -263,6 +265,8 @@ var _api = __webpack_require__(/*! @/store/api.js */ 46);
 var _default = {
   data: function data() {
     return {
+      isEdit: false,
+      editId: '',
       form: {
         name: '',
         description: '',
@@ -280,42 +284,110 @@ var _default = {
       loading: false
     };
   },
-  onShow: function onShow() {
+  onLoad: function onLoad(options) {
     if (!uni.getStorageSync('bm_token')) {
-      uni.reLaunch({
-        url: '/pages/login/login'
+      uni.switchTab({
+        url: '/pages/profile/profile'
       });
       return;
     }
-    this.loadTemplates();
+    if (options.id) {
+      this.isEdit = true;
+      this.editId = options.id;
+      uni.setNavigationBarTitle({
+        title: '编辑活动'
+      });
+      this.loadActivity(options.id);
+    } else {
+      this.loadTemplates();
+    }
   },
   methods: {
-    loadTemplates: function loadTemplates() {
+    loadActivity: function loadActivity(id) {
       var _this = this;
       return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee() {
-        var data;
+        var activity, d, _d;
         return _regenerator.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.prev = 0;
                 _context.next = 3;
-                return (0, _api.getTemplates)();
+                return (0, _api.getActivity)(id);
               case 3:
-                data = _context.sent;
-                _this.templates = data.templates || [];
-                _context.next = 9;
+                activity = _context.sent;
+                _this.form.name = activity.name || '';
+                _this.form.description = activity.description || '';
+                _this.form.location = activity.location || '';
+                _this.form.maxParticipants = activity.maxParticipants || 0;
+                // 解析时间
+                if (activity.startTime) {
+                  d = new Date(activity.startTime);
+                  _this.startDate = _this.toDateStr(d);
+                  _this.startTimeOnly = _this.toTimeStr(d);
+                  _this.form.startTime = activity.startTime;
+                }
+                if (activity.endTime) {
+                  _d = new Date(activity.endTime);
+                  _this.endDate = _this.toDateStr(_d);
+                  _this.endTimeOnly = _this.toTimeStr(_d);
+                  _this.form.endTime = activity.endTime;
+                }
+                _context.next = 15;
                 break;
-              case 7:
-                _context.prev = 7;
+              case 12:
+                _context.prev = 12;
                 _context.t0 = _context["catch"](0);
-              case 9:
+                uni.showToast({
+                  title: '加载失败',
+                  icon: 'none'
+                });
+              case 15:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[0, 7]]);
+        }, _callee, null, [[0, 12]]);
       }))();
+    },
+    loadTemplates: function loadTemplates() {
+      var _this2 = this;
+      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee2() {
+        var data;
+        return _regenerator.default.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.prev = 0;
+                _context2.next = 3;
+                return (0, _api.getTemplates)();
+              case 3:
+                data = _context2.sent;
+                _this2.templates = data.templates || [];
+                _context2.next = 9;
+                break;
+              case 7:
+                _context2.prev = 7;
+                _context2.t0 = _context2["catch"](0);
+              case 9:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, null, [[0, 7]]);
+      }))();
+    },
+    toDateStr: function toDateStr(d) {
+      var pad = function pad(n) {
+        return String(n).padStart(2, '0');
+      };
+      return "".concat(d.getFullYear(), "-").concat(pad(d.getMonth() + 1), "-").concat(pad(d.getDate()));
+    },
+    toTimeStr: function toTimeStr(d) {
+      var pad = function pad(n) {
+        return String(n).padStart(2, '0');
+      };
+      return "".concat(pad(d.getHours()), ":").concat(pad(d.getMinutes()));
     },
     mergeStartTime: function mergeStartTime() {
       if (this.startDate && this.startTimeOnly) {
@@ -327,31 +399,56 @@ var _default = {
         this.form.endTime = new Date(this.endDate + 'T' + this.endTimeOnly).getTime();
       }
     },
-    handleCreate: function handleCreate() {
-      var _this2 = this;
-      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee2() {
+    handleSubmit: function handleSubmit() {
+      var _this3 = this;
+      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee3() {
         var id, fields, tpl;
-        return _regenerator.default.wrap(function _callee2$(_context2) {
+        return _regenerator.default.wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
-                if (_this2.form.name.trim()) {
-                  _context2.next = 3;
+                if (_this3.form.name.trim()) {
+                  _context3.next = 3;
                   break;
                 }
                 uni.showToast({
                   title: '请输入活动名称',
                   icon: 'none'
                 });
-                return _context2.abrupt("return");
+                return _context3.abrupt("return");
               case 3:
-                _this2.loading = true;
-                _context2.prev = 4;
+                _this3.loading = true;
+                _context3.prev = 4;
+                if (!_this3.isEdit) {
+                  _context3.next = 12;
+                  break;
+                }
+                _context3.next = 8;
+                return (0, _api.updateActivity)(_this3.editId, {
+                  name: _this3.form.name,
+                  description: _this3.form.description,
+                  location: _this3.form.location,
+                  startTime: _this3.form.startTime || null,
+                  endTime: _this3.form.endTime || null,
+                  maxParticipants: _this3.form.maxParticipants || 0
+                });
+              case 8:
+                uni.showToast({
+                  title: '修改成功',
+                  icon: 'success'
+                });
+                setTimeout(function () {
+                  return uni.navigateBack();
+                }, 500);
+                _context3.next = 19;
+                break;
+              case 12:
+                // 创建模式
                 id = Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
                 fields = [];
-                if (_this2.selectedTpl) {
-                  tpl = _this2.templates.find(function (t) {
-                    return t.id === _this2.selectedTpl;
+                if (_this3.selectedTpl) {
+                  tpl = _this3.templates.find(function (t) {
+                    return t.id === _this3.selectedTpl;
                   });
                   if (tpl) {
                     fields = (tpl.fields || []).map(function (f) {
@@ -367,20 +464,20 @@ var _default = {
                     });
                   }
                 }
-                _context2.next = 10;
+                _context3.next = 17;
                 return (0, _api.createActivity)({
                   id: id,
-                  name: _this2.form.name,
-                  description: _this2.form.description,
-                  location: _this2.form.location,
-                  startTime: _this2.form.startTime || null,
-                  endTime: _this2.form.endTime || null,
-                  maxParticipants: _this2.form.maxParticipants || 0,
+                  name: _this3.form.name,
+                  description: _this3.form.description,
+                  location: _this3.form.location,
+                  startTime: _this3.form.startTime || null,
+                  endTime: _this3.form.endTime || null,
+                  maxParticipants: _this3.form.maxParticipants || 0,
                   status: 'draft',
                   fields: fields,
                   createdAt: Date.now()
                 });
-              case 10:
+              case 17:
                 uni.showToast({
                   title: '创建成功',
                   icon: 'success'
@@ -390,25 +487,26 @@ var _default = {
                     url: "/pages/builder/builder?id=".concat(id)
                   });
                 }, 500);
-                _context2.next = 17;
+              case 19:
+                _context3.next = 24;
                 break;
-              case 14:
-                _context2.prev = 14;
-                _context2.t0 = _context2["catch"](4);
+              case 21:
+                _context3.prev = 21;
+                _context3.t0 = _context3["catch"](4);
                 uni.showToast({
-                  title: '创建失败: ' + _context2.t0.message,
+                  title: (_this3.isEdit ? '修改' : '创建') + '失败: ' + _context3.t0.message,
                   icon: 'none'
                 });
-              case 17:
-                _context2.prev = 17;
-                _this2.loading = false;
-                return _context2.finish(17);
-              case 20:
+              case 24:
+                _context3.prev = 24;
+                _this3.loading = false;
+                return _context3.finish(24);
+              case 27:
               case "end":
-                return _context2.stop();
+                return _context3.stop();
             }
           }
-        }, _callee2, null, [[4, 14, 17, 20]]);
+        }, _callee3, null, [[4, 21, 24, 27]]);
       }))();
     }
   }

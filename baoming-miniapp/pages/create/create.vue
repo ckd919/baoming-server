@@ -22,22 +22,22 @@
       <view class="form-group">
         <text class="form-label">报名开始时间</text>
         <view class="datetime-row">
-          <picker mode="date" :value="form.startDate" @change="e => { form.startDate = e.detail.value; mergeStartTime() }">
-            <view class="picker-box picker-half">{{ form.startDate || '选择日期' }}</view>
+          <picker mode="date" :value="startDate" @change="e => { startDate = e.detail.value; mergeStartTime() }">
+            <view class="picker-box picker-half">{{ startDate || '选择日期' }}</view>
           </picker>
-          <picker mode="time" :value="form.startTimeOnly" @change="e => { form.startTimeOnly = e.detail.value; mergeStartTime() }">
-            <view class="picker-box picker-half">{{ form.startTimeOnly || '选择时间' }}</view>
+          <picker mode="time" :value="startTimeOnly" @change="e => { startTimeOnly = e.detail.value; mergeStartTime() }">
+            <view class="picker-box picker-half">{{ startTimeOnly || '选择时间' }}</view>
           </picker>
         </view>
       </view>
       <view class="form-group">
         <text class="form-label">报名截止时间</text>
         <view class="datetime-row">
-          <picker mode="date" :value="form.endDate" @change="e => { form.endDate = e.detail.value; mergeEndTime() }">
-            <view class="picker-box picker-half">{{ form.endDate || '选择日期' }}</view>
+          <picker mode="date" :value="endDate" @change="e => { endDate = e.detail.value; mergeEndTime() }">
+            <view class="picker-box picker-half">{{ endDate || '选择日期' }}</view>
           </picker>
-          <picker mode="time" :value="form.endTimeOnly" @change="e => { form.endTimeOnly = e.detail.value; mergeEndTime() }">
-            <view class="picker-box picker-half">{{ form.endTimeOnly || '选择时间' }}</view>
+          <picker mode="time" :value="endTimeOnly" @change="e => { endTimeOnly = e.detail.value; mergeEndTime() }">
+            <view class="picker-box picker-half">{{ endTimeOnly || '选择时间' }}</view>
           </picker>
         </view>
       </view>
@@ -51,8 +51,8 @@
       </view>
     </view>
 
-    <!-- 模板选择 -->
-    <view class="card">
+    <!-- 模板选择（仅新建时显示） -->
+    <view class="card" v-if="!isEdit">
       <text class="card-title mb-16">选择模板（可选）</text>
       <scroll-view scroll-x class="tpl-scroll">
         <view class="tpl-card" v-for="tpl in templates" :key="tpl.id"
@@ -65,18 +65,20 @@
       </scroll-view>
     </view>
 
-    <button class="btn-primary btn-block" @click="handleCreate" :loading="loading" :disabled="loading">
-      {{ loading ? '创建中...' : '创建活动 → 设置表单' }}
+    <button class="btn-primary btn-block" @click="handleSubmit" :loading="loading" :disabled="loading">
+      {{ loading ? '保存中...' : (isEdit ? '💾 保存修改' : '创建活动 → 设置表单') }}
     </button>
   </view>
 </template>
 
 <script>
-import { createActivity, getTemplates } from '@/store/api.js'
+import { createActivity, getTemplates, getActivity, updateActivity } from '@/store/api.js'
 
 export default {
   data() {
     return {
+      isEdit: false,
+      editId: '',
       form: { name: '', description: '', location: '', startTime: '', endTime: '', maxParticipants: 0 },
       startDate: '', startTimeOnly: '',
       endDate: '', endTimeOnly: '',
@@ -85,14 +87,53 @@ export default {
       loading: false
     }
   },
-  onShow() {
-    if (!uni.getStorageSync('bm_token')) { uni.reLaunch({ url: '/pages/login/login' }); return }
-    this.loadTemplates()
+  onLoad(options) {
+    if (!uni.getStorageSync('bm_token')) { uni.switchTab({ url: '/pages/profile/profile' }); return }
+    if (options.id) {
+      this.isEdit = true
+      this.editId = options.id
+      uni.setNavigationBarTitle({ title: '编辑活动' })
+      this.loadActivity(options.id)
+    } else {
+      this.loadTemplates()
+    }
   },
   methods: {
+    async loadActivity(id) {
+      try {
+        const activity = await getActivity(id)
+        this.form.name = activity.name || ''
+        this.form.description = activity.description || ''
+        this.form.location = activity.location || ''
+        this.form.maxParticipants = activity.maxParticipants || 0
+        // 解析时间
+        if (activity.startTime) {
+          const d = new Date(activity.startTime)
+          this.startDate = this.toDateStr(d)
+          this.startTimeOnly = this.toTimeStr(d)
+          this.form.startTime = activity.startTime
+        }
+        if (activity.endTime) {
+          const d = new Date(activity.endTime)
+          this.endDate = this.toDateStr(d)
+          this.endTimeOnly = this.toTimeStr(d)
+          this.form.endTime = activity.endTime
+        }
+      } catch (err) {
+        uni.showToast({ title: '加载失败', icon: 'none' })
+      }
+    },
     async loadTemplates() {
       try { const data = await getTemplates(); this.templates = data.templates || [] }
       catch { /* ignore */ }
+    },
+    toDateStr(d) {
+      const pad = n => String(n).padStart(2, '0')
+      return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`
+    },
+    toTimeStr(d) {
+      const pad = n => String(n).padStart(2, '0')
+      return `${pad(d.getHours())}:${pad(d.getMinutes())}`
     },
     mergeStartTime() {
       if (this.startDate && this.startTimeOnly) {
@@ -104,38 +145,53 @@ export default {
         this.form.endTime = new Date(this.endDate + 'T' + this.endTimeOnly).getTime()
       }
     },
-    async handleCreate() {
+    async handleSubmit() {
       if (!this.form.name.trim()) {
         uni.showToast({ title: '请输入活动名称', icon: 'none' }); return
       }
       this.loading = true
       try {
-        const id = Date.now().toString(36) + Math.random().toString(36).slice(2, 6)
-        let fields = []
-        if (this.selectedTpl) {
-          const tpl = this.templates.find(t => t.id === this.selectedTpl)
-          if (tpl) {
-            fields = (tpl.fields || []).map(f => ({
-              id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
-              type: f.type, label: f.label, placeholder: '', required: f.required || false,
-              options: f.options ? [...f.options] : [], maxImages: f.maxImages || 9
-            }))
+        if (this.isEdit) {
+          // 编辑模式：更新现有活动
+          await updateActivity(this.editId, {
+            name: this.form.name,
+            description: this.form.description,
+            location: this.form.location,
+            startTime: this.form.startTime || null,
+            endTime: this.form.endTime || null,
+            maxParticipants: this.form.maxParticipants || 0
+          })
+          uni.showToast({ title: '修改成功', icon: 'success' })
+          setTimeout(() => uni.navigateBack(), 500)
+        } else {
+          // 创建模式
+          const id = Date.now().toString(36) + Math.random().toString(36).slice(2, 6)
+          let fields = []
+          if (this.selectedTpl) {
+            const tpl = this.templates.find(t => t.id === this.selectedTpl)
+            if (tpl) {
+              fields = (tpl.fields || []).map(f => ({
+                id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
+                type: f.type, label: f.label, placeholder: '', required: f.required || false,
+                options: f.options ? [...f.options] : [], maxImages: f.maxImages || 9
+              }))
+            }
           }
+          await createActivity({
+            id, name: this.form.name, description: this.form.description,
+            location: this.form.location,
+            startTime: this.form.startTime || null,
+            endTime: this.form.endTime || null,
+            maxParticipants: this.form.maxParticipants || 0,
+            status: 'draft', fields, createdAt: Date.now()
+          })
+          uni.showToast({ title: '创建成功', icon: 'success' })
+          setTimeout(() => {
+            uni.navigateTo({ url: `/pages/builder/builder?id=${id}` })
+          }, 500)
         }
-        await createActivity({
-          id, name: this.form.name, description: this.form.description,
-          location: this.form.location,
-          startTime: this.form.startTime || null,
-          endTime: this.form.endTime || null,
-          maxParticipants: this.form.maxParticipants || 0,
-          status: 'draft', fields, createdAt: Date.now()
-        })
-        uni.showToast({ title: '创建成功', icon: 'success' })
-        setTimeout(() => {
-          uni.navigateTo({ url: `/pages/builder/builder?id=${id}` })
-        }, 500)
       } catch (err) {
-        uni.showToast({ title: '创建失败: ' + err.message, icon: 'none' })
+        uni.showToast({ title: (this.isEdit ? '修改' : '创建') + '失败: ' + err.message, icon: 'none' })
       } finally { this.loading = false }
     }
   }

@@ -204,8 +204,9 @@ public class ActivityService {
         Activity original = findManaged(id, userId);
         long now = System.currentTimeMillis();
 
-        // 生成新ID
-        String newId = Long.toString(now, 36) + Integer.toString(Math.abs(userId), 36).substring(0, 2);
+        // 生成新ID（安全方式）
+        String userPart = Integer.toString(Math.abs(userId % 1000), 36);
+        String newId = Long.toString(now, 36) + userPart;
 
         Activity copy = Activity.builder()
                 .id(newId)

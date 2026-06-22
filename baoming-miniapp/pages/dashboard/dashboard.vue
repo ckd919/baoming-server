@@ -57,7 +57,8 @@
         </view>
 
         <view class="card-actions">
-          <button class="btn-outline btn-sm" @click.stop="goPage('/pages/builder/builder', { id: a.id })">✏️ 编辑</button>
+          <button class="btn-outline btn-sm" @click.stop="goPage('/pages/create/create', { id: a.id })">✏️ 编辑</button>
+          <button class="btn-outline btn-sm" @click.stop="goPage('/pages/builder/builder', { id: a.id })">📝 表单</button>
           <button class="btn-outline btn-sm" @click.stop="goPage('/pages/publish/publish', { id: a.id })">🚀 发布</button>
           <button class="btn-outline btn-sm" @click.stop="goPage('/pages/data/data', { id: a.id })">📊 数据</button>
           <button class="btn-outline btn-sm" @click.stop="goPage('/pages/admins/admins', { id: a.id })">👥 管理员</button>
