@@ -243,6 +243,10 @@ var FIELD_TYPES = {
     icon: '📋',
     name: '下拉选择'
   },
+  phone: {
+    icon: '📱',
+    name: '手机号'
+  },
   email: {
     icon: '📧',
     name: '邮箱'
@@ -279,7 +283,7 @@ var GROUPS = [{
 }, {
   key: 'contact',
   label: '联系',
-  types: ['email', 'idcard', 'location']
+  types: ['phone', 'email', 'idcard', 'location']
 }, {
   key: 'media',
   label: '附件',

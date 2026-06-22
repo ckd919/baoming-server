@@ -111,7 +111,7 @@ var render = function () {
       ? _vm.__map(_vm.activity.fields, function (f, __i0__) {
           var $orig = _vm.__get_orig(f)
           var g0 = ["name", "text", "number"].includes(f.type)
-          var g1 = ["email", "idcard"].includes(f.type)
+          var g1 = ["phone", "email", "idcard"].includes(f.type)
           var l0 =
             f.type === "checkbox"
               ? _vm.__map(f.options, function (opt, __i2__) {

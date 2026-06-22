@@ -43,10 +43,11 @@
           <view class="picker-box">{{ formData[f.id] || '请选择时间' }}</view>
         </picker>
 
-        <!-- 邮箱/身份证 -->
-        <input v-if="['email','idcard'].includes(f.type)" class="form-input"
+        <!-- 手机号/邮箱/身份证 -->
+        <input v-if="['phone','email','idcard'].includes(f.type)" class="form-input"
                v-model="formData[f.id]" :placeholder="f.placeholder || '请输入'"
-               :maxlength="f.type === 'idcard' ? 18 : -1" />
+               :type="f.type === 'email' ? 'text' : 'text'"
+               :maxlength="f.type === 'phone' ? 11 : (f.type === 'idcard' ? 18 : -1)" />
 
         <!-- 单选 -->
         <view v-if="f.type === 'radio'" class="option-group">
