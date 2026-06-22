@@ -133,6 +133,10 @@ jobs:
             );
             CREATE INDEX IF NOT EXISTS idx_aa_activity ON activity_admins(activity_id);
             CREATE INDEX IF NOT EXISTS idx_aa_user ON activity_admins(user_id);
+
+            -- V3: 群限制访问
+            ALTER TABLE activities ADD COLUMN IF NOT EXISTS group_restricted BOOLEAN DEFAULT false;
+            CREATE INDEX IF NOT EXISTS idx_activities_status ON activities(status);
             SQL_EOF
 
             echo "=== Migration completed ==="

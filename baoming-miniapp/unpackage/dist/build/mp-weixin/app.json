@@ -1,0 +1,26 @@
+{
+  "pages": [
+    "pages/login/login",
+    "pages/dashboard/dashboard",
+    "pages/create/create",
+    "pages/builder/builder",
+    "pages/publish/publish",
+    "pages/data/data",
+    "pages/privacy/privacy",
+    "pages/form/form"
+  ],
+  "subPackages": [],
+  "window": {
+    "navigationBarTitleText": "小棕熊预约报名",
+    "navigationBarBackgroundColor": "#D4720D",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#F8F6F3",
+    "backgroundTextStyle": "dark"
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "用于获取地理位置信息"
+    }
+  },
+  "usingComponents": {}
+}

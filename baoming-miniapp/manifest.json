@@ -1,0 +1,23 @@
+{
+    "name" : "小棕熊预约报名",
+    "appid" : "__UNI__7D0675B",
+    "description" : "活动预约报名工具——培训讲座、聚会活动、场馆预约、信息登记，快速创建报名表，管理报名数据",
+    "versionName" : "1.0.0",
+    "versionCode" : "100",
+    "transformPx" : false,
+    "mp-weixin" : {
+        "appid" : "wxa0606d69df5b21f0",
+        "setting" : {
+            "urlCheck" : true,
+            "es6" : true,
+            "postcss" : true,
+            "minified" : true
+        },
+        "usingComponents" : true,
+        "permission" : {
+            "scope.userLocation" : {
+                "desc" : "用于获取地理位置信息"
+            }
+        }
+    }
+}

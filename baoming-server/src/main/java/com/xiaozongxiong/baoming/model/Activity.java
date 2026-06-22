@@ -58,6 +58,9 @@ public class Activity {
     @TableField("share_level")
     private String shareLevel;
 
+    @TableField("group_restricted")
+    private Boolean groupRestricted;
+
     @TableField("created_at")
     private Long createdAt;
 

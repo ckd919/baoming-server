@@ -89,6 +89,7 @@ public class ActivityService {
                 .verifyCode("")
                 .wechatOnly(req.getWechatOnly() != null ? req.getWechatOnly() : false)
                 .shareLevel(req.getShareLevel() != null ? req.getShareLevel() : "all")
+                .groupRestricted(req.getGroupRestricted() != null ? req.getGroupRestricted() : false)
                 .allowedGroups(toJson(req.getAllowedGroups()))
                 .createdAt(req.getCreatedAt() != null ? req.getCreatedAt() : now)
                 .updatedAt(now)
@@ -119,6 +120,7 @@ public class ActivityService {
         if (updates.getInviteToken() != null) activity.setInviteToken(updates.getInviteToken());
         if (updates.getWechatOnly() != null) activity.setWechatOnly(updates.getWechatOnly());
         if (updates.getShareLevel() != null) activity.setShareLevel(updates.getShareLevel());
+        if (updates.getGroupRestricted() != null) activity.setGroupRestricted(updates.getGroupRestricted());
         if (updates.getFields() != null) activity.setFields(toJson(updates.getFields()));
         if (updates.getAllowedGroups() != null) activity.setAllowedGroups(toJson(updates.getAllowedGroups()));
         activity.setUpdatedAt(now);
@@ -193,6 +195,43 @@ public class ActivityService {
         activityMapper.update(null, wrapper);
 
         return Map.of("inviteToken", newToken);
+    }
+
+    // ==================== 复制活动 ====================
+
+    @Transactional
+    public Map<String, Object> duplicateActivity(String id, Integer userId) {
+        Activity original = findManaged(id, userId);
+        long now = System.currentTimeMillis();
+
+        // 生成新ID
+        String newId = Long.toString(now, 36) + Integer.toString(Math.abs(userId), 36).substring(0, 2);
+
+        Activity copy = Activity.builder()
+                .id(newId)
+                .userId(userId)
+                .name(original.getName() + "-副本")
+                .description(original.getDescription())
+                .location(original.getLocation())
+                .startTime(original.getStartTime())
+                .endTime(original.getEndTime())
+                .maxParticipants(original.getMaxParticipants())
+                .status("draft")                         // 复制后为草稿
+                .fields(original.getFields())             // 复用表单字段
+                .submissionCount(0)                       // 报名数归零
+                .allowShare(original.getAllowShare())
+                .inviteToken(null)                        // 新活动无邀请token
+                .verifyCode("")
+                .wechatOnly(original.getWechatOnly())
+                .shareLevel(original.getShareLevel() != null ? original.getShareLevel() : "all")
+                .groupRestricted(original.getGroupRestricted())
+                .allowedGroups(original.getAllowedGroups())
+                .createdAt(now)
+                .updatedAt(now)
+                .build();
+        activityMapper.insert(copy);
+
+        return Map.of("ok", true, "id", newId);
     }
 
     // ==================== 管理员管理 ====================
@@ -380,6 +419,7 @@ public class ActivityService {
         map.put("submissionCount", a.getSubmissionCount());
         map.put("allowShare", a.getAllowShare());
         map.put("shareLevel", a.getShareLevel() != null ? a.getShareLevel() : "all");
+        map.put("groupRestricted", a.getGroupRestricted());
         map.put("userId", a.getUserId());
         return map;
     }

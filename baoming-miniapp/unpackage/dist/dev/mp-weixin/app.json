@@ -1,0 +1,55 @@
+{
+  "pages": [
+    "pages/dashboard/dashboard",
+    "pages/records/records",
+    "pages/profile/profile",
+    "pages/create/create",
+    "pages/builder/builder",
+    "pages/publish/publish",
+    "pages/data/data",
+    "pages/admins/admins",
+    "pages/form/form",
+    "pages/login/login",
+    "pages/privacy/privacy"
+  ],
+  "subPackages": [],
+  "window": {
+    "navigationBarTitleText": "小棕熊预约报名",
+    "navigationBarBackgroundColor": "#D4720D",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#F8F6F3",
+    "backgroundTextStyle": "dark"
+  },
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#D4720D",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/dashboard/dashboard",
+        "text": "创建发布",
+        "iconPath": "static/tab-create.png",
+        "selectedIconPath": "static/tab-create-active.png"
+      },
+      {
+        "pagePath": "pages/records/records",
+        "text": "我的记录",
+        "iconPath": "static/tab-records.png",
+        "selectedIconPath": "static/tab-records-active.png"
+      },
+      {
+        "pagePath": "pages/profile/profile",
+        "text": "个人中心",
+        "iconPath": "static/tab-profile.png",
+        "selectedIconPath": "static/tab-profile-active.png"
+      }
+    ]
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "用于获取地理位置信息"
+    }
+  },
+  "usingComponents": {}
+}

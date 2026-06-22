@@ -19,6 +19,7 @@ public class ActivityUpdateRequest {
     private String inviteToken;
     private Boolean wechatOnly;
     private String shareLevel;
+    private Boolean groupRestricted;
     private List<Map<String, Object>> fields;
     private List<String> allowedGroups;
 }

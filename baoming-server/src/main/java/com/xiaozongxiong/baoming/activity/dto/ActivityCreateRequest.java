@@ -21,6 +21,7 @@ public class ActivityCreateRequest {
     private String inviteToken;
     private Boolean wechatOnly;
     private String shareLevel;
+    private Boolean groupRestricted;
     private List<String> allowedGroups;
     private Long createdAt;
 }

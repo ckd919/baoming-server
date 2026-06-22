@@ -1,0 +1,85 @@
+
+.page.data-v-24dafd74 { padding: 20rpx; padding-bottom: 40rpx;
+}
+.info-bar.data-v-24dafd74 {
+  background: #fff; border-radius: 12rpx;
+  padding: 20rpx 24rpx; margin-bottom: 20rpx;
+  font-size: 26rpx; color: #666;
+}
+.card.data-v-24dafd74 {
+  background: #fff; border-radius: 20rpx;
+  padding: 28rpx; margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.04);
+}
+.card-header.data-v-24dafd74 { display: flex; align-items: center; justify-content: space-between;
+}
+.card-title.data-v-24dafd74 { font-size: 30rpx; font-weight: 600; display: block; margin-bottom: 8rpx;
+}
+.card-count.data-v-24dafd74 { font-size: 24rpx; color: #999;
+}
+.card-desc.data-v-24dafd74 { font-size: 24rpx; color: #999; display: block; margin-bottom: 20rpx;
+}
+.admin-list.data-v-24dafd74 { display: flex; flex-direction: column; gap: 12rpx;
+}
+.admin-item.data-v-24dafd74 {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20rpx; background: #f9f8f6; border-radius: 16rpx;
+}
+.ai-left.data-v-24dafd74 { display: flex; align-items: center; gap: 16rpx;
+}
+.ai-avatar.data-v-24dafd74 {
+  width: 72rpx; height: 72rpx; border-radius: 50%;
+  background: #f0ede9; display: flex; align-items: center;
+  justify-content: center; font-size: 32rpx; overflow: hidden;
+}
+.ai-avatar image.data-v-24dafd74 { width: 100%; height: 100%;
+}
+.ai-name.data-v-24dafd74 { font-size: 28rpx; font-weight: 500; display: block;
+}
+.ai-phone.data-v-24dafd74 { font-size: 22rpx; color: #999; display: block; margin-top: 4rpx;
+}
+.ai-right.data-v-24dafd74 { display: flex; align-items: center; gap: 12rpx;
+}
+.ai-role.data-v-24dafd74 {
+  font-size: 22rpx; padding: 4rpx 12rpx;
+  background: #E3F2FD; color: #1565C0; border-radius: 8rpx;
+}
+.btn-remove.data-v-24dafd74 {
+  background: none; border: 2rpx solid #D32F2F;
+  color: #D32F2F; font-size: 22rpx; padding: 6rpx 16rpx;
+  border-radius: 20rpx;
+}
+.add-form.data-v-24dafd74 { margin-top: 20rpx;
+}
+.form-group.data-v-24dafd74 { margin-bottom: 24rpx;
+}
+.form-label.data-v-24dafd74 { display: block; font-size: 28rpx; font-weight: 500; margin-bottom: 12rpx;
+}
+.add-row.data-v-24dafd74 { display: flex; gap: 12rpx; align-items: center;
+}
+.add-row .form-input.data-v-24dafd74 { flex: 1;
+}
+.add-row .btn-sm.data-v-24dafd74 { padding: 14rpx 28rpx; font-size: 26rpx; white-space: nowrap;
+}
+.help-text.data-v-24dafd74 {
+  font-size: 22rpx; color: #999; display: block; margin-top: 16rpx;
+  line-height: 1.6;
+}
+.empty-sub.data-v-24dafd74 { font-size: 24rpx; color: #bbb; display: block; margin-top: 8rpx;
+}
+
+/* 权限列表 */
+.perm-list.data-v-24dafd74 { margin-top: 16rpx;
+}
+.perm-item.data-v-24dafd74 {
+  display: flex; align-items: center; gap: 12rpx;
+  padding: 14rpx 0;
+}
+.perm-icon.data-v-24dafd74 { font-size: 24rpx; width: 40rpx; text-align: center;
+}
+.perm-text.data-v-24dafd74 { font-size: 26rpx; color: #555;
+}
+.perm-divider.data-v-24dafd74 {
+  height: 2rpx; background: #f0ede9; margin: 8rpx 0;
+}
+

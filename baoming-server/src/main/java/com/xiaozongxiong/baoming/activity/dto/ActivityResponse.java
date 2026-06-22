@@ -31,6 +31,7 @@ public class ActivityResponse {
     private String verifyCode;
     private Boolean wechatOnly;
     private String shareLevel;
+    private Boolean groupRestricted;
     private List<String> allowedGroups;
     private Long createdAt;
     private Long updatedAt;
@@ -52,6 +53,7 @@ public class ActivityResponse {
                 .verifyCode(a.getVerifyCode())
                 .wechatOnly(a.getWechatOnly())
                 .shareLevel(a.getShareLevel() != null ? a.getShareLevel() : (Boolean.FALSE.equals(a.getAllowShare()) ? "creator" : "all"))
+                .groupRestricted(a.getGroupRestricted())
                 .allowedGroups(parseStringList(a.getAllowedGroups()))
                 .createdAt(a.getCreatedAt())
                 .updatedAt(a.getUpdatedAt())

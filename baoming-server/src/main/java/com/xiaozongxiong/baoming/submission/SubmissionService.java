@@ -31,11 +31,19 @@ public class SubmissionService {
     private final ObjectMapper objectMapper;
     private final ActivityService activityService;
 
-    public Map<String, Object> getPublicForm(String activityId, String token) {
+    /** 获取公开表单（群限制时需登录） */
+    public Map<String, Object> getPublicForm(String activityId, String token, Integer userId) {
         LambdaQueryWrapper<Activity> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(Activity::getId, activityId).eq(Activity::getStatus, "published");
         Activity activity = activityMapper.selectOne(wrapper);
         if (activity == null) throw new NoSuchElementException("活动不存在或未发布");
+
+        // 群限制访问：必须已登录
+        if (Boolean.TRUE.equals(activity.getGroupRestricted())) {
+            if (userId == null) {
+                throw new SecurityException("此活动仅限群成员访问，请先登录");
+            }
+        }
 
         if (activity.getInviteToken() != null && !activity.getInviteToken().isEmpty()) {
             if (token == null || !token.equals(activity.getInviteToken())) {
@@ -189,6 +197,8 @@ public class SubmissionService {
         map.put("wechatOnly", a.getWechatOnly());
         map.put("allowShare", a.getAllowShare());
         map.put("shareLevel", a.getShareLevel() != null ? a.getShareLevel() : (Boolean.FALSE.equals(a.getAllowShare()) ? "creator" : "all"));
+        map.put("groupRestricted", a.getGroupRestricted());
+        map.put("requireLogin", Boolean.TRUE.equals(a.getGroupRestricted()));
         return map;
     }
 }

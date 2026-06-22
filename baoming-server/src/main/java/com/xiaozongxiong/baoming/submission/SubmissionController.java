@@ -13,11 +13,13 @@ import org.springframework.web.bind.annotation.*;
 public class SubmissionController {
     private final SubmissionService submissionService;
 
-    // ---- Public form ----
+    // ---- Public form (可选登录) ----
     @GetMapping("/api/form/{activityId}")
     public ResponseEntity<?> getPublicForm(@PathVariable String activityId,
-                                           @RequestParam(required = false, defaultValue = "") String token) {
-        return ResponseEntity.ok(submissionService.getPublicForm(activityId, token));
+                                           @RequestParam(required = false, defaultValue = "") String token,
+                                           @AuthenticationPrincipal UserPrincipal principal) {
+        Integer userId = principal != null ? principal.getId() : null;
+        return ResponseEntity.ok(submissionService.getPublicForm(activityId, token, userId));
     }
 
     @PostMapping("/api/form/{activityId}/submit")

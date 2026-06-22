@@ -1,0 +1,129 @@
+{
+  "easycom": {
+    "autoscan": true
+  },
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#D4720D",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/dashboard/dashboard",
+        "text": "创建发布",
+        "iconPath": "static/tab-create.png",
+        "selectedIconPath": "static/tab-create-active.png"
+      },
+      {
+        "pagePath": "pages/records/records",
+        "text": "我的记录",
+        "iconPath": "static/tab-records.png",
+        "selectedIconPath": "static/tab-records-active.png"
+      },
+      {
+        "pagePath": "pages/profile/profile",
+        "text": "个人中心",
+        "iconPath": "static/tab-profile.png",
+        "selectedIconPath": "static/tab-profile-active.png"
+      }
+    ]
+  },
+  "pages": [
+    {
+      "path": "pages/dashboard/dashboard",
+      "style": {
+        "navigationBarTitleText": "创建发布",
+        "navigationBarBackgroundColor": "#D4720D",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/records/records",
+      "style": {
+        "navigationBarTitleText": "我的记录",
+        "navigationBarBackgroundColor": "#D4720D",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/profile/profile",
+      "style": {
+        "navigationBarTitleText": "个人中心",
+        "navigationBarBackgroundColor": "#D4720D",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/create/create",
+      "style": {
+        "navigationBarTitleText": "创建活动",
+        "navigationBarBackgroundColor": "#D4720D",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/builder/builder",
+      "style": {
+        "navigationBarTitleText": "报名表设置",
+        "navigationBarBackgroundColor": "#D4720D",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/publish/publish",
+      "style": {
+        "navigationBarTitleText": "发布活动",
+        "navigationBarBackgroundColor": "#D4720D",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/data/data",
+      "style": {
+        "navigationBarTitleText": "报名数据",
+        "navigationBarBackgroundColor": "#D4720D",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/admins/admins",
+      "style": {
+        "navigationBarTitleText": "管理员设置",
+        "navigationBarBackgroundColor": "#D4720D",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/form/form",
+      "style": {
+        "navigationBarTitleText": "活动预约报名",
+        "navigationBarBackgroundColor": "#D4720D",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/login/login",
+      "style": {
+        "navigationBarTitleText": "登录",
+        "navigationBarBackgroundColor": "#D4720D",
+        "navigationBarTextStyle": "white",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/privacy/privacy",
+      "style": {
+        "navigationBarTitleText": "隐私政策",
+        "navigationBarBackgroundColor": "#D4720D",
+        "navigationBarTextStyle": "white"
+      }
+    }
+  ],
+  "globalStyle": {
+    "navigationBarTitleText": "小棕熊预约报名",
+    "navigationBarBackgroundColor": "#D4720D",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#F8F6F3",
+    "backgroundTextStyle": "dark"
+  }
+}

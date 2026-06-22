@@ -79,6 +79,12 @@ public class ActivityController {
         return ResponseEntity.ok(activityService.regenerateToken(id, principal.getId()));
     }
 
+    @PostMapping("/activities/{id}/duplicate")
+    public ResponseEntity<?> duplicate(@PathVariable String id,
+                                       @AuthenticationPrincipal UserPrincipal principal) {
+        return ResponseEntity.ok(activityService.duplicateActivity(id, principal.getId()));
+    }
+
     // ==================== 管理员管理 ====================
 
     @GetMapping("/activities/{id}/admins")
