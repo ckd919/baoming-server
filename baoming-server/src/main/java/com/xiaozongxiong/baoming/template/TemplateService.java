@@ -10,25 +10,21 @@ public class TemplateService {
     private static final List<Map<String, Object>> TEMPLATES = List.of(
             createTemplate("training", "📚", "培训报名", List.of(
                     createField("name", "姓名", "text"),
-                    createField("phone", "手机号", "text"),
                     createField("company", "单位/公司", "text"),
                     createField("session", "参加场次", "select")
             )),
             createTemplate("party", "🎉", "聚会活动", List.of(
                     createField("name", "姓名", "text"),
-                    createField("phone", "手机号", "text"),
                     createField("plusOne", "是否携带家属", "radio"),
                     createField("diet", "饮食禁忌", "textarea")
             )),
             createTemplate("signup", "📝", "通用登记", List.of(
                     createField("name", "姓名", "text"),
-                    createField("phone", "手机号", "text"),
                     createField("email", "邮箱", "text"),
                     createField("remark", "备注", "textarea")
             )),
             createTemplate("competition", "🏆", "比赛报名", List.of(
                     createField("name", "姓名", "text"),
-                    createField("phone", "手机号", "text"),
                     createField("idcard", "身份证号", "text"),
                     createField("group", "参赛组别", "select"),
                     createField("photo", "照片上传", "image")
