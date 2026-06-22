@@ -180,6 +180,7 @@ public class SubmissionService {
     private Map<String, Object> buildPublicActivityMap(Activity a) {
         Map<String, Object> map = new LinkedHashMap<>();
         map.put("id", a.getId());
+        map.put("userId", a.getUserId());
         map.put("name", a.getName());
         map.put("description", a.getDescription());
         map.put("location", a.getLocation());

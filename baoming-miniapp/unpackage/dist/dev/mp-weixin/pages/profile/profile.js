@@ -361,6 +361,19 @@ var _default = {
               });
             }, 500);
           }
+          // 检查是否有待接受的管理员邀请
+          var pendingAdmin = uni.getStorageSync('bm_pending_admin_accept');
+          if (pendingAdmin) {
+            uni.removeStorageSync('bm_pending_admin_accept');
+            try {
+              var data = JSON.parse(pendingAdmin);
+              setTimeout(function () {
+                uni.navigateTo({
+                  url: "/pages/admins/accept?id=".concat(data.activityId, "&token=").concat(data.token)
+                });
+              }, 500);
+            } catch (e) {}
+          }
         } catch (e) {
           this.isLoggedIn = false;
         }

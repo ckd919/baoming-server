@@ -48,12 +48,19 @@
     <!-- 邀请管理员（仅创建者可见） -->
     <view class="card" v-if="isOwner">
       <text class="card-title">📨 邀请微信好友成为管理员</text>
-      <text class="card-desc">将管理员邀请发送给微信好友，对方点击即可认领</text>
-      <button class="wx-share-btn" open-type="share" @click="handleInviteAdmin">
+      <text class="card-desc">发送管理员邀请卡片给微信好友，对方点开即可认领</text>
+
+      <!-- 步骤1：生成邀请 -->
+      <button class="btn-primary btn-block" @click="handleGenInviteToken" :loading="genLoading">
+        {{ inviteToken ? '✅ 邀请已生成' : '🔑 生成邀请链接' }}
+      </button>
+
+      <!-- 步骤2：分享给好友 -->
+      <button v-if="inviteToken" class="wx-share-btn" open-type="share">
         <text>💬 发送邀请给微信好友</text>
       </button>
-      <text class="help-text" style="text-align:center">
-        💡 好友点击分享卡片后即自动成为管理员
+      <text v-if="inviteToken" class="help-text">
+        💡 好友点击卡片后打开小程序，点击「接受」即成为管理员
       </text>
     </view>
 
@@ -128,6 +135,7 @@ export default {
       activityName: '',
       admins: [],
       inviteToken: '',  // 管理员邀请 token
+      genLoading: false,
       isOwner: false,
       loading: true,
       addPhone: '',
@@ -208,14 +216,17 @@ export default {
       }
     },
 
-    /** 生成邀请 token 并触发微信分享 */
-    async handleInviteAdmin() {
+    /** 生成管理员邀请 token */
+    async handleGenInviteToken() {
+      this.genLoading = true
       try {
         const result = await generateAdminInviteToken(this.activityId)
         this.inviteToken = result.inviteToken
-        // open-type="share" 会自动触发 onShareAppMessage
+        uni.showToast({ title: '邀请已生成，点击下方按钮发送', icon: 'success' })
       } catch (err) {
         uni.showToast({ title: '生成邀请失败', icon: 'none' })
+      } finally {
+        this.genLoading = false
       }
     }
   },

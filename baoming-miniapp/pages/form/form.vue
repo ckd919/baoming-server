@@ -143,41 +143,37 @@ export default {
       this.loadActivity(options.id)
     }
   },
-  // 控制分享：根据分享等级决定
+  // 控制分享：创建者/管理员始终可分享，普通用户受限
   onShareAppMessage(res) {
     if (!this.activity) return { title: '', path: '' }
 
-    const shareLevel = this.activity.shareLevel || (this.activity.allowShare === false ? 'creator' : 'all')
-
-    // 'all' — 所有人都可以分享
-    if (shareLevel === 'all') {
+    // 创建者/管理员始终可分享
+    if (this.canShare) {
       return {
         title: this.activity.name || '活动报名',
         path: `/pages/form/form?id=${this.activity.id}`
       }
     }
 
-    // 'admins' 或 'creator' — 公开页面上的普通用户不能分享
-    // 管理员/创建者可以通过发布页的链接和二维码进行分享
     return { title: '', path: '' }
   },
-  // 获取微信群信息
-  getGroupInfo() {
-    // #ifdef MP-WEIXIN
-    try {
-      const app = getApp()
-      if (app.globalData && app.globalData.groupId) {
-        this.groupId = app.globalData.groupId
-        return
-      }
-      const scene = uni.getLaunchOptionsSync()
-      if (scene && scene.referrerInfo && scene.referrerInfo.appId) {
-        // 从群聊进入时，referrerInfo.extraData 可能包含群信息
-      }
-    } catch (e) { /* ignore */ }
-    // #endif
-  },
   methods: {
+    // 获取微信群信息
+    getGroupInfo() {
+      // #ifdef MP-WEIXIN
+      try {
+        const app = getApp()
+        if (app.globalData && app.globalData.groupId) {
+          this.groupId = app.globalData.groupId
+          return
+        }
+        const scene = uni.getLaunchOptionsSync()
+        if (scene && scene.referrerInfo && scene.referrerInfo.appId) {
+          // 从群聊进入时，referrerInfo.extraData 可能包含群信息
+        }
+      } catch (e) { /* ignore */ }
+      // #endif
+    },
     async loadActivity(id) {
       try {
         if (this.isPreview) {
@@ -209,13 +205,25 @@ export default {
           }
         }
 
+        // 判断当前用户是否是创建者/管理员（始终有分享权限）
+        const userStr = uni.getStorageSync('bm_user')
+        let isPrivileged = false
+        if (userStr && this.activity.userId) {
+          try {
+            const user = JSON.parse(userStr)
+            isPrivileged = (user.id === this.activity.userId)
+          } catch (e) {}
+        }
+
         // 判断分享权限
         const shareLevel = this.activity.shareLevel || (this.activity.allowShare === false ? 'creator' : 'all')
-        this.canShare = shareLevel === 'all'
+        this.canShare = shareLevel === 'all' || isPrivileged
 
         // #ifdef MP-WEIXIN
-        // 群限制访问：禁止转发
-        if (this.activity.groupRestricted) {
+        // 创建者/管理员始终可以分享
+        if (isPrivileged) {
+          wx.showShareMenu({ menus: ['shareAppMessage', 'shareTimeline'] })
+        } else if (this.activity.groupRestricted) {
           wx.hideShareMenu({ menus: ['shareAppMessage', 'shareTimeline'] })
         } else if (!this.canShare) {
           wx.hideShareMenu({ menus: ['shareAppMessage', 'shareTimeline'] })

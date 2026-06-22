@@ -215,6 +215,13 @@ var _api = __webpack_require__(/*! @/store/api.js */ 46);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 var _default = {
   data: function data() {
     return {
@@ -223,6 +230,7 @@ var _default = {
       admins: [],
       inviteToken: '',
       // 管理员邀请 token
+      genLoading: false,
       isOwner: false,
       loading: true,
       addPhone: '',
@@ -399,7 +407,55 @@ var _default = {
           }
         }, _callee3, null, [[5, 12]]);
       }))();
+    },
+    /** 生成管理员邀请 token */handleGenInviteToken: function handleGenInviteToken() {
+      var _this4 = this;
+      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee4() {
+        var result;
+        return _regenerator.default.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                _this4.genLoading = true;
+                _context4.prev = 1;
+                _context4.next = 4;
+                return (0, _api.generateAdminInviteToken)(_this4.activityId);
+              case 4:
+                result = _context4.sent;
+                _this4.inviteToken = result.inviteToken;
+                uni.showToast({
+                  title: '邀请已生成，点击下方按钮发送',
+                  icon: 'success'
+                });
+                _context4.next = 12;
+                break;
+              case 9:
+                _context4.prev = 9;
+                _context4.t0 = _context4["catch"](1);
+                uni.showToast({
+                  title: '生成邀请失败',
+                  icon: 'none'
+                });
+              case 12:
+                _context4.prev = 12;
+                _this4.genLoading = false;
+                return _context4.finish(12);
+              case 15:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4, null, [[1, 9, 12, 15]]);
+      }))();
     }
+  },
+  // 分享管理员邀请卡片
+  onShareAppMessage: function onShareAppMessage() {
+    return {
+      title: "\u9080\u8BF7\u4F60\u6210\u4E3A\u300C".concat(this.activityName, "\u300D\u7684\u7BA1\u7406\u5458"),
+      path: "/pages/admins/accept?id=".concat(this.activityId, "&token=").concat(this.inviteToken),
+      imageUrl: ''
+    };
   }
 };
 exports.default = _default;
