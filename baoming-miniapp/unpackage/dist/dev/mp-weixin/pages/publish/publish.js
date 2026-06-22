@@ -223,11 +223,23 @@ var _api = __webpack_require__(/*! @/store/api.js */ 46);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var _default = {
   data: function data() {
     return {
       activity: null,
       shareLevel: 'all',
+      groupRestricted: false,
       shareLevels: [{
         value: 'all',
         label: '所有人可分享',
@@ -290,21 +302,22 @@ var _default = {
                 } else {
                   _this.shareLevel = 'all';
                 }
-                _context.next = 10;
+                _this.groupRestricted = _this.activity.groupRestricted || false;
+                _context.next = 11;
                 break;
-              case 7:
-                _context.prev = 7;
+              case 8:
+                _context.prev = 8;
                 _context.t0 = _context["catch"](0);
                 uni.showToast({
                   title: '加载失败',
                   icon: 'none'
                 });
-              case 10:
+              case 11:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[0, 7]]);
+        }, _callee, null, [[0, 8]]);
       }))();
     },
     copyUrl: function copyUrl() {
@@ -355,50 +368,87 @@ var _default = {
         }, _callee2, null, [[1, 9]]);
       }))();
     },
-    publishNow: function publishNow() {
+    toggleGroupRestricted: function toggleGroupRestricted(e) {
       var _this3 = this;
       return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee3() {
+        var val;
         return _regenerator.default.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                _context3.prev = 0;
-                _context3.next = 3;
+                val = e.detail.value;
+                _context3.prev = 1;
+                _context3.next = 4;
                 return (0, _api.updateActivity)(_this3.activity.id, {
+                  groupRestricted: val
+                });
+              case 4:
+                _this3.groupRestricted = val;
+                uni.showToast({
+                  title: val ? '已开启群限制访问' : '已关闭群限制访问',
+                  icon: 'success'
+                });
+                _context3.next = 11;
+                break;
+              case 8:
+                _context3.prev = 8;
+                _context3.t0 = _context3["catch"](1);
+                uni.showToast({
+                  title: '设置失败',
+                  icon: 'none'
+                });
+              case 11:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3, null, [[1, 8]]);
+      }))();
+    },
+    publishNow: function publishNow() {
+      var _this4 = this;
+      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee4() {
+        return _regenerator.default.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                _context4.prev = 0;
+                _context4.next = 3;
+                return (0, _api.updateActivity)(_this4.activity.id, {
                   status: 'published'
                 });
               case 3:
-                _this3.activity.status = 'published';
+                _this4.activity.status = 'published';
                 uni.showToast({
                   title: '已发布',
                   icon: 'success'
                 });
-                _context3.next = 10;
+                _context4.next = 10;
                 break;
               case 7:
-                _context3.prev = 7;
-                _context3.t0 = _context3["catch"](0);
+                _context4.prev = 7;
+                _context4.t0 = _context4["catch"](0);
                 uni.showToast({
                   title: '发布失败',
                   icon: 'none'
                 });
               case 10:
               case "end":
-                return _context3.stop();
+                return _context4.stop();
             }
           }
-        }, _callee3, null, [[0, 7]]);
+        }, _callee4, null, [[0, 7]]);
       }))();
     },
     unpublish: function unpublish() {
-      var _this4 = this;
-      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee4() {
+      var _this5 = this;
+      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee5() {
         var res;
-        return _regenerator.default.wrap(function _callee4$(_context4) {
+        return _regenerator.default.wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
-                _context4.next = 2;
+                _context5.next = 2;
                 return new Promise(function (r) {
                   return uni.showModal({
                     title: '确认',
@@ -409,39 +459,39 @@ var _default = {
                   });
                 });
               case 2:
-                res = _context4.sent;
+                res = _context5.sent;
                 if (res) {
-                  _context4.next = 5;
+                  _context5.next = 5;
                   break;
                 }
-                return _context4.abrupt("return");
+                return _context5.abrupt("return");
               case 5:
-                _context4.prev = 5;
-                _context4.next = 8;
-                return (0, _api.updateActivity)(_this4.activity.id, {
+                _context5.prev = 5;
+                _context5.next = 8;
+                return (0, _api.updateActivity)(_this5.activity.id, {
                   status: 'draft'
                 });
               case 8:
-                _this4.activity.status = 'draft';
+                _this5.activity.status = 'draft';
                 uni.showToast({
                   title: '已取消',
                   icon: 'success'
                 });
-                _context4.next = 15;
+                _context5.next = 15;
                 break;
               case 12:
-                _context4.prev = 12;
-                _context4.t0 = _context4["catch"](5);
+                _context5.prev = 12;
+                _context5.t0 = _context5["catch"](5);
                 uni.showToast({
                   title: '操作失败',
                   icon: 'none'
                 });
               case 15:
               case "end":
-                return _context4.stop();
+                return _context5.stop();
             }
           }
-        }, _callee4, null, [[5, 12]]);
+        }, _callee5, null, [[5, 12]]);
       }))();
     },
     previewForm: function previewForm() {

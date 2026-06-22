@@ -48,15 +48,18 @@
       </text>
     </view>
 
-    <!-- 群限制访问 -->
+    <!-- 群限制转发 -->
     <view class="card" v-if="activity">
-      <text class="card-title">👥 群限制访问</text>
-      <text class="card-desc">开启后，仅从微信群进入的用户可以填写，其他人打开会提示登录</text>
+      <text class="card-title">🔗 群限制转发</text>
+      <text class="card-desc">开启后，表单分享到群后群成员无法再次转发，防止扩散到群外</text>
       <view class="flex-row">
-        <text>仅限群成员填写</text>
+        <text>禁止群成员转发</text>
         <switch :checked="groupRestricted" color="#D4720D"
                 @change="toggleGroupRestricted" />
       </view>
+      <text class="hint" style="margin-top:12rpx">
+        {{ groupRestricted ? '🔒 群成员无法转发此表单到其他群或个人' : '📤 群成员可以自由转发此表单' }}
+      </text>
     </view>
 
     <!-- 发布/取消发布 -->

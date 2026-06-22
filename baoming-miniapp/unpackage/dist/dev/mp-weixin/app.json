@@ -8,6 +8,7 @@
     "pages/publish/publish",
     "pages/data/data",
     "pages/admins/admins",
+    "pages/admins/accept",
     "pages/form/form",
     "pages/login/login",
     "pages/privacy/privacy"

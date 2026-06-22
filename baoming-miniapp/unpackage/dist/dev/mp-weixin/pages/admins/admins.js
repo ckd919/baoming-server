@@ -208,12 +208,21 @@ var _api = __webpack_require__(/*! @/store/api.js */ 46);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 var _default = {
   data: function data() {
     return {
       activityId: '',
       activityName: '',
       admins: [],
+      inviteToken: '',
+      // 管理员邀请 token
       isOwner: false,
       loading: true,
       addPhone: '',

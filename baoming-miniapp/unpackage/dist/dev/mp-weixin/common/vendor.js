@@ -12384,6 +12384,7 @@ var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/inte
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.acceptAdminInvite = acceptAdminInvite;
 exports.addActivityAdmin = addActivityAdmin;
 exports.addSubmission = addSubmission;
 exports.bindPhone = bindPhone;
@@ -12393,6 +12394,7 @@ exports.clearToken = clearToken;
 exports.createActivity = createActivity;
 exports.deleteActivity = deleteActivity;
 exports.duplicateActivity = duplicateActivity;
+exports.generateAdminInviteToken = generateAdminInviteToken;
 exports.getActivities = getActivities;
 exports.getActivity = getActivity;
 exports.getActivityAdmins = getActivityAdmins;
@@ -12957,7 +12959,7 @@ function _addActivityAdmin() {
 }
 function removeActivityAdmin(_x23, _x24) {
   return _removeActivityAdmin.apply(this, arguments);
-} // ==================== 用户记录 ====================
+}
 function _removeActivityAdmin() {
   _removeActivityAdmin = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee21(activityId, userId) {
     return _regenerator.default.wrap(function _callee21$(_context21) {
@@ -12975,21 +12977,21 @@ function _removeActivityAdmin() {
   }));
   return _removeActivityAdmin.apply(this, arguments);
 }
-function getManagedActivities() {
-  return _getManagedActivities.apply(this, arguments);
+function generateAdminInviteToken(_x25) {
+  return _generateAdminInviteToken.apply(this, arguments);
 }
-function _getManagedActivities() {
-  _getManagedActivities = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee22() {
+function _generateAdminInviteToken() {
+  _generateAdminInviteToken = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee22(activityId) {
     var data;
     return _regenerator.default.wrap(function _callee22$(_context22) {
       while (1) {
         switch (_context22.prev = _context22.next) {
           case 0:
             _context22.next = 2;
-            return request('GET', '/user/managed-activities');
+            return request('POST', "/activities/".concat(activityId, "/invite-admin-token"));
           case 2:
             data = _context22.sent;
-            return _context22.abrupt("return", data.activities || []);
+            return _context22.abrupt("return", data.inviteToken);
           case 4:
           case "end":
             return _context22.stop();
@@ -12997,49 +12999,95 @@ function _getManagedActivities() {
       }
     }, _callee22);
   }));
-  return _getManagedActivities.apply(this, arguments);
+  return _generateAdminInviteToken.apply(this, arguments);
 }
-function getMySubmissions() {
-  return _getMySubmissions.apply(this, arguments);
-}
-function _getMySubmissions() {
-  _getMySubmissions = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee23() {
-    var data;
+function acceptAdminInvite(_x26, _x27) {
+  return _acceptAdminInvite.apply(this, arguments);
+} // ==================== 用户记录 ====================
+function _acceptAdminInvite() {
+  _acceptAdminInvite = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee23(activityId, token) {
     return _regenerator.default.wrap(function _callee23$(_context23) {
       while (1) {
         switch (_context23.prev = _context23.next) {
           case 0:
             _context23.next = 2;
-            return request('GET', '/user/submissions');
+            return request('POST', "/activities/".concat(activityId, "/admins/accept?token=").concat(encodeURIComponent(token)));
           case 2:
-            data = _context23.sent;
-            return _context23.abrupt("return", data.submissions || []);
-          case 4:
+            return _context23.abrupt("return", _context23.sent);
+          case 3:
           case "end":
             return _context23.stop();
         }
       }
     }, _callee23);
   }));
-  return _getMySubmissions.apply(this, arguments);
+  return _acceptAdminInvite.apply(this, arguments);
 }
-function cancelSubmission(_x25) {
-  return _cancelSubmission.apply(this, arguments);
+function getManagedActivities() {
+  return _getManagedActivities.apply(this, arguments);
 }
-function _cancelSubmission() {
-  _cancelSubmission = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee24(submissionId) {
+function _getManagedActivities() {
+  _getManagedActivities = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee24() {
+    var data;
     return _regenerator.default.wrap(function _callee24$(_context24) {
       while (1) {
         switch (_context24.prev = _context24.next) {
           case 0:
             _context24.next = 2;
-            return request('DELETE', "/submissions/".concat(submissionId, "/cancel"));
+            return request('GET', '/user/managed-activities');
           case 2:
+            data = _context24.sent;
+            return _context24.abrupt("return", data.activities || []);
+          case 4:
           case "end":
             return _context24.stop();
         }
       }
     }, _callee24);
+  }));
+  return _getManagedActivities.apply(this, arguments);
+}
+function getMySubmissions() {
+  return _getMySubmissions.apply(this, arguments);
+}
+function _getMySubmissions() {
+  _getMySubmissions = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee25() {
+    var data;
+    return _regenerator.default.wrap(function _callee25$(_context25) {
+      while (1) {
+        switch (_context25.prev = _context25.next) {
+          case 0:
+            _context25.next = 2;
+            return request('GET', '/user/submissions');
+          case 2:
+            data = _context25.sent;
+            return _context25.abrupt("return", data.submissions || []);
+          case 4:
+          case "end":
+            return _context25.stop();
+        }
+      }
+    }, _callee25);
+  }));
+  return _getMySubmissions.apply(this, arguments);
+}
+function cancelSubmission(_x28) {
+  return _cancelSubmission.apply(this, arguments);
+}
+function _cancelSubmission() {
+  _cancelSubmission = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee26(submissionId) {
+    return _regenerator.default.wrap(function _callee26$(_context26) {
+      while (1) {
+        switch (_context26.prev = _context26.next) {
+          case 0:
+            _context26.next = 2;
+            return request('DELETE', "/submissions/".concat(submissionId, "/cancel"));
+          case 2:
+          case "end":
+            return _context26.stop();
+        }
+      }
+    }, _callee26);
   }));
   return _cancelSubmission.apply(this, arguments);
 }

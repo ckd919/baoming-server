@@ -208,6 +208,17 @@ export default {
               uni.navigateTo({ url: `/pages/form/form?id=${pendingForm}` })
             }, 500)
           }
+          // 检查是否有待接受的管理员邀请
+          const pendingAdmin = uni.getStorageSync('bm_pending_admin_accept')
+          if (pendingAdmin) {
+            uni.removeStorageSync('bm_pending_admin_accept')
+            try {
+              const data = JSON.parse(pendingAdmin)
+              setTimeout(() => {
+                uni.navigateTo({ url: `/pages/admins/accept?id=${data.activityId}&token=${data.token}` })
+              }, 500)
+            } catch (e) {}
+          }
         } catch (e) {
           this.isLoggedIn = false
         }

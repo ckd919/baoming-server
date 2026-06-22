@@ -383,10 +383,10 @@ var _default = {
       var d = new Date(ts);
       return "".concat(d.getMonth() + 1, "\u6708").concat(d.getDate(), "\u65E5");
     },
-    handleDelete: function handleDelete(id) {
+    handleCopy: function handleCopy(activity) {
       var _this3 = this;
       return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee2() {
-        var res;
+        var res, result;
         return _regenerator.default.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -394,8 +394,8 @@ var _default = {
                 _context2.next = 2;
                 return new Promise(function (r) {
                   return uni.showModal({
-                    title: '确认删除',
-                    content: '确定要删除这个活动吗？',
+                    title: '复制活动',
+                    content: "\u786E\u5B9A\u8981\u590D\u5236\u300C".concat(activity.name, "\u300D\u5417\uFF1F\u5C06\u751F\u6210\u4E00\u4E2A\u526F\u672C\uFF08\u542B\u8868\u5355\u5B57\u6BB5\uFF0C\u8349\u7A3F\u72B6\u6001\uFF09"),
                     success: function success(e) {
                       return r(e.confirm);
                     }
@@ -411,28 +411,81 @@ var _default = {
               case 5:
                 _context2.prev = 5;
                 _context2.next = 8;
+                return (0, _api.duplicateActivity)(activity.id);
+              case 8:
+                result = _context2.sent;
+                uni.showToast({
+                  title: '复制成功',
+                  icon: 'success'
+                });
+                _this3.loadActivities();
+                _context2.next = 16;
+                break;
+              case 13:
+                _context2.prev = 13;
+                _context2.t0 = _context2["catch"](5);
+                uni.showToast({
+                  title: '复制失败: ' + _context2.t0.message,
+                  icon: 'none'
+                });
+              case 16:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, null, [[5, 13]]);
+      }))();
+    },
+    handleDelete: function handleDelete(id) {
+      var _this4 = this;
+      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee3() {
+        var res;
+        return _regenerator.default.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.next = 2;
+                return new Promise(function (r) {
+                  return uni.showModal({
+                    title: '确认删除',
+                    content: '确定要删除这个活动吗？',
+                    success: function success(e) {
+                      return r(e.confirm);
+                    }
+                  });
+                });
+              case 2:
+                res = _context3.sent;
+                if (res) {
+                  _context3.next = 5;
+                  break;
+                }
+                return _context3.abrupt("return");
+              case 5:
+                _context3.prev = 5;
+                _context3.next = 8;
                 return (0, _api.deleteActivity)(id);
               case 8:
                 uni.showToast({
                   title: '已删除',
                   icon: 'success'
                 });
-                _this3.loadActivities();
-                _context2.next = 15;
+                _this4.loadActivities();
+                _context3.next = 15;
                 break;
               case 12:
-                _context2.prev = 12;
-                _context2.t0 = _context2["catch"](5);
+                _context3.prev = 12;
+                _context3.t0 = _context3["catch"](5);
                 uni.showToast({
                   title: '删除失败',
                   icon: 'none'
                 });
               case 15:
               case "end":
-                return _context2.stop();
+                return _context3.stop();
             }
           }
-        }, _callee2, null, [[5, 12]]);
+        }, _callee3, null, [[5, 12]]);
       }))();
     }
   }

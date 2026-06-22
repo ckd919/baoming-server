@@ -236,6 +236,54 @@ public class ActivityService {
 
     // ==================== 管理员管理 ====================
 
+    /** 生成管理员邀请 token（仅创建者） */
+    @Transactional
+    public Map<String, Object> generateAdminInviteToken(String activityId, Integer userId) {
+        Activity activity = findOwned(activityId, userId);
+        SecureRandom random = new SecureRandom();
+        byte[] bytes = new byte[24];
+        random.nextBytes(bytes);
+        String token = bytesToHex(bytes);
+        activity.setAdminInviteToken(token);
+        activity.setUpdatedAt(System.currentTimeMillis());
+        activityMapper.updateById(activity);
+        return Map.of("inviteToken", token);
+    }
+
+    /** 接受管理员邀请（通过 token） */
+    @Transactional
+    public Map<String, Object> acceptAdminInvite(String activityId, String token, Integer userId) {
+        Activity activity = activityMapper.selectById(activityId);
+        if (activity == null) throw new NoSuchElementException("活动不存在");
+        if (activity.getAdminInviteToken() == null || !activity.getAdminInviteToken().equals(token)) {
+            throw new SecurityException("邀请链接无效或已过期");
+        }
+
+        // 不能添加自己
+        if (activity.getUserId().equals(userId)) {
+            throw new IllegalArgumentException("你是活动创建者，无需接受管理员邀请");
+        }
+
+        // 检查是否已是管理员
+        LambdaQueryWrapper<ActivityAdmin> existWrapper = new LambdaQueryWrapper<>();
+        existWrapper.eq(ActivityAdmin::getActivityId, activityId)
+                    .eq(ActivityAdmin::getUserId, userId);
+        if (activityAdminMapper.selectOne(existWrapper) != null) {
+            return Map.of("ok", true, "message", "你已是该活动的管理员");
+        }
+
+        // 添加为管理员
+        ActivityAdmin admin = ActivityAdmin.builder()
+                .activityId(activityId)
+                .userId(userId)
+                .role("admin")
+                .createdAt(Instant.now().toEpochMilli())
+                .build();
+        activityAdminMapper.insert(admin);
+
+        return Map.of("ok", true, "message", "已成功成为活动管理员");
+    }
+
     /** 获取活动管理员列表（创建者 + 管理员均可查看） */
     public List<Map<String, Object>> listAdmins(String activityId, Integer userId) {
         Activity activity = findManaged(activityId, userId);

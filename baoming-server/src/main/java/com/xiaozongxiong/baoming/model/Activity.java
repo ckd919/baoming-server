@@ -61,6 +61,9 @@ public class Activity {
     @TableField("group_restricted")
     private Boolean groupRestricted;
 
+    @TableField("admin_invite_token")
+    private String adminInviteToken;
+
     @TableField("created_at")
     private Long createdAt;
 

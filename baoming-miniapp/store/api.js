@@ -180,6 +180,15 @@ export async function removeActivityAdmin(activityId, userId) {
   await request('DELETE', `/activities/${activityId}/admins/${userId}`)
 }
 
+export async function generateAdminInviteToken(activityId) {
+  const data = await request('POST', `/activities/${activityId}/invite-admin-token`)
+  return data.inviteToken
+}
+
+export async function acceptAdminInvite(activityId, token) {
+  return await request('POST', `/activities/${activityId}/admins/accept?token=${encodeURIComponent(token)}`)
+}
+
 // ==================== 用户记录 ====================
 export async function getManagedActivities() {
   const data = await request('GET', '/user/managed-activities')

@@ -94,6 +94,14 @@
       }
     },
     {
+      "path": "pages/admins/accept",
+      "style": {
+        "navigationBarTitleText": "管理员邀请",
+        "navigationBarBackgroundColor": "#D4720D",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
       "path": "pages/form/form",
       "style": {
         "navigationBarTitleText": "活动预约报名",

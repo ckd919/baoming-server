@@ -351,6 +351,16 @@ var _default = {
           getApp().globalData.token = token;
           getApp().globalData.user = user;
           this.refreshProfile();
+          // 检查是否有待跳转的表单页
+          var pendingForm = uni.getStorageSync('bm_pending_form');
+          if (pendingForm) {
+            uni.removeStorageSync('bm_pending_form');
+            setTimeout(function () {
+              uni.navigateTo({
+                url: "/pages/form/form?id=".concat(pendingForm)
+              });
+            }, 500);
+          }
         } catch (e) {
           this.isLoggedIn = false;
         }

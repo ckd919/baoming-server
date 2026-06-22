@@ -214,8 +214,10 @@ export default {
         this.canShare = shareLevel === 'all'
 
         // #ifdef MP-WEIXIN
-        // 根据分享权限控制微信转发按钮
-        if (!this.canShare) {
+        // 群限制访问：禁止转发
+        if (this.activity.groupRestricted) {
+          wx.hideShareMenu({ menus: ['shareAppMessage', 'shareTimeline'] })
+        } else if (!this.canShare) {
           wx.hideShareMenu({ menus: ['shareAppMessage', 'shareTimeline'] })
         } else {
           wx.showShareMenu({ menus: ['shareAppMessage', 'shareTimeline'] })

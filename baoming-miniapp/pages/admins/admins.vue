@@ -45,11 +45,22 @@
       </view>
     </view>
 
-    <!-- 添加管理员（仅创建者可见） -->
+    <!-- 邀请管理员（仅创建者可见） -->
     <view class="card" v-if="isOwner">
-      <text class="card-title">➕ 添加管理员</text>
-      <text class="card-desc">输入对方的手机号码，对方需已登录过本小程序</text>
+      <text class="card-title">📨 邀请微信好友成为管理员</text>
+      <text class="card-desc">将管理员邀请发送给微信好友，对方点击即可认领</text>
+      <button class="wx-share-btn" open-type="share" @click="handleInviteAdmin">
+        <text>💬 发送邀请给微信好友</text>
+      </button>
+      <text class="help-text" style="text-align:center">
+        💡 好友点击分享卡片后即自动成为管理员
+      </text>
+    </view>
 
+    <!-- 手机号添加管理员（备用） -->
+    <view class="card" v-if="isOwner">
+      <text class="card-title">➕ 通过手机号添加</text>
+      <text class="card-desc">输入对方的手机号码（备用方式）</text>
       <view class="add-form">
         <view class="form-group">
           <text class="form-label">手机号码</text>
@@ -63,10 +74,6 @@
           </view>
         </view>
       </view>
-
-      <text class="help-text">
-        💡 提示：对方需要先通过微信授权登录过本小程序，系统中存在其账号后才能被添加为管理员。
-      </text>
     </view>
 
     <!-- 权限说明 -->
@@ -112,7 +119,7 @@
 </template>
 
 <script>
-import { getActivityAdmins, addActivityAdmin, removeActivityAdmin, getActivity } from '@/store/api.js'
+import { getActivityAdmins, addActivityAdmin, removeActivityAdmin, getActivity, generateAdminInviteToken } from '@/store/api.js'
 
 export default {
   data() {
@@ -120,6 +127,7 @@ export default {
       activityId: '',
       activityName: '',
       admins: [],
+      inviteToken: '',  // 管理员邀请 token
       isOwner: false,
       loading: true,
       addPhone: '',
@@ -198,6 +206,25 @@ export default {
       } catch (err) {
         uni.showToast({ title: '移除失败', icon: 'none' })
       }
+    },
+
+    /** 生成邀请 token 并触发微信分享 */
+    async handleInviteAdmin() {
+      try {
+        const result = await generateAdminInviteToken(this.activityId)
+        this.inviteToken = result.inviteToken
+        // open-type="share" 会自动触发 onShareAppMessage
+      } catch (err) {
+        uni.showToast({ title: '生成邀请失败', icon: 'none' })
+      }
+    }
+  },
+  // 分享管理员邀请卡片
+  onShareAppMessage() {
+    return {
+      title: `邀请你成为「${this.activityName}」的管理员`,
+      path: `/pages/admins/accept?id=${this.activityId}&token=${this.inviteToken}`,
+      imageUrl: ''
     }
   }
 }
@@ -271,5 +298,14 @@ export default {
 .perm-text { font-size: 26rpx; color: #555; }
 .perm-divider {
   height: 2rpx; background: #f0ede9; margin: 8rpx 0;
+}
+
+.wx-share-btn {
+  width: 100%; height: 88rpx;
+  background: #07C160; color: #fff;
+  border: none; border-radius: 44rpx;
+  font-size: 30rpx; font-weight: 600;
+  display: flex; align-items: center; justify-content: center;
+  margin-top: 16rpx;
 }
 </style>

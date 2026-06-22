@@ -258,12 +258,24 @@ var _default = {
     canSubmit: function canSubmit() {
       var _this$activity5, _this$activity5$field;
       return ((_this$activity5 = this.activity) === null || _this$activity5 === void 0 ? void 0 : (_this$activity5$field = _this$activity5.fields) === null || _this$activity5$field === void 0 ? void 0 : _this$activity5$field.length) > 0 && !this.isEnded && !this.isFull && !this.isPreview;
+    },
+    needLogin: function needLogin() {
+      var _this$activity6, _this$activity7;
+      return ((_this$activity6 = this.activity) === null || _this$activity6 === void 0 ? void 0 : _this$activity6.groupRestricted) || ((_this$activity7 = this.activity) === null || _this$activity7 === void 0 ? void 0 : _this$activity7.requireLogin);
     }
   },
   onLoad: function onLoad(options) {
     if (options.id) {
       this.isPreview = options.preview === '1';
       this.getGroupInfo();
+      // 先检查登录状态
+      if (!this.isPreview) {
+        var token = uni.getStorageSync('bm_token');
+        if (!token) {
+          // 暂存目标页面，登录后跳回
+          uni.setStorageSync('bm_pending_form', options.id);
+        }
+      }
       this.loadActivity(options.id);
     }
   },
@@ -308,7 +320,7 @@ var _default = {
     loadActivity: function loadActivity(id) {
       var _this = this;
       return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee() {
-        var shareLevel;
+        var token, shareLevel;
         return _regenerator.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -336,6 +348,33 @@ var _default = {
                 }
                 return _context.abrupt("return");
               case 12:
+                if (!(!_this.isPreview && _this.needLogin)) {
+                  _context.next = 17;
+                  break;
+                }
+                token = uni.getStorageSync('bm_token');
+                if (token) {
+                  _context.next = 17;
+                  break;
+                }
+                uni.showModal({
+                  title: '需要登录',
+                  content: '此活动仅限群成员访问，请先微信授权登录',
+                  confirmText: '去登录',
+                  cancelText: '返回',
+                  success: function success(res) {
+                    if (res.confirm) {
+                      uni.setStorageSync('bm_pending_form', id);
+                      uni.switchTab({
+                        url: '/pages/profile/profile'
+                      });
+                    } else {
+                      uni.navigateBack();
+                    }
+                  }
+                });
+                return _context.abrupt("return");
+              case 17:
                 // 判断分享权限
                 shareLevel = _this.activity.shareLevel || (_this.activity.allowShare === false ? 'creator' : 'all');
                 _this.canShare = shareLevel === 'all';
@@ -360,21 +399,21 @@ var _default = {
                 (_this.activity.fields || []).forEach(function (f) {
                   _this.formData[f.id] = f.type === 'checkbox' ? [] : '';
                 });
-                _context.next = 22;
+                _context.next = 27;
                 break;
-              case 19:
-                _context.prev = 19;
+              case 24:
+                _context.prev = 24;
                 _context.t0 = _context["catch"](0);
                 uni.showToast({
                   title: '加载失败',
                   icon: 'none'
                 });
-              case 22:
+              case 27:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[0, 19]]);
+        }, _callee, null, [[0, 24]]);
       }))();
     },
     toggleCheck: function toggleCheck(fid, opt) {

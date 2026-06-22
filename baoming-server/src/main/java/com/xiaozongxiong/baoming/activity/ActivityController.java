@@ -107,6 +107,21 @@ public class ActivityController {
         return ResponseEntity.ok(activityService.removeAdmin(id, userId, principal.getId()));
     }
 
+    /** 生成管理员邀请 token */
+    @PostMapping("/activities/{id}/invite-admin-token")
+    public ResponseEntity<?> generateAdminInviteToken(@PathVariable String id,
+                                                       @AuthenticationPrincipal UserPrincipal principal) {
+        return ResponseEntity.ok(activityService.generateAdminInviteToken(id, principal.getId()));
+    }
+
+    /** 接受管理员邀请 */
+    @PostMapping("/activities/{id}/admins/accept")
+    public ResponseEntity<?> acceptAdminInvite(@PathVariable String id,
+                                               @RequestParam String token,
+                                               @AuthenticationPrincipal UserPrincipal principal) {
+        return ResponseEntity.ok(activityService.acceptAdminInvite(id, token, principal.getId()));
+    }
+
     // ==================== 用户记录 ====================
 
     @GetMapping("/user/managed-activities")
