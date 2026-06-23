@@ -11,17 +11,17 @@
       </view>
     </view>
 
-    <!-- 分享链接 -->
+    <!-- 小程序内分享 -->
     <view class="card" v-if="activity">
-      <text class="card-title">📎 报名链接</text>
-      <view class="url-box">
-        <text class="url-text">{{ formUrl }}</text>
-        <button class="btn-outline btn-sm" @click="copyUrl">复制</button>
+      <text class="card-title">📤 分享报名表</text>
+      <text class="card-desc">通过微信分享卡片，好友点击直接在小程序内填写</text>
+      <button class="wx-share-btn" open-type="share">
+        <text>💬 分享给微信好友</text>
+      </button>
+      <view class="url-box" style="margin-top:16rpx">
+        <text class="url-text">小程序路径：{{ miniPath }}</text>
+        <button class="btn-outline btn-sm" @click="copyPath">复制路径</button>
       </view>
-      <view class="qr-wrap">
-        <image :src="qrUrl" mode="widthFix" style="width:320rpx" />
-      </view>
-      <text class="hint">微信扫码即可报名</text>
     </view>
 
     <!-- 分享权限设置 -->
@@ -108,12 +108,9 @@ export default {
     }
   },
   computed: {
-    formUrl() {
+    miniPath() {
       if (!this.activity) return ''
-      return `http://8.134.252.128/#/form/${this.activity.id}`
-    },
-    qrUrl() {
-      return `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(this.formUrl)}`
+      return `/pages/form/form?id=${this.activity.id}`
     },
     shareLevelHint() {
       const hints = {
@@ -147,8 +144,8 @@ export default {
         uni.showToast({ title: '加载失败', icon: 'none' })
       }
     },
-    copyUrl() {
-      uni.setClipboardData({ data: this.formUrl, success: () => uni.showToast({ title: '已复制' }) })
+    copyPath() {
+      uni.setClipboardData({ data: this.miniPath, success: () => uni.showToast({ title: '路径已复制' }) })
     },
     async setShareLevel(level) {
       this.shareLevel = level
@@ -195,6 +192,12 @@ export default {
     previewForm() {
       const id = this.activity?.id
       if (id) uni.navigateTo({ url: `/pages/form/form?id=${id}&preview=1` })
+    }
+  },
+  onShareAppMessage() {
+    return {
+      title: this.activity ? this.activity.name : '活动报名',
+      path: `/pages/form/form?id=${this.activity?.id || ''}`
     }
   }
 }
@@ -250,5 +253,13 @@ export default {
   background: #f5f5f5; color: #999; border: none;
   border-radius: 44rpx; font-size: 32rpx; font-weight: 600;
   padding: 24rpx 40rpx;
+}
+
+.wx-share-btn {
+  width: 100%; height: 88rpx;
+  background: #07C160; color: #fff;
+  border: none; border-radius: 44rpx;
+  font-size: 30rpx; font-weight: 600;
+  display: flex; align-items: center; justify-content: center;
 }
 </style>

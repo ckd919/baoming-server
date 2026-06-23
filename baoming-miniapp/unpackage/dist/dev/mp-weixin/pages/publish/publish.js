@@ -259,12 +259,9 @@ var _default = {
     };
   },
   computed: {
-    formUrl: function formUrl() {
+    miniPath: function miniPath() {
       if (!this.activity) return '';
-      return "http://8.134.252.128/#/form/".concat(this.activity.id);
-    },
-    qrUrl: function qrUrl() {
-      return "https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=".concat(encodeURIComponent(this.formUrl));
+      return "/pages/form/form?id=".concat(this.activity.id);
     },
     shareLevelHint: function shareLevelHint() {
       var hints = {
@@ -323,12 +320,12 @@ var _default = {
         }, _callee, null, [[0, 8]]);
       }))();
     },
-    copyUrl: function copyUrl() {
+    copyPath: function copyPath() {
       uni.setClipboardData({
-        data: this.formUrl,
+        data: this.miniPath,
         success: function success() {
           return uni.showToast({
-            title: '已复制'
+            title: '路径已复制'
           });
         }
       });
@@ -504,6 +501,13 @@ var _default = {
         url: "/pages/form/form?id=".concat(id, "&preview=1")
       });
     }
+  },
+  onShareAppMessage: function onShareAppMessage() {
+    var _this$activity2;
+    return {
+      title: this.activity ? this.activity.name : '活动报名',
+      path: "/pages/form/form?id=".concat(((_this$activity2 = this.activity) === null || _this$activity2 === void 0 ? void 0 : _this$activity2.id) || '')
+    };
   }
 };
 exports.default = _default;
