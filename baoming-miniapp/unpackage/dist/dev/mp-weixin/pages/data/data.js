@@ -124,7 +124,9 @@ var render = function () {
         }
       })
     : null
-  var g3 = _vm.submissions.length
+  var g3 = _vm.cancelRequests.length
+  var g4 = g3 > 0 ? _vm.cancelRequests.length : null
+  var g5 = _vm.submissions.length
   _vm.$mp.data = Object.assign(
     {},
     {
@@ -134,6 +136,8 @@ var render = function () {
         g2: g2,
         l1: l1,
         g3: g3,
+        g4: g4,
+        g5: g5,
       },
     }
   )
@@ -222,11 +226,27 @@ var _api = __webpack_require__(/*! @/store/api.js */ 46);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var _default = {
   data: function data() {
     return {
       fields: [],
-      submissions: []
+      submissions: [],
+      cancelRequests: []
     };
   },
   onLoad: function onLoad(options) {
@@ -242,36 +262,77 @@ var _default = {
     loadData: function loadData(activityId) {
       var _this = this;
       return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee() {
-        var _yield$Promise$all, _yield$Promise$all2, activity, submissions;
+        var _yield$Promise$all, _yield$Promise$all2, activity, submissions, requests;
         return _regenerator.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.prev = 0;
                 _context.next = 3;
-                return Promise.all([(0, _api.getActivity)(activityId), (0, _api.getSubmissions)(activityId)]);
+                return Promise.all([(0, _api.getActivity)(activityId), (0, _api.getSubmissions)(activityId), (0, _api.getCancelRequests)(activityId).catch(function () {
+                  return [];
+                })]);
               case 3:
                 _yield$Promise$all = _context.sent;
-                _yield$Promise$all2 = (0, _slicedToArray2.default)(_yield$Promise$all, 2);
+                _yield$Promise$all2 = (0, _slicedToArray2.default)(_yield$Promise$all, 3);
                 activity = _yield$Promise$all2[0];
                 submissions = _yield$Promise$all2[1];
+                requests = _yield$Promise$all2[2];
                 _this.fields = (activity === null || activity === void 0 ? void 0 : activity.fields) || [];
                 _this.submissions = submissions || [];
-                _context.next = 14;
+                _this.cancelRequests = requests || [];
+                _context.next = 16;
                 break;
-              case 11:
-                _context.prev = 11;
+              case 13:
+                _context.prev = 13;
                 _context.t0 = _context["catch"](0);
                 uni.showToast({
                   title: '加载失败',
                   icon: 'none'
                 });
-              case 14:
+              case 16:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[0, 11]]);
+        }, _callee, null, [[0, 13]]);
+      }))();
+    },
+    handleReview: function handleReview(requestId, action) {
+      var _this2 = this;
+      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee2() {
+        var pages, options;
+        return _regenerator.default.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.prev = 0;
+                _context2.next = 3;
+                return (0, _api.reviewCancelRequest)(requestId, action);
+              case 3:
+                uni.showToast({
+                  title: action === 'approve' ? '已同意取消' : '已拒绝',
+                  icon: 'success'
+                });
+                // 重新加载
+                pages = getCurrentPages();
+                options = pages[pages.length - 1].options;
+                _this2.loadData(options.id);
+                _context2.next = 12;
+                break;
+              case 9:
+                _context2.prev = 9;
+                _context2.t0 = _context2["catch"](0);
+                uni.showToast({
+                  title: '操作失败',
+                  icon: 'none'
+                });
+              case 12:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, null, [[0, 9]]);
       }))();
     },
     formatVal: function formatVal(val) {
@@ -288,15 +349,15 @@ var _default = {
       return "".concat(d.getFullYear(), "-").concat(pad(d.getMonth() + 1), "-").concat(pad(d.getDate()), " ").concat(pad(d.getHours()), ":").concat(pad(d.getMinutes()));
     },
     exportCSV: function exportCSV() {
-      var _this2 = this;
+      var _this3 = this;
       var headers = ['序号', '提交时间'].concat((0, _toConsumableArray2.default)(this.fields.map(function (f) {
         return f.label;
       })));
       var rows = this.submissions.map(function (s, i) {
-        var row = [i + 1, _this2.formatDate(s.submittedAt)];
-        _this2.fields.forEach(function (f) {
+        var row = [i + 1, _this3.formatDate(s.submittedAt)];
+        _this3.fields.forEach(function (f) {
           var _s$data;
-          return row.push(_this2.formatVal((_s$data = s.data) === null || _s$data === void 0 ? void 0 : _s$data[f.id]));
+          return row.push(_this3.formatVal((_s$data = s.data) === null || _s$data === void 0 ? void 0 : _s$data[f.id]));
         });
         return row.join(',');
       });
@@ -312,14 +373,14 @@ var _default = {
       });
     },
     clearAll: function clearAll() {
-      var _this3 = this;
-      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee2() {
+      var _this4 = this;
+      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee3() {
         var res, pages, options;
-        return _regenerator.default.wrap(function _callee2$(_context2) {
+        return _regenerator.default.wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
-                _context2.next = 2;
+                _context3.next = 2;
                 return new Promise(function (r) {
                   return uni.showModal({
                     title: '确认清空',
@@ -330,39 +391,39 @@ var _default = {
                   });
                 });
               case 2:
-                res = _context2.sent;
+                res = _context3.sent;
                 if (res) {
-                  _context2.next = 5;
+                  _context3.next = 5;
                   break;
                 }
-                return _context2.abrupt("return");
+                return _context3.abrupt("return");
               case 5:
-                _context2.prev = 5;
+                _context3.prev = 5;
                 pages = getCurrentPages();
                 options = pages[pages.length - 1].options;
-                _context2.next = 10;
+                _context3.next = 10;
                 return (0, _api.clearSubmissions)(options.id);
               case 10:
-                _this3.submissions = [];
+                _this4.submissions = [];
                 uni.showToast({
                   title: '已清空',
                   icon: 'success'
                 });
-                _context2.next = 17;
+                _context3.next = 17;
                 break;
               case 14:
-                _context2.prev = 14;
-                _context2.t0 = _context2["catch"](5);
+                _context3.prev = 14;
+                _context3.t0 = _context3["catch"](5);
                 uni.showToast({
                   title: '清空失败',
                   icon: 'none'
                 });
               case 17:
               case "end":
-                return _context2.stop();
+                return _context3.stop();
             }
           }
-        }, _callee2, null, [[5, 14]]);
+        }, _callee3, null, [[5, 14]]);
       }))();
     }
   }

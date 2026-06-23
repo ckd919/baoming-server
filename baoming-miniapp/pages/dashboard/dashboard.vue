@@ -155,12 +155,22 @@ export default {
     async handleCopy(activity) {
       const res = await new Promise(r => uni.showModal({
         title: '复制活动',
-        content: `确定要复制「${activity.name}」吗？将生成一个副本（含表单字段，草稿状态）`,
-        success: e => r(e.confirm)
+        content: `确定要复制「${activity.name}」吗？\n将生成一个副本（含表单字段，草稿状态）`,
+        confirmText: '仅复制活动',
+        cancelText: '取消',
+        success: e => r(e.confirm ? 'only' : null)
       }))
       if (!res) return
+      // 询问是否同时复制管理员
+      const res2 = await new Promise(r => uni.showModal({
+        title: '复制管理员',
+        content: '是否同时复制该活动的管理员绑定？',
+        confirmText: '一起复制',
+        cancelText: '不复制',
+        success: e => r(e.confirm)
+      }))
       try {
-        const result = await duplicateActivity(activity.id)
+        await duplicateActivity(activity.id, !!res2)
         uni.showToast({ title: '复制成功', icon: 'success' })
         this.loadActivities()
       } catch (err) {

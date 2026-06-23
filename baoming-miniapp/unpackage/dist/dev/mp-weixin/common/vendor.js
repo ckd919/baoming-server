@@ -12806,17 +12806,20 @@ function duplicateActivity(_x14) {
 } // ==================== 提交数据 ====================
 function _duplicateActivity() {
   _duplicateActivity = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee14(id) {
-    var data;
+    var copyAdmins,
+      data,
+      _args14 = arguments;
     return _regenerator.default.wrap(function _callee14$(_context14) {
       while (1) {
         switch (_context14.prev = _context14.next) {
           case 0:
-            _context14.next = 2;
-            return request('POST', "/activities/".concat(id, "/duplicate"));
-          case 2:
+            copyAdmins = _args14.length > 1 && _args14[1] !== undefined ? _args14[1] : false;
+            _context14.next = 3;
+            return request('POST', "/activities/".concat(id, "/duplicate?copyAdmins=").concat(copyAdmins));
+          case 3:
             data = _context14.sent;
             return _context14.abrupt("return", data);
-          case 4:
+          case 5:
           case "end":
             return _context14.stop();
         }

@@ -27,4 +27,16 @@
   display: flex; gap: 16rpx; padding: 20rpx; background: #fff;
   border-top: 2rpx solid #f0ede9;
 }
+.card-title.data-v-5997cf46 { font-size: 30rpx; font-weight: 600; display: block; margin-bottom: 16rpx;
+}
+.cancel-item.data-v-5997cf46 { display: flex; justify-content: space-between; align-items: center; padding: 16rpx 0; border-bottom: 2rpx solid #f5f1ec;
+}
+.cr-name.data-v-5997cf46 { font-size: 26rpx; font-weight: 500;
+}
+.cr-reason.data-v-5997cf46 { font-size: 22rpx; color: #999; display: block;
+}
+.cr-actions.data-v-5997cf46 { display: flex; gap: 12rpx; flex-shrink: 0;
+}
+.cr-actions .btn-sm.data-v-5997cf46 { padding: 8rpx 20rpx; font-size: 22rpx; border-radius: 20rpx;
+}
 

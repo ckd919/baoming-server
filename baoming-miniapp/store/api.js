@@ -139,9 +139,9 @@ export async function restoreActivity(id) {
   await request('POST', `/activities/${id}/restore`)
 }
 
-export async function duplicateActivity(id) {
-  const data = await request('POST', `/activities/${id}/duplicate`)
-  return data  // { ok: true, id: newId }
+export async function duplicateActivity(id, copyAdmins = false) {
+  const data = await request('POST', `/activities/${id}/duplicate?copyAdmins=${copyAdmins}`)
+  return data
 }
 
 // ==================== 提交数据 ====================

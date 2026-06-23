@@ -42,12 +42,14 @@ var render = function () {
   var _c = _vm._self._c || _h
   var g0 = _vm.admins.length
   var g1 = !_vm.loading ? _vm.admins.length : null
+  var g2 = _vm.isOwner && _vm.historyAdmins.length > 0
   _vm.$mp.data = Object.assign(
     {},
     {
       $root: {
         g0: g0,
         g1: g1,
+        g2: g2,
       },
     }
   )
@@ -222,12 +224,29 @@ var _api = __webpack_require__(/*! @/store/api.js */ 46);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var _default = {
   data: function data() {
     return {
       activityId: '',
       activityName: '',
       admins: [],
+      historyAdmins: [],
       inviteToken: '',
       // 管理员邀请 token
       genLoading: false,
@@ -253,7 +272,7 @@ var _default = {
     loadData: function loadData() {
       var _this = this;
       return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee() {
-        var _yield$Promise$all, _yield$Promise$all2, activity, admins, userStr, user;
+        var _yield$Promise$all, _yield$Promise$all2, activity, admins, history, currentAdminIds, userStr, user;
         return _regenerator.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -265,16 +284,26 @@ var _default = {
                   return null;
                 }), (0, _api.getActivityAdmins)(_this.activityId).catch(function () {
                   return [];
+                }), (0, _api.getAdminHistory)().catch(function () {
+                  return [];
                 })]);
               case 4:
                 _yield$Promise$all = _context.sent;
-                _yield$Promise$all2 = (0, _slicedToArray2.default)(_yield$Promise$all, 2);
+                _yield$Promise$all2 = (0, _slicedToArray2.default)(_yield$Promise$all, 3);
                 activity = _yield$Promise$all2[0];
                 admins = _yield$Promise$all2[1];
+                history = _yield$Promise$all2[2];
                 if (activity) {
                   _this.activityName = activity.name;
                 }
                 _this.admins = admins || [];
+                // 过滤掉已经是当前活动管理员的
+                currentAdminIds = (admins || []).map(function (a) {
+                  return a.userId;
+                });
+                _this.historyAdmins = (history || []).filter(function (h) {
+                  return !currentAdminIds.includes(h.adminId);
+                });
 
                 // 判断当前用户是否为创建者
                 userStr = uni.getStorageSync('bm_user');
@@ -286,25 +315,25 @@ var _default = {
                     _this.isOwner = false;
                   }
                 }
-                _context.next = 17;
+                _context.next = 20;
                 break;
-              case 14:
-                _context.prev = 14;
+              case 17:
+                _context.prev = 17;
                 _context.t0 = _context["catch"](1);
                 uni.showToast({
                   title: '加载失败: ' + _context.t0.message,
                   icon: 'none'
                 });
-              case 17:
-                _context.prev = 17;
-                _this.loading = false;
-                return _context.finish(17);
               case 20:
+                _context.prev = 20;
+                _this.loading = false;
+                return _context.finish(20);
+              case 23:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[1, 14, 17, 20]]);
+        }, _callee, null, [[1, 17, 20, 23]]);
       }))();
     },
     handleAddAdmin: function handleAddAdmin() {
@@ -408,44 +437,77 @@ var _default = {
         }, _callee3, null, [[5, 12]]);
       }))();
     },
-    /** 生成管理员邀请 token */handleGenInviteToken: function handleGenInviteToken() {
+    /** 从历史记录快速添加管理员 */quickAddAdmin: function quickAddAdmin(h) {
       var _this4 = this;
       return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee4() {
-        var result;
         return _regenerator.default.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                _this4.genLoading = true;
-                _context4.prev = 1;
-                _context4.next = 4;
-                return (0, _api.generateAdminInviteToken)(_this4.activityId);
+                _context4.prev = 0;
+                _context4.next = 3;
+                return (0, _api.addActivityAdmin)(_this4.activityId, h.phone);
+              case 3:
+                uni.showToast({
+                  title: '已添加 ' + (h.nickname || h.phone),
+                  icon: 'success'
+                });
+                _this4.loadData();
+                _context4.next = 10;
+                break;
+              case 7:
+                _context4.prev = 7;
+                _context4.t0 = _context4["catch"](0);
+                uni.showToast({
+                  title: '添加失败: ' + _context4.t0.message,
+                  icon: 'none'
+                });
+              case 10:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4, null, [[0, 7]]);
+      }))();
+    },
+    /** 生成管理员邀请 token */handleGenInviteToken: function handleGenInviteToken() {
+      var _this5 = this;
+      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee5() {
+        var result;
+        return _regenerator.default.wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                _this5.genLoading = true;
+                _context5.prev = 1;
+                _context5.next = 4;
+                return (0, _api.generateAdminInviteToken)(_this5.activityId);
               case 4:
-                result = _context4.sent;
-                _this4.inviteToken = result.inviteToken;
+                result = _context5.sent;
+                _this5.inviteToken = result.inviteToken;
                 uni.showToast({
                   title: '邀请已生成，点击下方按钮发送',
                   icon: 'success'
                 });
-                _context4.next = 12;
+                _context5.next = 12;
                 break;
               case 9:
-                _context4.prev = 9;
-                _context4.t0 = _context4["catch"](1);
+                _context5.prev = 9;
+                _context5.t0 = _context5["catch"](1);
                 uni.showToast({
                   title: '生成邀请失败',
                   icon: 'none'
                 });
               case 12:
-                _context4.prev = 12;
-                _this4.genLoading = false;
-                return _context4.finish(12);
+                _context5.prev = 12;
+                _this5.genLoading = false;
+                return _context5.finish(12);
               case 15:
               case "end":
-                return _context4.stop();
+                return _context5.stop();
             }
           }
-        }, _callee4, null, [[1, 9, 12, 15]]);
+        }, _callee5, null, [[1, 9, 12, 15]]);
       }))();
     }
   },

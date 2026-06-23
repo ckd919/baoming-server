@@ -30,6 +30,21 @@
       </view>
     </view>
 
+    <!-- 取消申请审核 -->
+    <view class="card" v-if="cancelRequests.length > 0" style="margin-top:20rpx">
+      <text class="card-title">⏳ 取消报名申请 ({{ cancelRequests.length }})</text>
+      <view class="cancel-item" v-for="cr in cancelRequests" :key="cr.id">
+        <view class="cr-info">
+          <text class="cr-name">{{ cr.nickname }}</text>
+          <text class="cr-reason" v-if="cr.reason">原因：{{ cr.reason }}</text>
+        </view>
+        <view class="cr-actions">
+          <button class="btn-sm" style="background:#4CAF50;color:#fff;border:none" @click="handleReview(cr.id, 'approve')">同意</button>
+          <button class="btn-sm" style="background:#D32F2F;color:#fff;border:none" @click="handleReview(cr.id, 'reject')">拒绝</button>
+        </view>
+      </view>
+    </view>
+
     <!-- 底部操作 -->
     <view class="fixed-bottom" v-if="submissions.length > 0">
       <button class="btn-outline" @click="exportCSV">📥 导出</button>
@@ -39,13 +54,14 @@
 </template>
 
 <script>
-import { getActivity, getSubmissions, clearSubmissions } from '@/store/api.js'
+import { getActivity, getSubmissions, clearSubmissions, getCancelRequests, reviewCancelRequest } from '@/store/api.js'
 
 export default {
   data() {
     return {
       fields: [],
-      submissions: []
+      submissions: [],
+      cancelRequests: []
     }
   },
   onLoad(options) {
@@ -55,14 +71,28 @@ export default {
   methods: {
     async loadData(activityId) {
       try {
-        const [activity, submissions] = await Promise.all([
+        const [activity, submissions, requests] = await Promise.all([
           getActivity(activityId),
-          getSubmissions(activityId)
+          getSubmissions(activityId),
+          getCancelRequests(activityId).catch(() => [])
         ])
         this.fields = activity?.fields || []
         this.submissions = submissions || []
+        this.cancelRequests = requests || []
       } catch (err) {
         uni.showToast({ title: '加载失败', icon: 'none' })
+      }
+    },
+    async handleReview(requestId, action) {
+      try {
+        await reviewCancelRequest(requestId, action)
+        uni.showToast({ title: action === 'approve' ? '已同意取消' : '已拒绝', icon: 'success' })
+        // 重新加载
+        const pages = getCurrentPages()
+        const options = pages[pages.length - 1].options
+        this.loadData(options.id)
+      } catch (err) {
+        uni.showToast({ title: '操作失败', icon: 'none' })
       }
     },
     formatVal(val) {
@@ -132,4 +162,10 @@ export default {
   display: flex; gap: 16rpx; padding: 20rpx; background: #fff;
   border-top: 2rpx solid #f0ede9;
 }
+.card-title { font-size: 30rpx; font-weight: 600; display: block; margin-bottom: 16rpx; }
+.cancel-item { display: flex; justify-content: space-between; align-items: center; padding: 16rpx 0; border-bottom: 2rpx solid #f5f1ec; }
+.cr-name { font-size: 26rpx; font-weight: 500; }
+.cr-reason { font-size: 22rpx; color: #999; display: block; }
+.cr-actions { display: flex; gap: 12rpx; flex-shrink: 0; }
+.cr-actions .btn-sm { padding: 8rpx 20rpx; font-size: 22rpx; border-radius: 20rpx; }
 </style>

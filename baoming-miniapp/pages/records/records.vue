@@ -101,8 +101,8 @@
           </view>
           <view class="rc-actions" v-if="s.canCancel">
             <button class="btn-outline btn-sm" style="color:#D32F2F;border-color:#D32F2F"
-                    @click.stop="handleCancel(s.id)">
-              取消报名
+                    @click.stop="handleRequestCancel(s.id)">
+              申请取消
             </button>
           </view>
         </view>
@@ -113,7 +113,7 @@
 
 <script>
 import { getRecentViews, clearRecentViews } from '@/utils/recentViews.js'
-import { getManagedActivities, getMySubmissions, cancelSubmission } from '@/store/api.js'
+import { getManagedActivities, getMySubmissions, requestCancel } from '@/store/api.js'
 
 export default {
   data() {
@@ -177,18 +177,18 @@ export default {
         }
       })
     },
-    async handleCancel(submissionId) {
+    async handleRequestCancel(submissionId) {
       const res = await new Promise(r => uni.showModal({
-        title: '确认取消', content: '确定取消此报名？',
+        title: '申请取消报名',
+        content: '取消报名需要管理员或创建者审核同意，确定申请吗？',
         success: e => r(e.confirm)
       }))
       if (!res) return
       try {
-        await cancelSubmission(submissionId)
-        uni.showToast({ title: '已取消', icon: 'success' })
-        this.loadParticipated()
+        await requestCancel(submissionId, '')
+        uni.showToast({ title: '已提交申请，等待审核', icon: 'success' })
       } catch (err) {
-        uni.showToast({ title: '取消失败', icon: 'none' })
+        uni.showToast({ title: '申请失败: ' + err.message, icon: 'none' })
       }
     },
     goForm(id) {

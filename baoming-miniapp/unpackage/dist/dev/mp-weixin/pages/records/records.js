@@ -440,8 +440,7 @@ var _default = {
         }
       });
     },
-    handleCancel: function handleCancel(submissionId) {
-      var _this4 = this;
+    handleRequestCancel: function handleRequestCancel(submissionId) {
       return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee3() {
         var res;
         return _regenerator.default.wrap(function _callee3$(_context3) {
@@ -451,8 +450,8 @@ var _default = {
                 _context3.next = 2;
                 return new Promise(function (r) {
                   return uni.showModal({
-                    title: '确认取消',
-                    content: '确定取消此报名？',
+                    title: '申请取消报名',
+                    content: '取消报名需要管理员或创建者审核同意，确定申请吗？',
                     success: function success(e) {
                       return r(e.confirm);
                     }
@@ -468,28 +467,27 @@ var _default = {
               case 5:
                 _context3.prev = 5;
                 _context3.next = 8;
-                return (0, _api.cancelSubmission)(submissionId);
+                return (0, _api.requestCancel)(submissionId, '');
               case 8:
                 uni.showToast({
-                  title: '已取消',
+                  title: '已提交申请，等待审核',
                   icon: 'success'
                 });
-                _this4.loadParticipated();
-                _context3.next = 15;
+                _context3.next = 14;
                 break;
-              case 12:
-                _context3.prev = 12;
+              case 11:
+                _context3.prev = 11;
                 _context3.t0 = _context3["catch"](5);
                 uni.showToast({
-                  title: '取消失败',
+                  title: '申请失败: ' + _context3.t0.message,
                   icon: 'none'
                 });
-              case 15:
+              case 14:
               case "end":
                 return _context3.stop();
             }
           }
-        }, _callee3, null, [[5, 12]]);
+        }, _callee3, null, [[5, 11]]);
       }))();
     },
     goForm: function goForm(id) {

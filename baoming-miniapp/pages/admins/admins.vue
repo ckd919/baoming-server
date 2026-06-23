@@ -64,6 +64,22 @@
       </text>
     </view>
 
+    <!-- 历史管理员快速添加 -->
+    <view class="card" v-if="isOwner && historyAdmins.length > 0">
+      <text class="card-title">⭐ 曾经的管理员</text>
+      <text class="card-desc">点击快速添加，无需重新邀请</text>
+      <view class="history-item" v-for="h in historyAdmins" :key="h.adminId"
+            @click="quickAddAdmin(h)">
+        <image v-if="h.avatarUrl" :src="h.avatarUrl" class="hi-avatar" mode="aspectFill" />
+        <text v-else class="hi-avatar-text">👤</text>
+        <view class="hi-info">
+          <text class="hi-name">{{ h.nickname || '用户' }}</text>
+          <text class="hi-phone">{{ h.phone }}</text>
+        </view>
+        <text class="hi-add">+添加</text>
+      </view>
+    </view>
+
     <!-- 手机号添加管理员（备用） -->
     <view class="card" v-if="isOwner">
       <text class="card-title">➕ 通过手机号添加</text>
@@ -126,7 +142,7 @@
 </template>
 
 <script>
-import { getActivityAdmins, addActivityAdmin, removeActivityAdmin, getActivity, generateAdminInviteToken } from '@/store/api.js'
+import { getActivityAdmins, addActivityAdmin, removeActivityAdmin, getActivity, generateAdminInviteToken, getAdminHistory } from '@/store/api.js'
 
 export default {
   data() {
@@ -134,6 +150,7 @@ export default {
       activityId: '',
       activityName: '',
       admins: [],
+      historyAdmins: [],
       inviteToken: '',  // 管理员邀请 token
       genLoading: false,
       isOwner: false,
@@ -156,14 +173,18 @@ export default {
       this.loading = true
       try {
         // 并行加载活动信息和管理员列表
-        const [activity, admins] = await Promise.all([
+        const [activity, admins, history] = await Promise.all([
           getActivity(this.activityId).catch(() => null),
-          getActivityAdmins(this.activityId).catch(() => [])
+          getActivityAdmins(this.activityId).catch(() => []),
+          getAdminHistory().catch(() => [])
         ])
         if (activity) {
           this.activityName = activity.name
         }
         this.admins = admins || []
+        // 过滤掉已经是当前活动管理员的
+        const currentAdminIds = (admins || []).map(a => a.userId)
+        this.historyAdmins = (history || []).filter(h => !currentAdminIds.includes(h.adminId))
 
         // 判断当前用户是否为创建者
         const userStr = uni.getStorageSync('bm_user')
@@ -213,6 +234,17 @@ export default {
         this.loadData()
       } catch (err) {
         uni.showToast({ title: '移除失败', icon: 'none' })
+      }
+    },
+
+    /** 从历史记录快速添加管理员 */
+    async quickAddAdmin(h) {
+      try {
+        await addActivityAdmin(this.activityId, h.phone)
+        uni.showToast({ title: '已添加 ' + (h.nickname || h.phone), icon: 'success' })
+        this.loadData()
+      } catch (err) {
+        uni.showToast({ title: '添加失败: ' + err.message, icon: 'none' })
       }
     },
 
@@ -319,4 +351,12 @@ export default {
   display: flex; align-items: center; justify-content: center;
   margin-top: 16rpx;
 }
+
+.history-item { display: flex; align-items: center; gap: 16rpx; padding: 16rpx; background: #f9f8f6; border-radius: 12rpx; margin-bottom: 10rpx; }
+.hi-avatar { width: 64rpx; height: 64rpx; border-radius: 50%; }
+.hi-avatar-text { font-size: 32rpx; width: 64rpx; text-align: center; }
+.hi-info { flex: 1; }
+.hi-name { font-size: 26rpx; font-weight: 500; display: block; }
+.hi-phone { font-size: 22rpx; color: #999; }
+.hi-add { color: #D4720D; font-size: 24rpx; font-weight: 500; }
 </style>
