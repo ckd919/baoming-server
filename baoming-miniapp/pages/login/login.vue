@@ -4,7 +4,7 @@
       <image v-if="avatarUrl" :src="avatarUrl" class="avatar-img" />
       <text v-else>🐻</text>
     </view>
-    <view class="login-title">小棕熊预约报名</view>
+    <view class="login-title">熊熊活动助手</view>
     <view class="login-desc">活动预约 · 培训报名 · 场馆预约</view>
 
     <view class="login-card">

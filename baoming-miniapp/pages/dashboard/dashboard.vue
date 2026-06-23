@@ -17,7 +17,7 @@
         </view>
         <view class="header-text">
           <view class="greeting">Hi~ 欢迎回来</view>
-          <view class="title">小棕熊预约报名</view>
+          <view class="title">熊熊活动助手</view>
         </view>
       </view>
     </view>

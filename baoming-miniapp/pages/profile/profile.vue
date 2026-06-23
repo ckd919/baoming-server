@@ -4,7 +4,7 @@
     <view v-if="!isLoggedIn" class="unlogged">
       <view class="profile-header-outer">
         <view class="ph-logo">🐻</view>
-        <view class="ph-title">小棕熊预约报名</view>
+        <view class="ph-title">熊熊活动助手</view>
         <view class="ph-desc">微信授权登录，无需手机号</view>
       </view>
 
@@ -554,7 +554,7 @@ export default {
     showAbout() {
       uni.showModal({
         title: '关于我们',
-        content: '小棕熊预约报名 v1.0.0\n\n活动预约报名工具——培训讲座、聚会活动、场馆预约、信息登记，快速创建报名表，管理报名数据。\n\n© 2026 小棕熊',
+        content: '熊熊活动助手 v1.0.0\n\n活动预约报名工具——培训讲座、聚会活动、场馆预约、信息登记，快速创建报名表，管理报名数据。\n\n© 2026 小棕熊',
         showCancel: false,
         confirmText: '知道了'
       })
