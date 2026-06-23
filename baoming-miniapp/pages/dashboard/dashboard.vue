@@ -155,6 +155,11 @@ export default {
       return `${d.getMonth()+1}月${d.getDate()}日`
     },
     async handleStop(id) {
+      const res = await new Promise(r => uni.showModal({
+        title: '确认截止', content: '截止后报名将立即关闭，确定吗？',
+        confirmText: '确定截止', success: e => r(e.confirm)
+      }))
+      if (!res) return
       try {
         await stopRegistration(id)
         uni.showToast({ title: '已截止', icon: 'success' })
@@ -162,6 +167,11 @@ export default {
       } catch (err) { uni.showToast({ title: '操作失败', icon: 'none' }) }
     },
     async handleRestart(id) {
+      const res = await new Promise(r => uni.showModal({
+        title: '确认开启', content: '将恢复报名，确定吗？',
+        confirmText: '确定开启', success: e => r(e.confirm)
+      }))
+      if (!res) return
       try {
         await restartRegistration(id)
         uni.showToast({ title: '已开启', icon: 'success' })

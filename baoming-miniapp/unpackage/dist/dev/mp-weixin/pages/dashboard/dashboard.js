@@ -389,67 +389,107 @@ var _default = {
     handleStop: function handleStop(id) {
       var _this3 = this;
       return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee2() {
+        var res;
         return _regenerator.default.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                _context2.prev = 0;
-                _context2.next = 3;
+                _context2.next = 2;
+                return new Promise(function (r) {
+                  return uni.showModal({
+                    title: '确认截止',
+                    content: '截止后报名将立即关闭，确定吗？',
+                    confirmText: '确定截止',
+                    success: function success(e) {
+                      return r(e.confirm);
+                    }
+                  });
+                });
+              case 2:
+                res = _context2.sent;
+                if (res) {
+                  _context2.next = 5;
+                  break;
+                }
+                return _context2.abrupt("return");
+              case 5:
+                _context2.prev = 5;
+                _context2.next = 8;
                 return (0, _api.stopRegistration)(id);
-              case 3:
+              case 8:
                 uni.showToast({
                   title: '已截止',
                   icon: 'success'
                 });
                 _this3.loadActivities();
-                _context2.next = 10;
+                _context2.next = 15;
                 break;
-              case 7:
-                _context2.prev = 7;
-                _context2.t0 = _context2["catch"](0);
+              case 12:
+                _context2.prev = 12;
+                _context2.t0 = _context2["catch"](5);
                 uni.showToast({
                   title: '操作失败',
                   icon: 'none'
                 });
-              case 10:
+              case 15:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, null, [[0, 7]]);
+        }, _callee2, null, [[5, 12]]);
       }))();
     },
     handleRestart: function handleRestart(id) {
       var _this4 = this;
       return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee3() {
+        var res;
         return _regenerator.default.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                _context3.prev = 0;
-                _context3.next = 3;
+                _context3.next = 2;
+                return new Promise(function (r) {
+                  return uni.showModal({
+                    title: '确认开启',
+                    content: '将恢复报名，确定吗？',
+                    confirmText: '确定开启',
+                    success: function success(e) {
+                      return r(e.confirm);
+                    }
+                  });
+                });
+              case 2:
+                res = _context3.sent;
+                if (res) {
+                  _context3.next = 5;
+                  break;
+                }
+                return _context3.abrupt("return");
+              case 5:
+                _context3.prev = 5;
+                _context3.next = 8;
                 return (0, _api.restartRegistration)(id);
-              case 3:
+              case 8:
                 uni.showToast({
                   title: '已开启',
                   icon: 'success'
                 });
                 _this4.loadActivities();
-                _context3.next = 10;
+                _context3.next = 15;
                 break;
-              case 7:
-                _context3.prev = 7;
-                _context3.t0 = _context3["catch"](0);
+              case 12:
+                _context3.prev = 12;
+                _context3.t0 = _context3["catch"](5);
                 uni.showToast({
                   title: '操作失败',
                   icon: 'none'
                 });
-              case 10:
+              case 15:
               case "end":
                 return _context3.stop();
             }
           }
-        }, _callee3, null, [[0, 7]]);
+        }, _callee3, null, [[5, 12]]);
       }))();
     },
     handleCopy: function handleCopy(activity) {
