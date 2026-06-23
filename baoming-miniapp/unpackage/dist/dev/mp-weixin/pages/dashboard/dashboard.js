@@ -387,26 +387,25 @@ var _default = {
     handleCopy: function handleCopy(activity) {
       var _this3 = this;
       return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee2() {
-        var res, res2;
+        var res1, res2;
         return _regenerator.default.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
                 _context2.next = 2;
                 return new Promise(function (r) {
-                  return uni.showModal({
+                  uni.showModal({
                     title: '复制活动',
-                    content: "\u786E\u5B9A\u8981\u590D\u5236\u300C".concat(activity.name, "\u300D\u5417\uFF1F\n\u5C06\u751F\u6210\u4E00\u4E2A\u526F\u672C\uFF08\u542B\u8868\u5355\u5B57\u6BB5\uFF0C\u8349\u7A3F\u72B6\u6001\uFF09"),
-                    confirmText: '仅复制活动',
-                    cancelText: '取消',
+                    content: "\u786E\u5B9A\u590D\u5236\u300C".concat(activity.name, "\u300D\u5417\uFF1F"),
+                    confirmText: '复制',
                     success: function success(e) {
-                      return r(e.confirm ? 'only' : null);
+                      return r(e.confirm);
                     }
                   });
                 });
               case 2:
-                res = _context2.sent;
-                if (res) {
+                res1 = _context2.sent;
+                if (res1) {
                   _context2.next = 5;
                   break;
                 }
@@ -414,9 +413,9 @@ var _default = {
               case 5:
                 _context2.next = 7;
                 return new Promise(function (r) {
-                  return uni.showModal({
-                    title: '复制管理员',
-                    content: '是否同时复制该活动的管理员绑定？',
+                  uni.showModal({
+                    title: '同时复制管理员？',
+                    content: '是否复制该活动的管理员绑定到新活动？',
                     confirmText: '一起复制',
                     cancelText: '不复制',
                     success: function success(e) {
@@ -428,7 +427,7 @@ var _default = {
                 res2 = _context2.sent;
                 _context2.prev = 8;
                 _context2.next = 11;
-                return (0, _api.duplicateActivity)(activity.id, !!res2);
+                return (0, _api.duplicateActivity)(activity.id, res2);
               case 11:
                 uni.showToast({
                   title: '复制成功',
