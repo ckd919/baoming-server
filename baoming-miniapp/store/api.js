@@ -3,7 +3,7 @@
  * 后端地址需替换为你的域名
  */
 
-const API_BASE = 'http://8.134.252.128/api'
+const API_BASE = 'https://ledbell.cn/api'
 
 function getToken() {
   return uni.getStorageSync('bm_token') || ''

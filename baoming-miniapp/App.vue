@@ -3,7 +3,7 @@ export default {
   globalData: {
     token: '',
     user: null,
-    apiBase: 'http://8.134.252.128/api',
+    apiBase: 'https://ledbell.cn/api',
     groupId: ''   // 从微信群进入时的群openGId
   },
   onLaunch() {

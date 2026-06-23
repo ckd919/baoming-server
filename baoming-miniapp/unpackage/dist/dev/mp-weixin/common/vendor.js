@@ -12426,7 +12426,7 @@ var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/r
  * 后端地址需替换为你的域名
  */
 
-var API_BASE = 'http://8.134.252.128/api';
+var API_BASE = 'https://ledbell.cn/api';
 function getToken() {
   return uni.getStorageSync('bm_token') || '';
 }
