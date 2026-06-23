@@ -242,10 +242,6 @@ var _api = __webpack_require__(/*! @/store/api.js */ 46);
 //
 //
 //
-//
-//
-//
-//
 var _default = {
   data: function data() {
     return {
@@ -268,10 +264,6 @@ var _default = {
     };
   },
   computed: {
-    miniPath: function miniPath() {
-      if (!this.activity) return '';
-      return "/pages/form/form?id=".concat(this.activity.id);
-    },
     shareLevelHint: function shareLevelHint() {
       var hints = {
         'all': '✅ 填写报名的人都可以将此活动分享给朋友',
@@ -328,16 +320,6 @@ var _default = {
           }
         }, _callee, null, [[0, 8]]);
       }))();
-    },
-    copyPath: function copyPath() {
-      uni.setClipboardData({
-        data: this.miniPath,
-        success: function success() {
-          return uni.showToast({
-            title: '路径已复制'
-          });
-        }
-      });
     },
     setShareLevel: function setShareLevel(level) {
       var _this2 = this;

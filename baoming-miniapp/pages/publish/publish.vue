@@ -18,10 +18,6 @@
       <button class="wx-share-btn" open-type="share">
         <text>💬 分享给微信好友</text>
       </button>
-      <view class="url-box" style="margin-top:16rpx">
-        <text class="url-text">小程序路径：{{ miniPath }}</text>
-        <button class="btn-outline btn-sm" @click="copyPath">复制路径</button>
-      </view>
     </view>
 
     <!-- 分享权限设置 -->
@@ -117,10 +113,6 @@ export default {
     }
   },
   computed: {
-    miniPath() {
-      if (!this.activity) return ''
-      return `/pages/form/form?id=${this.activity.id}`
-    },
     shareLevelHint() {
       const hints = {
         'all': '✅ 填写报名的人都可以将此活动分享给朋友',
@@ -152,9 +144,6 @@ export default {
       } catch (err) {
         uni.showToast({ title: '加载失败', icon: 'none' })
       }
-    },
-    copyPath() {
-      uni.setClipboardData({ data: this.miniPath, success: () => uni.showToast({ title: '路径已复制' }) })
     },
     async setShareLevel(level) {
       this.shareLevel = level
