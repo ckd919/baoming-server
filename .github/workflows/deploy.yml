@@ -102,58 +102,68 @@ jobs:
             # 从环境变量读取数据库连接信息
             source /opt/baoming-server/.env
 
-            # 迁移 SQL（幂等操作，可重复执行）
-            psql "$SPRING_DATASOURCE_URL" << 'SQL_EOF'
+            # 迁移 SQL
+            psql "$SPRING_DATASOURCE_URL" -v ON_ERROR_STOP=1 << 'SQL_EOF'
+            DO $$
+            BEGIN
             -- V1: 角色权限分离
             ALTER TABLE users ADD COLUMN IF NOT EXISTS role VARCHAR(10) DEFAULT 'USER';
-            UPDATE users SET role = 'ADMIN' WHERE phone = '13310843925' AND (role IS NULL OR role = 'USER');
+            UPDATE users SET role = 'USER' WHERE role IS NULL;
+            UPDATE users SET role = 'ADMIN' WHERE phone = '13310843925';
             ALTER TABLE users ALTER COLUMN role SET DEFAULT 'USER';
-            ALTER TABLE users ALTER COLUMN role SET NOT NULL;
-            ALTER TABLE users ALTER COLUMN password DROP NOT NULL;
+            BEGIN ALTER TABLE users ALTER COLUMN role SET NOT NULL; EXCEPTION WHEN OTHERS THEN NULL; END;
+            BEGIN ALTER TABLE users ALTER COLUMN password DROP NOT NULL; EXCEPTION WHEN OTHERS THEN NULL; END;
             ALTER TABLE submissions ADD COLUMN IF NOT EXISTS user_id INTEGER;
             ALTER TABLE submissions ADD COLUMN IF NOT EXISTS phone VARCHAR(11);
             CREATE INDEX IF NOT EXISTS idx_submissions_user_id ON submissions(user_id);
             CREATE INDEX IF NOT EXISTS idx_submissions_phone ON submissions(phone);
             CREATE INDEX IF NOT EXISTS idx_users_role ON users(role);
 
-            -- V2: 管理员管理 + 分享权限 + 微信登录
+            -- V2
             ALTER TABLE users ADD COLUMN IF NOT EXISTS openid VARCHAR(100);
             ALTER TABLE users ADD COLUMN IF NOT EXISTS avatar_url VARCHAR(500) DEFAULT '';
-            ALTER TABLE users ALTER COLUMN phone DROP NOT NULL;
+            BEGIN ALTER TABLE users ALTER COLUMN phone DROP NOT NULL; EXCEPTION WHEN OTHERS THEN NULL; END;
             CREATE INDEX IF NOT EXISTS idx_users_openid ON users(openid);
             ALTER TABLE activities ADD COLUMN IF NOT EXISTS share_level VARCHAR(20) DEFAULT 'all';
             UPDATE activities SET share_level = 'creator' WHERE allow_share = false AND share_level = 'all';
             CREATE TABLE IF NOT EXISTS activity_admins (
-                id          SERIAL PRIMARY KEY,
-                activity_id VARCHAR(20) NOT NULL REFERENCES activities(id) ON DELETE CASCADE,
-                user_id     INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-                role        VARCHAR(20) DEFAULT 'admin',
-                created_at  BIGINT NOT NULL DEFAULT 0,
-                UNIQUE(activity_id, user_id)
-            );
+                id SERIAL PRIMARY KEY, activity_id VARCHAR(20) NOT NULL REFERENCES activities(id) ON DELETE CASCADE,
+                user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE, role VARCHAR(20) DEFAULT 'admin',
+                created_at BIGINT NOT NULL DEFAULT 0, UNIQUE(activity_id, user_id));
             CREATE INDEX IF NOT EXISTS idx_aa_activity ON activity_admins(activity_id);
             CREATE INDEX IF NOT EXISTS idx_aa_user ON activity_admins(user_id);
 
-            -- V3: 群限制访问
+            -- V3
             ALTER TABLE activities ADD COLUMN IF NOT EXISTS group_restricted BOOLEAN DEFAULT false;
             CREATE INDEX IF NOT EXISTS idx_activities_status ON activities(status);
 
-            -- V4: 管理员邀请 token
+            -- V4
             ALTER TABLE activities ADD COLUMN IF NOT EXISTS admin_invite_token VARCHAR(64);
 
-            -- V5: 留言+取消审核+管理员历史+一键截止
-            CREATE TABLE IF NOT EXISTS activity_comments (id SERIAL PRIMARY KEY, activity_id VARCHAR(20) NOT NULL REFERENCES activities(id) ON DELETE CASCADE, user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE, content TEXT NOT NULL, created_at BIGINT NOT NULL DEFAULT 0);
+            -- V5
+            CREATE TABLE IF NOT EXISTS activity_comments (
+                id SERIAL PRIMARY KEY, activity_id VARCHAR(20) NOT NULL REFERENCES activities(id) ON DELETE CASCADE,
+                user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE, content TEXT NOT NULL, created_at BIGINT NOT NULL DEFAULT 0);
             CREATE INDEX IF NOT EXISTS idx_ac_activity ON activity_comments(activity_id);
-            CREATE TABLE IF NOT EXISTS cancel_requests (id SERIAL PRIMARY KEY, submission_id VARCHAR(20) NOT NULL, activity_id VARCHAR(20) NOT NULL REFERENCES activities(id) ON DELETE CASCADE, user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE, reason TEXT DEFAULT '', status VARCHAR(20) DEFAULT 'pending', reviewed_by INTEGER, reviewed_at BIGINT, created_at BIGINT NOT NULL DEFAULT 0);
+            CREATE TABLE IF NOT EXISTS cancel_requests (
+                id SERIAL PRIMARY KEY, submission_id VARCHAR(20) NOT NULL,
+                activity_id VARCHAR(20) NOT NULL REFERENCES activities(id) ON DELETE CASCADE,
+                user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+                reason TEXT DEFAULT '', status VARCHAR(20) DEFAULT 'pending', reviewed_by INTEGER, reviewed_at BIGINT, created_at BIGINT NOT NULL DEFAULT 0);
             CREATE INDEX IF NOT EXISTS idx_cr_activity ON cancel_requests(activity_id);
             CREATE INDEX IF NOT EXISTS idx_cr_user ON cancel_requests(user_id);
-            CREATE TABLE IF NOT EXISTS admin_history (id SERIAL PRIMARY KEY, owner_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE, admin_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE, created_at BIGINT NOT NULL DEFAULT 0, UNIQUE(owner_id, admin_id));
+            CREATE TABLE IF NOT EXISTS admin_history (
+                id SERIAL PRIMARY KEY, owner_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+                admin_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+                created_at BIGINT NOT NULL DEFAULT 0, UNIQUE(owner_id, admin_id));
             CREATE INDEX IF NOT EXISTS idx_ah_owner ON admin_history(owner_id);
             ALTER TABLE activities ADD COLUMN IF NOT EXISTS original_end_time BIGINT;
 
-            -- V6: 快速填写
+            -- V6
             ALTER TABLE users ADD COLUMN IF NOT EXISTS real_name VARCHAR(50) DEFAULT '';
             ALTER TABLE users ADD COLUMN IF NOT EXISTS id_card VARCHAR(18) DEFAULT '';
+
+            END $$;
             SQL_EOF
 
             echo "=== Migration completed ==="
