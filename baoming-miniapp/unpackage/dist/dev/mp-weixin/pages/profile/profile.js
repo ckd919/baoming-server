@@ -111,21 +111,18 @@ var render = function () {
       _vm.agreed = !_vm.agreed
     }
     _vm.e1 = function ($event) {
-      _vm.showDevLogin = !_vm.showDevLogin
+      _vm.showQuickFill = true
     }
     _vm.e2 = function ($event) {
-      _vm.showQuickFill = true
+      _vm.showQuickFill = false
     }
     _vm.e3 = function ($event) {
       _vm.showQuickFill = false
     }
     _vm.e4 = function ($event) {
-      _vm.showQuickFill = false
-    }
-    _vm.e5 = function ($event) {
       _vm.showPhoneInput = !_vm.showPhoneInput
     }
-    _vm.e6 = function ($event) {
+    _vm.e5 = function ($event) {
       _vm.showNicknameEdit = !_vm.showNicknameEdit
     }
   }
@@ -398,24 +395,6 @@ var _api = __webpack_require__(/*! @/store/api.js */ 46);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 var _default = {
   data: function data() {
     return {
@@ -423,9 +402,6 @@ var _default = {
       loginAvatar: '',
       loginNickname: '',
       agreed: false,
-      showDevLogin: false,
-      devPhone: '13310843925',
-      devPassword: 'Aled2239',
       loading: false,
       // 用户信息
       isLoggedIn: false,
@@ -833,70 +809,16 @@ var _default = {
         }, _callee6, null, [[4, 15, 18, 21]]);
       }))();
     },
-    // ========== 开发者登录 ==========
-    handleDevLogin: function handleDevLogin() {
+    // ========== 退出登录 ==========
+    handleDeleteAccount: function handleDeleteAccount() {
       var _this7 = this;
       return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee7() {
-        var user;
+        var res, res2;
         return _regenerator.default.wrap(function _callee7$(_context7) {
           while (1) {
             switch (_context7.prev = _context7.next) {
               case 0:
-                if (_this7.agreed) {
-                  _context7.next = 3;
-                  break;
-                }
-                uni.showToast({
-                  title: '请先同意隐私协议',
-                  icon: 'none'
-                });
-                return _context7.abrupt("return");
-              case 3:
-                _this7.loading = true;
-                _context7.prev = 4;
-                _context7.next = 7;
-                return (0, _api.login)(_this7.devPhone, _this7.devPassword);
-              case 7:
-                user = _context7.sent;
-                getApp().globalData.user = user;
-                uni.showToast({
-                  title: '登录成功',
-                  icon: 'success'
-                });
-                setTimeout(function () {
-                  _this7.checkLoginState();
-                }, 300);
-                _context7.next = 16;
-                break;
-              case 13:
-                _context7.prev = 13;
-                _context7.t0 = _context7["catch"](4);
-                uni.showToast({
-                  title: _context7.t0.message || '登录失败',
-                  icon: 'none'
-                });
-              case 16:
-                _context7.prev = 16;
-                _this7.loading = false;
-                return _context7.finish(16);
-              case 19:
-              case "end":
-                return _context7.stop();
-            }
-          }
-        }, _callee7, null, [[4, 13, 16, 19]]);
-      }))();
-    },
-    // ========== 退出登录 ==========
-    handleDeleteAccount: function handleDeleteAccount() {
-      var _this8 = this;
-      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee8() {
-        var res, res2;
-        return _regenerator.default.wrap(function _callee8$(_context8) {
-          while (1) {
-            switch (_context8.prev = _context8.next) {
-              case 0:
-                _context8.next = 2;
+                _context7.next = 2;
                 return new Promise(function (r) {
                   return uni.showModal({
                     title: '注销账号',
@@ -909,14 +831,14 @@ var _default = {
                   });
                 });
               case 2:
-                res = _context8.sent;
+                res = _context7.sent;
                 if (res) {
-                  _context8.next = 5;
+                  _context7.next = 5;
                   break;
                 }
-                return _context8.abrupt("return");
+                return _context7.abrupt("return");
               case 5:
-                _context8.next = 7;
+                _context7.next = 7;
                 return new Promise(function (r) {
                   return uni.showModal({
                     title: '再次确认',
@@ -929,15 +851,15 @@ var _default = {
                   });
                 });
               case 7:
-                res2 = _context8.sent;
+                res2 = _context7.sent;
                 if (res2) {
-                  _context8.next = 10;
+                  _context7.next = 10;
                   break;
                 }
-                return _context8.abrupt("return");
+                return _context7.abrupt("return");
               case 10:
-                _context8.prev = 10;
-                _context8.next = 13;
+                _context7.prev = 10;
+                _context7.next = 13;
                 return (0, _api.deleteAccount)();
               case 13:
                 uni.removeStorageSync('bm_token');
@@ -949,27 +871,27 @@ var _default = {
                   icon: 'success'
                 });
                 setTimeout(function () {
-                  return _this8.checkLoginState();
+                  return _this7.checkLoginState();
                 }, 500);
-                _context8.next = 24;
+                _context7.next = 24;
                 break;
               case 21:
-                _context8.prev = 21;
-                _context8.t0 = _context8["catch"](10);
+                _context7.prev = 21;
+                _context7.t0 = _context7["catch"](10);
                 uni.showToast({
-                  title: '注销失败: ' + _context8.t0.message,
+                  title: '注销失败: ' + _context7.t0.message,
                   icon: 'none'
                 });
               case 24:
               case "end":
-                return _context8.stop();
+                return _context7.stop();
             }
           }
-        }, _callee8, null, [[10, 21]]);
+        }, _callee7, null, [[10, 21]]);
       }))();
     },
     handleLogout: function handleLogout() {
-      var _this9 = this;
+      var _this8 = this;
       uni.showModal({
         title: '退出登录',
         content: '确定要退出登录吗？',
@@ -979,11 +901,11 @@ var _default = {
             uni.removeStorageSync('bm_user');
             getApp().globalData.token = '';
             getApp().globalData.user = null;
-            _this9.isLoggedIn = false;
-            _this9.userPhone = '';
-            _this9.userNickname = '';
-            _this9.userAvatar = '';
-            _this9.userRole = '';
+            _this8.isLoggedIn = false;
+            _this8.userPhone = '';
+            _this8.userNickname = '';
+            _this8.userAvatar = '';
+            _this8.userRole = '';
             uni.showToast({
               title: '已退出',
               icon: 'success'

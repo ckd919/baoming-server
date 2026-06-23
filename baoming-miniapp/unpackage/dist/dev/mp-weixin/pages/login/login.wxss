@@ -68,10 +68,6 @@
 }
 .bottom-tip.data-v-b237504c { display: block; text-align: center; font-size: 24rpx; color: #999; margin-top: 12rpx;
 }
-.dev-toggle.data-v-b237504c { text-align: center; font-size: 22rpx; color: #ccc; margin-top: 24rpx; padding: 12rpx;
-}
-.form-group.data-v-b237504c { margin-bottom: 24rpx;
-}
 .form-label.data-v-b237504c { display: block; font-size: 28rpx; font-weight: 500; margin-bottom: 12rpx;
 }
 .back-link.data-v-b237504c { text-align: center; margin-top: 24rpx; padding: 12rpx;

@@ -106,9 +106,6 @@ var render = function () {
     _vm.e0 = function ($event) {
       _vm.agreed = !_vm.agreed
     }
-    _vm.e1 = function ($event) {
-      _vm.showDevLogin = !_vm.showDevLogin
-    }
   }
 }
 var recyclableRender = false
@@ -200,37 +197,13 @@ var _api = __webpack_require__(/*! @/store/api.js */ 46);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 var _default = {
   data: function data() {
     return {
       avatarUrl: '',
       nickname: '',
       loading: false,
-      agreed: false,
-      showDevLogin: false,
-      phone: '13310843925',
-      password: 'Aled2239'
+      agreed: false
     };
   },
   methods: {
@@ -306,62 +279,6 @@ var _default = {
             }
           }
         }, _callee, null, [[4, 18, 21, 24]]);
-      }))();
-    },
-    // 开发者登录
-    handleDevLogin: function handleDevLogin() {
-      var _this2 = this;
-      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee2() {
-        var user;
-        return _regenerator.default.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                if (_this2.agreed) {
-                  _context2.next = 3;
-                  break;
-                }
-                uni.showToast({
-                  title: '请先同意隐私协议',
-                  icon: 'none'
-                });
-                return _context2.abrupt("return");
-              case 3:
-                _this2.loading = true;
-                _context2.prev = 4;
-                _context2.next = 7;
-                return (0, _api.login)(_this2.phone, _this2.password);
-              case 7:
-                user = _context2.sent;
-                getApp().globalData.user = user;
-                uni.showToast({
-                  title: '登录成功',
-                  icon: 'success'
-                });
-                setTimeout(function () {
-                  uni.switchTab({
-                    url: '/pages/profile/profile'
-                  });
-                }, 500);
-                _context2.next = 16;
-                break;
-              case 13:
-                _context2.prev = 13;
-                _context2.t0 = _context2["catch"](4);
-                uni.showToast({
-                  title: _context2.t0.message || '登录失败',
-                  icon: 'none'
-                });
-              case 16:
-                _context2.prev = 16;
-                _this2.loading = false;
-                return _context2.finish(16);
-              case 19:
-              case "end":
-                return _context2.stop();
-            }
-          }
-        }, _callee2, null, [[4, 13, 16, 19]]);
       }))();
     },
     goPrivacy: function goPrivacy() {

@@ -38,24 +38,6 @@
 
         <text class="bottom-tip">点击授权即表示同意上述协议 · 无需手机号</text>
 
-        <!-- 开发者测试登录 -->
-        <view class="dev-toggle" @click="showDevLogin = !showDevLogin">
-          {{ showDevLogin ? '收起' : '开发者测试登录' }}
-        </view>
-        <view v-if="showDevLogin" class="dev-form">
-          <view class="form-group">
-            <text class="form-label">手机号码</text>
-            <input class="form-input" v-model="devPhone" type="number" maxlength="11" placeholder="请输入手机号码" />
-          </view>
-          <view class="form-group">
-            <text class="form-label">密码</text>
-            <input class="form-input" v-model="devPassword" type="password" placeholder="请输入密码" />
-          </view>
-          <button class="btn-primary btn-block" @click="handleDevLogin"
-                  :loading="loading" :disabled="loading || !agreed">
-            {{ loading ? '登录中...' : '账号登录' }}
-          </button>
-        </view>
       </view>
     </view>
 
@@ -234,7 +216,7 @@
 </template>
 
 <script>
-import { wechatAuthLogin, bindPhone, login, getMyProfile, updateProfile, deleteAccount } from '@/store/api.js'
+import { wechatAuthLogin, bindPhone, getMyProfile, updateProfile, deleteAccount } from '@/store/api.js'
 
 export default {
   data() {
@@ -243,9 +225,6 @@ export default {
       loginAvatar: '',
       loginNickname: '',
       agreed: false,
-      showDevLogin: false,
-      devPhone: '13310843925',
-      devPassword: 'Aled2239',
       loading: false,
 
       // 用户信息
@@ -468,28 +447,6 @@ export default {
       } finally { this.savingNickname = false }
     },
 
-    // ========== 开发者登录 ==========
-
-    async handleDevLogin() {
-      if (!this.agreed) {
-        uni.showToast({ title: '请先同意隐私协议', icon: 'none' })
-        return
-      }
-      this.loading = true
-      try {
-        const user = await login(this.devPhone, this.devPassword)
-        getApp().globalData.user = user
-        uni.showToast({ title: '登录成功', icon: 'success' })
-        setTimeout(() => {
-          this.checkLoginState()
-        }, 300)
-      } catch (err) {
-        uni.showToast({ title: err.message || '登录失败', icon: 'none' })
-      } finally {
-        this.loading = false
-      }
-    },
-
     // ========== 退出登录 ==========
 
     async handleDeleteAccount() {
@@ -626,10 +583,6 @@ export default {
 .wx-auth-btn[disabled] { opacity: 0.5; }
 .wx-icon { font-size: 40rpx; }
 .bottom-tip { display: block; text-align: center; font-size: 24rpx; color: #999; margin-top: 12rpx; }
-.dev-toggle { text-align: center; font-size: 22rpx; color: #ccc; margin-top: 24rpx; padding: 12rpx; }
-.dev-form { margin-top: 12rpx; }
-.form-group { margin-bottom: 24rpx; }
-.form-label { display: block; font-size: 28rpx; font-weight: 500; margin-bottom: 12rpx; }
 
 /* ====== 已登录 ====== */
 .logged { padding: 20rpx; }

@@ -37,27 +37,6 @@
 
       <text class="bottom-tip">首次使用点击授权即自动注册 · 无需手机号</text>
 
-      <!-- 开发模式：账号密码登录（仅测试用） -->
-      <view class="dev-toggle" @click="showDevLogin = !showDevLogin">
-        {{ showDevLogin ? '收起' : '开发者测试登录' }}
-      </view>
-      <view v-if="showDevLogin">
-        <view class="form-group">
-          <text class="form-label">手机号码</text>
-          <input class="form-input" v-model="phone" type="number" maxlength="11"
-                 placeholder="请输入手机号码" />
-        </view>
-        <view class="form-group">
-          <text class="form-label">密码</text>
-          <input class="form-input" v-model="password" type="password"
-                 placeholder="请输入密码" />
-        </view>
-        <button class="btn-primary btn-block" @click="handleDevLogin"
-                :loading="loading" :disabled="loading || !agreed">
-          {{ loading ? '登录中...' : '账号登录' }}
-        </button>
-      </view>
-
       <!-- 返回首页 -->
       <view class="back-link" @click="goHome">
         <text>返回首页</text>
@@ -67,7 +46,7 @@
 </template>
 
 <script>
-import { wechatAuthLogin, login } from '@/store/api.js'
+import { wechatAuthLogin } from '@/store/api.js'
 
 export default {
   data() {
@@ -75,10 +54,7 @@ export default {
       avatarUrl: '',
       nickname: '',
       loading: false,
-      agreed: false,
-      showDevLogin: false,
-      phone: '13310843925',
-      password: 'Aled2239'
+      agreed: false
     }
   },
   methods: {
@@ -120,25 +96,6 @@ export default {
       } finally {
         this.loading = false
       }
-    },
-
-    // 开发者登录
-    async handleDevLogin() {
-      if (!this.agreed) {
-        uni.showToast({ title: '请先同意隐私协议', icon: 'none' })
-        return
-      }
-      this.loading = true
-      try {
-        const user = await login(this.phone, this.password)
-        getApp().globalData.user = user
-        uni.showToast({ title: '登录成功', icon: 'success' })
-        setTimeout(() => {
-          uni.switchTab({ url: '/pages/profile/profile' })
-        }, 500)
-      } catch (err) {
-        uni.showToast({ title: err.message || '登录失败', icon: 'none' })
-      } finally { this.loading = false }
     },
 
     goPrivacy() {
@@ -214,8 +171,6 @@ export default {
 .wx-auth-btn[disabled] { opacity: 0.5; }
 .wx-icon { font-size: 40rpx; }
 .bottom-tip { display: block; text-align: center; font-size: 24rpx; color: #999; margin-top: 12rpx; }
-.dev-toggle { text-align: center; font-size: 22rpx; color: #ccc; margin-top: 24rpx; padding: 12rpx; }
-.form-group { margin-bottom: 24rpx; }
 .form-label { display: block; font-size: 28rpx; font-weight: 500; margin-bottom: 12rpx; }
 .back-link { text-align: center; margin-top: 24rpx; padding: 12rpx; }
 .back-link text { font-size: 26rpx; color: #999; }

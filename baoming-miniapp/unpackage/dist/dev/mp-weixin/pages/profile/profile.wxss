@@ -71,14 +71,6 @@
 }
 .bottom-tip.data-v-60cb334c { display: block; text-align: center; font-size: 24rpx; color: #999; margin-top: 12rpx;
 }
-.dev-toggle.data-v-60cb334c { text-align: center; font-size: 22rpx; color: #ccc; margin-top: 24rpx; padding: 12rpx;
-}
-.dev-form.data-v-60cb334c { margin-top: 12rpx;
-}
-.form-group.data-v-60cb334c { margin-bottom: 24rpx;
-}
-.form-label.data-v-60cb334c { display: block; font-size: 28rpx; font-weight: 500; margin-bottom: 12rpx;
-}
 
 /* ====== 已登录 ====== */
 .logged.data-v-60cb334c { padding: 20rpx;
