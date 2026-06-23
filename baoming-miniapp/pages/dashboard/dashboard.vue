@@ -2,8 +2,24 @@
   <view class="page">
     <!-- 顶部 -->
     <view class="header">
-      <view class="greeting">👋 欢迎回来</view>
-      <view class="title">小棕熊预约报名</view>
+      <view class="bear-row">
+        <view class="bear-logo">
+          <view class="bear-face">
+            <view class="bear-ear left"></view>
+            <view class="bear-ear right"></view>
+            <view class="bear-eyes">
+              <view class="bear-eye"></view>
+              <view class="bear-eye"></view>
+            </view>
+            <view class="bear-nose"></view>
+            <view class="bear-mouth"></view>
+          </view>
+        </view>
+        <view class="header-text">
+          <view class="greeting">Hi~ 欢迎回来</view>
+          <view class="title">小棕熊预约报名</view>
+        </view>
+      </view>
     </view>
 
     <!-- 搜索 -->
@@ -226,10 +242,47 @@ export default {
 
 .header {
   background: linear-gradient(160deg, #FF6B35, #E55A2B);
-  color: #fff; padding: 40rpx 32rpx 30rpx;
+  color: #fff; padding: 36rpx 32rpx 32rpx;
 }
+.bear-row { display: flex; align-items: center; gap: 24rpx; }
+.header-text { flex: 1; }
 .greeting { font-size: 24rpx; opacity: 0.8; }
-.title { font-size: 40rpx; font-weight: 700; margin-top: 8rpx; }
+.title { font-size: 40rpx; font-weight: 700; margin-top: 4rpx; }
+
+/* 小棕熊吉祥物 */
+.bear-logo { flex-shrink: 0; }
+.bear-face {
+  width: 100rpx; height: 88rpx; background: #C68642;
+  border-radius: 50rpx 50rpx 36rpx 36rpx; position: relative;
+  box-shadow: inset 0 -6rpx 12rpx rgba(0,0,0,0.15);
+}
+.bear-ear {
+  position: absolute; top: -10rpx; width: 28rpx; height: 28rpx;
+  background: #C68642; border-radius: 50%;
+  box-shadow: inset 0 -3rpx 6rpx rgba(0,0,0,0.1);
+}
+.bear-ear.left { left: 8rpx; }
+.bear-ear.right { right: 8rpx; }
+.bear-ear::after {
+  content: ''; position: absolute; top: 6rpx; left: 6rpx;
+  width: 14rpx; height: 14rpx; background: #E8B88A; border-radius: 50%;
+}
+.bear-eyes {
+  position: absolute; top: 30rpx; left: 50%; transform: translateX(-50%);
+  display: flex; gap: 20rpx;
+}
+.bear-eye {
+  width: 10rpx; height: 12rpx; background: #3E2723; border-radius: 50%;
+}
+.bear-nose {
+  position: absolute; top: 48rpx; left: 50%; transform: translateX(-50%);
+  width: 20rpx; height: 14rpx; background: #3E2723;
+  border-radius: 50%; border-bottom: 2rpx solid #FFF;
+}
+.bear-mouth {
+  position: absolute; top: 58rpx; left: 50%; transform: translateX(-50%);
+  width: 6rpx; height: 10rpx; background: #3E2723; border-radius: 0 0 4rpx 4rpx;
+}
 
 .search-bar {
   display: flex; align-items: center; gap: 12rpx;

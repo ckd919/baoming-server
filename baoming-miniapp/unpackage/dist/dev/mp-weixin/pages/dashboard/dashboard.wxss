@@ -3,11 +3,53 @@
 }
 .header.data-v-a09b2520 {
   background: linear-gradient(160deg, #FF6B35, #E55A2B);
-  color: #fff; padding: 40rpx 32rpx 30rpx;
+  color: #fff; padding: 36rpx 32rpx 32rpx;
+}
+.bear-row.data-v-a09b2520 { display: flex; align-items: center; gap: 24rpx;
+}
+.header-text.data-v-a09b2520 { flex: 1;
 }
 .greeting.data-v-a09b2520 { font-size: 24rpx; opacity: 0.8;
 }
-.title.data-v-a09b2520 { font-size: 40rpx; font-weight: 700; margin-top: 8rpx;
+.title.data-v-a09b2520 { font-size: 40rpx; font-weight: 700; margin-top: 4rpx;
+}
+
+/* 小棕熊吉祥物 */
+.bear-logo.data-v-a09b2520 { flex-shrink: 0;
+}
+.bear-face.data-v-a09b2520 {
+  width: 100rpx; height: 88rpx; background: #C68642;
+  border-radius: 50rpx 50rpx 36rpx 36rpx; position: relative;
+  box-shadow: inset 0 -6rpx 12rpx rgba(0,0,0,0.15);
+}
+.bear-ear.data-v-a09b2520 {
+  position: absolute; top: -10rpx; width: 28rpx; height: 28rpx;
+  background: #C68642; border-radius: 50%;
+  box-shadow: inset 0 -3rpx 6rpx rgba(0,0,0,0.1);
+}
+.bear-ear.left.data-v-a09b2520 { left: 8rpx;
+}
+.bear-ear.right.data-v-a09b2520 { right: 8rpx;
+}
+.bear-ear.data-v-a09b2520::after {
+  content: ''; position: absolute; top: 6rpx; left: 6rpx;
+  width: 14rpx; height: 14rpx; background: #E8B88A; border-radius: 50%;
+}
+.bear-eyes.data-v-a09b2520 {
+  position: absolute; top: 30rpx; left: 50%; -webkit-transform: translateX(-50%); transform: translateX(-50%);
+  display: flex; gap: 20rpx;
+}
+.bear-eye.data-v-a09b2520 {
+  width: 10rpx; height: 12rpx; background: #3E2723; border-radius: 50%;
+}
+.bear-nose.data-v-a09b2520 {
+  position: absolute; top: 48rpx; left: 50%; -webkit-transform: translateX(-50%); transform: translateX(-50%);
+  width: 20rpx; height: 14rpx; background: #3E2723;
+  border-radius: 50%; border-bottom: 2rpx solid #FFF;
+}
+.bear-mouth.data-v-a09b2520 {
+  position: absolute; top: 58rpx; left: 50%; -webkit-transform: translateX(-50%); transform: translateX(-50%);
+  width: 6rpx; height: 10rpx; background: #3E2723; border-radius: 0 0 4rpx 4rpx;
 }
 .search-bar.data-v-a09b2520 {
   display: flex; align-items: center; gap: 12rpx;
