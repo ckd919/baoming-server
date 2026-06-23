@@ -259,9 +259,20 @@ export default {
           this.loadComments()
         }
 
-        // 初始化表单数据
+        // 初始化表单数据，并从用户信息自动填充
+        const userStr = uni.getStorageSync('bm_user')
+        let userProfile = {}
+        if (userStr) {
+          try { userProfile = JSON.parse(userStr) } catch (e) {}
+        }
         (this.activity.fields || []).forEach(f => {
-          this.formData[f.id] = f.type === 'checkbox' ? [] : ''
+          let val = f.type === 'checkbox' ? [] : ''
+          // 快速填充：匹配字段类型
+          if (f.type === 'name' && userProfile.realName) val = userProfile.realName
+          else if (f.type === 'phone' && userProfile.phone) val = userProfile.phone
+          else if (f.type === 'idcard' && userProfile.idCard) val = userProfile.idCard
+          else if (f.type === 'email' && userProfile.email) val = userProfile.email || ''
+          this.formData[f.id] = val
         })
       } catch (err) {
         uni.showToast({ title: '加载失败', icon: 'none' })

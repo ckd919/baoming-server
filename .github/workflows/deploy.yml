@@ -150,6 +150,10 @@ jobs:
             CREATE TABLE IF NOT EXISTS admin_history (id SERIAL PRIMARY KEY, owner_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE, admin_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE, created_at BIGINT NOT NULL DEFAULT 0, UNIQUE(owner_id, admin_id));
             CREATE INDEX IF NOT EXISTS idx_ah_owner ON admin_history(owner_id);
             ALTER TABLE activities ADD COLUMN IF NOT EXISTS original_end_time BIGINT;
+
+            -- V6: 快速填写
+            ALTER TABLE users ADD COLUMN IF NOT EXISTS real_name VARCHAR(50) DEFAULT '';
+            ALTER TABLE users ADD COLUMN IF NOT EXISTS id_card VARCHAR(18) DEFAULT '';
             SQL_EOF
 
             echo "=== Migration completed ==="

@@ -25,6 +25,8 @@ public class LoginResponse {
         private String nickname;
         private String role;
         private String avatarUrl;
+        private String realName;
+        private String idCard;
     }
 
     public static LoginResponse from(User user, String token, Boolean isNew) {
@@ -36,6 +38,8 @@ public class LoginResponse {
                         .nickname(user.getNickname() != null ? user.getNickname() : "")
                         .role(user.getRole() != null ? user.getRole() : "USER")
                         .avatarUrl(user.getAvatarUrl() != null ? user.getAvatarUrl() : "")
+                        .realName(user.getRealName() != null ? user.getRealName() : "")
+                        .idCard(user.getIdCard() != null ? user.getIdCard() : "")
                         .build())
                 .isNew(isNew)
                 .build();

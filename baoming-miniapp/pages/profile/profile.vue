@@ -79,6 +79,24 @@
         </view>
       </view>
 
+      <!-- 快速填写信息 -->
+      <view class="section-card">
+        <text class="section-title">⚡ 快速填写</text>
+        <text class="section-desc">报名时自动填充以下信息到对应字段</text>
+        <view class="qf-row">
+          <text class="qf-label">姓名</text>
+          <input class="form-input" v-model="quickName" placeholder="未设置" @blur="saveQuickFill" />
+        </view>
+        <view class="qf-row">
+          <text class="qf-label">手机号</text>
+          <input class="form-input" v-model="quickPhone" type="number" maxlength="11" placeholder="未设置" @blur="saveQuickFill" />
+        </view>
+        <view class="qf-row">
+          <text class="qf-label">身份证</text>
+          <input class="form-input" v-model="quickIdCard" maxlength="18" placeholder="未设置" @blur="saveQuickFill" />
+        </view>
+      </view>
+
       <!-- 隐私安全设置 -->
       <view class="section-card">
         <text class="section-title">隐私安全设置</text>
@@ -205,6 +223,11 @@ export default {
       userPhone: '',
       userRole: '',
 
+      // 快速填写
+      quickName: '',
+      quickPhone: '',
+      quickIdCard: '',
+
       // 手机手工输入
       showPhoneInput: false,
       manualPhone: '',
@@ -231,6 +254,9 @@ export default {
           this.userNickname = user.nickname || uni.getStorageSync('bm_nickname') || ''
           this.userAvatar = user.avatarUrl || uni.getStorageSync('bm_avatar') || ''
           this.userRole = user.role || 'USER'
+          this.quickName = user.realName || ''
+          this.quickPhone = user.phone || ''
+          this.quickIdCard = user.idCard || ''
           getApp().globalData.token = token
           getApp().globalData.user = user
           this.refreshProfile()
@@ -369,6 +395,18 @@ export default {
       } catch (err) {
         uni.showToast({ title: err.message || '保存失败', icon: 'none' })
       } finally { this.savingPhone = false }
+    },
+
+    /** 保存快速填写信息 */
+    async saveQuickFill() {
+      try {
+        const user = await updateProfile({
+          realName: this.quickName,
+          phone: this.quickPhone,
+          idCard: this.quickIdCard
+        })
+        getApp().globalData.user = user
+      } catch (e) { /* 静默保存 */ }
     },
 
     /** 修改昵称 */
@@ -581,6 +619,10 @@ export default {
 }
 .section-title { font-size: 30rpx; font-weight: 600; display: block; margin-bottom: 6rpx; }
 .section-desc { font-size: 24rpx; color: #999; display: block; margin-bottom: 24rpx; }
+
+.qf-row { display: flex; align-items: center; gap: 16rpx; margin-bottom: 16rpx; }
+.qf-label { font-size: 26rpx; font-weight: 500; width: 100rpx; flex-shrink: 0; }
+.qf-row .form-input { flex: 1; height: 72rpx; font-size: 26rpx; }
 
 .privacy-field {
   display: flex; align-items: center; justify-content: space-between;

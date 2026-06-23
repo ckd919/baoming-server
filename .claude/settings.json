@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx vite *)",
+      "Bash(pip install *)",
+      "Bash(python -m playwright install chromium)",
+      "Bash(python explore.py)",
+      "Bash(set PYTHONIOENCODING=utf-8)",
+      "Bash(python explore_admin.py)",
+      "Read(//d/claudeCode/**)",
+      "Read(//d//**)"
+    ]
+  }
+}

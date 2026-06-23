@@ -1,0 +1,1476 @@
+{
+  "home": {
+    "url": "https://www.baominggongju.com/home",
+    "nav": [
+      {
+        "text": "知你客服",
+        "href": "https://zhinikefu.com/?hmsr=xcx&hmpl=bmgj",
+        "tag": "A"
+      },
+      {
+        "text": "小小签到",
+        "href": "http://xiaoqiandao.com/?hmsr=xcx&hmpl=bmgj",
+        "tag": "A"
+      },
+      {
+        "text": "立吉答题",
+        "href": "http://xiaoxiaodati.com/?hmsr=xcx&hmpl=bmgj",
+        "tag": "A"
+      },
+      {
+        "text": "抽奖工具",
+        "href": "https://52choujiang.cn/?hmsr=xcx&hmpl=bmgj",
+        "tag": "A"
+      },
+      {
+        "text": "知你客服",
+        "href": "https://zhinikefu.com/?hmsr=xcx&hmpl=bmgj",
+        "tag": "A"
+      },
+      {
+        "text": "小小签到",
+        "href": "http://xiaoqiandao.com/?hmsr=xcx&hmpl=bmgj",
+        "tag": "A"
+      },
+      {
+        "text": "立吉答题",
+        "href": "http://xiaoxiaodati.com/?hmsr=xcx&hmpl=bmgj",
+        "tag": "A"
+      },
+      {
+        "text": "抽奖工具",
+        "href": "https://52choujiang.cn/?hmsr=xcx&hmpl=bmgj",
+        "tag": "A"
+      },
+      {
+        "text": "进入",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "电脑PC、",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "微信小程序、",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "网页链接",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "网页链接",
+        "href": "https://p.baominggongju.com/recommend",
+        "tag": "A"
+      },
+      {
+        "text": "免费发起报名",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "信息登记 >",
+        "href": "https://baominggongju.com/message/",
+        "tag": "A"
+      },
+      {
+        "text": "团购拼单 >",
+        "href": "https://baominggongju.com/group/",
+        "tag": "A"
+      },
+      {
+        "text": "预约挂号 >",
+        "href": "https://baominggongju.com/reverse/",
+        "tag": "A"
+      },
+      {
+        "text": "在线选座 >",
+        "href": "https://baominggongju.com/seat/",
+        "tag": "A"
+      },
+      {
+        "text": "免费发起活动",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "免费发起活动",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "免费发起活动",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "免费发起活动",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "免费发起活动",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "免费发起活动",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "免费发起活动",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "免费发起活动",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "免费发起活动",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "免费发起活动",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "免费发起活动",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "免费发起活动",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "免费发起活动",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "免费发起活动",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "免费发起活动",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "免费发起活动",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "免费发起活动",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "免费发起活动",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "免费发起活动",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "免费发起活动",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "免费发起活动",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "免费发起活动",
+        "href": "",
+        "tag": "BUTTON"
+      }
+    ],
+    "sections": [
+      "好用的报名统计收款工具",
+      "学校招生、疫苗预约、活动聚会、信息统计、培训讲座、 团购拼单、活动收款在线数据收集",
+      "信息登记 >",
+      "团购拼单 >",
+      "预约挂号 >",
+      "在线选座 >",
+      "多种功能满足你的各种业务场景",
+      "强大的自定义字段",
+      "一键导出报名数据",
+      "提交人名单限制",
+      "支持报名收款、退款",
+      "多渠道提醒、管理员帮你管理活动",
+      "设置管理员",
+      "服务通知/短信通知",
+      "企业微信群/钉钉群提醒",
+      "多种形式的分享",
+      "专属主页和会员管理助力管理效率",
+      "自动排队功能",
+      "专属个人主页",
+      "会员管理",
+      "他们都在使用报名工具",
+      "帮助中心",
+      "友情链接"
+    ]
+  },
+  "create": {
+    "url": "https://www.baominggongju.com/create",
+    "sections": [
+      "小棕熊",
+      "绑定手机账号",
+      "修改密码",
+      "确定退出登录？",
+      "创建发布",
+      "模板中心",
+      "我管理的",
+      "商户钱包",
+      "个人中心",
+      "成员管理",
+      "高级功能",
+      "选择场景类型",
+      "请去小程序完成",
+      "输入表单链接地址"
+    ],
+    "links": [
+      {
+        "text": "知你客服",
+        "href": "https://zhinikefu.com/?hmsr=xcx&hmpl=bmgj",
+        "tag": "A"
+      },
+      {
+        "text": "小小签到",
+        "href": "http://xiaoqiandao.com/?hmsr=xcx&hmpl=bmgj",
+        "tag": "A"
+      },
+      {
+        "text": "立吉答题",
+        "href": "http://xiaoxiaodati.com/?hmsr=xcx&hmpl=bmgj",
+        "tag": "A"
+      },
+      {
+        "text": "抽奖工具",
+        "href": "https://52choujiang.cn/?hmsr=xcx&hmpl=bmgj",
+        "tag": "A"
+      },
+      {
+        "text": "知你客服",
+        "href": "https://zhinikefu.com/?hmsr=xcx&hmpl=bmgj",
+        "tag": "A"
+      },
+      {
+        "text": "小小签到",
+        "href": "http://xiaoqiandao.com/?hmsr=xcx&hmpl=bmgj",
+        "tag": "A"
+      },
+      {
+        "text": "立吉答题",
+        "href": "http://xiaoxiaodati.com/?hmsr=xcx&hmpl=bmgj",
+        "tag": "A"
+      },
+      {
+        "text": "抽奖工具",
+        "href": "https://52choujiang.cn/?hmsr=xcx&hmpl=bmgj",
+        "tag": "A"
+      },
+      {
+        "text": "帮助",
+        "href": "https://www.baominggongju.com/strategy",
+        "tag": "A"
+      },
+      {
+        "text": "帮助",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "取 消",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "确认",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "退出所有设备",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "仅退出当前设备",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "取 消",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "确认",
+        "href": "",
+        "tag": "BUTTON"
+      }
+    ]
+  },
+  "manage": {
+    "url": "https://www.baominggongju.com/manage",
+    "activities": [
+      [
+        "东莞vs惠州6.13（免费）",
+        "详情 >",
+        "06月08日 至 06月14日",
+        "进行中",
+        "24/30 0  申请 0  求 0  转",
+        "编辑修改 复制创建"
+      ],
+      [
+        "粤超东莞队助威服",
+        "详情 >",
+        "06月04日 至 06月13日",
+        "进行中",
+        "35/1000 0  申请 0  求 0  转",
+        "编辑修改 复制创建"
+      ],
+      [
+        "（客场）东莞vs惠州6.13",
+        "详情 >",
+        "06月08日 至 06月13日",
+        "进行中",
+        "228/330 0  申请 0  求 1  转",
+        "编辑修改 复制创建"
+      ],
+      [
+        "华润银行&徐杰见面会",
+        "详情 >",
+        "05月26日 至 06月01日",
+        "已截止",
+        "306/500 0  申请 0  求 0  转",
+        "编辑修改 复制创建"
+      ],
+      [
+        "2025-2026赛季会员身份信息统计表",
+        "详情 >",
+        "2025年10月26日 至 2026年06月01日",
+        "已截止",
+        "994/1000 0  申请 0  求 0  转",
+        "编辑修改 复制创建"
+      ],
+      [
+        "粤BA 东莞vs深圳27号",
+        "详情 >",
+        "05月25日 至 05月31日",
+        "已截止",
+        "45/45 0  申请 0  求 0  转",
+        "编辑修改 复制创建"
+      ],
+      [
+        "粤超 东莞vs潮州30号",
+        "详情 >",
+        "05月25日 至 05月31日",
+        "已截止",
+        "630/630 4  申请 0  求 3  转",
+        "编辑修改 复制创建"
+      ],
+      [
+        "粤超 东莞vs潮州30号补充",
+        "详情 >",
+        "05月29日 至 05月30日",
+        "已截止",
+        "13/23 0  申请 0  求 0  转",
+        "编辑修改 复制创建"
+      ],
+      [
+        "粤BA 东莞vs汕头30",
+        "详情 >",
+        "05月28日 至 05月29日",
+        "已截止",
+        "92/100 0  申请 0  求 0  转",
+        "编辑修改 复制创建"
+      ],
+      [
+        "易杯闭幕式观赛报名",
+        "详情 >",
+        "05月23日 至 05月24日",
+        "已截止",
+        "53/60 0  申请 0  求 0  转",
+        "编辑修改 复制创建"
+      ]
+    ],
+    "nav": [
+      {
+        "text": "知你客服",
+        "href": "https://zhinikefu.com/?hmsr=xcx&hmpl=bmgj",
+        "tag": "A"
+      },
+      {
+        "text": "小小签到",
+        "href": "http://xiaoqiandao.com/?hmsr=xcx&hmpl=bmgj",
+        "tag": "A"
+      },
+      {
+        "text": "立吉答题",
+        "href": "http://xiaoxiaodati.com/?hmsr=xcx&hmpl=bmgj",
+        "tag": "A"
+      },
+      {
+        "text": "抽奖工具",
+        "href": "https://52choujiang.cn/?hmsr=xcx&hmpl=bmgj",
+        "tag": "A"
+      },
+      {
+        "text": "知你客服",
+        "href": "https://zhinikefu.com/?hmsr=xcx&hmpl=bmgj",
+        "tag": "A"
+      },
+      {
+        "text": "小小签到",
+        "href": "http://xiaoqiandao.com/?hmsr=xcx&hmpl=bmgj",
+        "tag": "A"
+      },
+      {
+        "text": "立吉答题",
+        "href": "http://xiaoxiaodati.com/?hmsr=xcx&hmpl=bmgj",
+        "tag": "A"
+      },
+      {
+        "text": "抽奖工具",
+        "href": "https://52choujiang.cn/?hmsr=xcx&hmpl=bmgj",
+        "tag": "A"
+      },
+      {
+        "text": "帮助",
+        "href": "https://www.baominggongju.com/strategy",
+        "tag": "A"
+      },
+      {
+        "text": "帮助",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "取 消",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "确认",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "退出所有设备",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "仅退出当前设备",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "详情 >",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "编辑修改",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "复制创建",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "详情 >",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "编辑修改",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "复制创建",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "详情 >",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "编辑修改",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "复制创建",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "详情 >",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "编辑修改",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "复制创建",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "详情 >",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "编辑修改",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "复制创建",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "详情 >",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "编辑修改",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "复制创建",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "详情 >",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "编辑修改",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "复制创建",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "详情 >",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "编辑修改",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "复制创建",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "详情 >",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "编辑修改",
+        "href": "",
+        "tag": "BUTTON"
+      }
+    ],
+    "sections": [
+      "小棕熊",
+      "绑定手机账号",
+      "修改密码",
+      "确定退出登录？",
+      "创建发布",
+      "模板中心",
+      "我管理的",
+      "商户钱包",
+      "个人中心",
+      "成员管理",
+      "高级功能",
+      "全部回收站 19进行中未开始我参与的 >  批量导出",
+      "全部回收站 19进行中未开始我参与的 >",
+      "东莞vs惠州6.13（免费）",
+      "粤超东莞队助威服",
+      "（客场）东莞vs惠州6.13",
+      "华润银行&徐杰见面会",
+      "2025-2026赛季会员身份信息统计表",
+      "粤BA 东莞vs深圳27号",
+      "粤超 东莞vs潮州30号",
+      "粤超 东莞vs潮州30号补充",
+      "粤BA 东莞vs汕头30",
+      "易杯闭幕式观赛报名",
+      "删除的活动可以在回收站中查看",
+      "该类型报名请去小程序查看",
+      "设为公开活动确认",
+      "导出数据",
+      "批量导出数据",
+      "报名工具统计收款-活动表单数据收集-报名工具小程序【官网】",
+      "发送通知给所有参与人"
+    ]
+  },
+  "detail": {
+    "url": "https://www.baominggongju.com/manage?eId=6a2669765037cc10bfef9b17",
+    "buttons": [
+      {
+        "text": "推荐工具",
+        "tag": "SPAN"
+      },
+      {
+        "text": "帮助",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "绑定手机账号",
+        "tag": "SPAN"
+      },
+      {
+        "text": "取 消",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "确认",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "修改密码",
+        "tag": "SPAN"
+      },
+      {
+        "text": "确定退出登录？",
+        "tag": "SPAN"
+      },
+      {
+        "text": "退出所有设备",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "仅退出当前设备",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "创建发布",
+        "tag": "SPAN"
+      },
+      {
+        "text": "模板中心",
+        "tag": "SPAN"
+      },
+      {
+        "text": "我管理的",
+        "tag": "SPAN"
+      },
+      {
+        "text": "主页",
+        "tag": "SPAN"
+      },
+      {
+        "text": "商户钱包",
+        "tag": "SPAN"
+      },
+      {
+        "text": "个人中心",
+        "tag": "SPAN"
+      },
+      {
+        "text": "成员管理",
+        "tag": "SPAN"
+      },
+      {
+        "text": "高级功能",
+        "tag": "SPAN"
+      },
+      {
+        "text": "搜索",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "东莞vs惠州6.13（免费）",
+        "tag": "DIV"
+      },
+      {
+        "text": "详情 >",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "粤超东莞队助威服",
+        "tag": "DIV"
+      },
+      {
+        "text": "详情 >",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "（客场）东莞vs惠州6.13",
+        "tag": "DIV"
+      },
+      {
+        "text": "详情 >",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "华润银行&徐杰见面会",
+        "tag": "DIV"
+      },
+      {
+        "text": "详情 >",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "2025-2026赛季会员身份信息统计表",
+        "tag": "DIV"
+      },
+      {
+        "text": "详情 >",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "粤BA 东莞vs深圳27号",
+        "tag": "DIV"
+      },
+      {
+        "text": "详情 >",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "粤超 东莞vs潮州30号",
+        "tag": "DIV"
+      },
+      {
+        "text": "详情 >",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "粤超 东莞vs潮州30号补充",
+        "tag": "DIV"
+      },
+      {
+        "text": "详情 >",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "粤BA 东莞vs汕头30",
+        "tag": "DIV"
+      },
+      {
+        "text": "详情 >",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "易杯闭幕式观赛报名",
+        "tag": "DIV"
+      },
+      {
+        "text": "详情 >",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "删除的活动可以在回收站中查看",
+        "tag": "SPAN"
+      },
+      {
+        "text": "取 消",
+        "tag": "BUTTON"
+      }
+    ],
+    "sections": [
+      "小棕熊",
+      "绑定手机账号",
+      "修改密码",
+      "确定退出登录？",
+      "创建发布",
+      "模板中心",
+      "我管理的",
+      "商户钱包",
+      "个人中心",
+      "成员管理",
+      "高级功能",
+      "全部回收站 19进行中未开始  批量导出",
+      "全部回收站 19进行中未开始",
+      "东莞vs惠州6.13（免费）",
+      "粤超东莞队助威服",
+      "（客场）东莞vs惠州6.13",
+      "华润银行&徐杰见面会",
+      "2025-2026赛季会员身份信息统计表",
+      "粤BA 东莞vs深圳27号",
+      "粤超 东莞vs潮州30号",
+      "粤超 东莞vs潮州30号补充",
+      "粤BA 东莞vs汕头30",
+      "易杯闭幕式观赛报名",
+      "删除的活动可以在回收站中查看",
+      "该类型报名请去小程序查看",
+      "设为公开活动确认",
+      "导出数据",
+      "批量导出数据",
+      "提交 >",
+      "分享 >"
+    ]
+  },
+  "tab_管理": {
+    "text": "知你客服\n小小签到\n立吉答题\n抽奖工具\n  帮助\n小程序\n个人\n小棕熊\n创建发布\n模板中心\n我管理的\n主页\n商户钱包\n个人中心\n成员管理\n高级功能\n 更新日志\n有更新点击查看 >\n全部\n回收站\n19\n进行中未开始\n 批量导出\n搜索\n东莞vs惠州6.13（免费）\n06月08日 至 06月14日\n进行中\n24/30 0  申请 0  求 0  转\n粤超东莞队助威服\n06月04日 至 06月13日\n进行中\n35/1000 0  申请 0  求 0  转\n（客场）东莞vs惠州6.13\n06月08日 至 06月13日\n进行中\n228/330 0  申请 0  求 1  转\n华润银行&徐杰见面会\n05月26日 至 06月01日\n已截止\n306/500 0  申请 0  求 0  转\n2025-2026赛季会员身份信息统计表\n2025年10月26日 至 2026年06月01日\n已截止\n994/1000 0  申请 0  求 0  转\n粤BA 东莞vs深圳27号\n05月25日 至 05月31日\n已截止\n45/45 0  申请 0  求 0  转\n粤超 东莞vs潮州30号\n05月25日 至 05月31日\n已截止\n630/630 4  申请 0  求 3  转\n粤超 东莞vs潮州30号补充\n05月29日 至 05月30日\n已截止\n13/23 0  申请 0  求 0  转\n粤BA 东莞vs汕头30\n05月28日 至 05月29日\n已截止\n92/100 0  申请 0  求 0  转\n易杯闭幕式观赛报名\n05月23日 至 05月24日\n已截止\n53/60 0  申请 0  求 0  转\n123\n回收站\n19\n进行中\n东莞vs惠州6.13（免费） \n报名：06月08日 09:00 - 06月14日 15:02\n提交：24/30人\n 分享\n新窗口\n管理\n编辑修改\n复制创建\n导出数据\n删除\n发送通知\n收款记账\n设置管理员\n截止活动\n核销签到\n更多\n提交 >\n24\n分享 >\n2\n留言 >\n0\n求/转 >\n0/0\n申请 >\n0\n更多 >\n24提交详细数据\n 批量打印\n查找/排序\n仅发起人/管理员可见\n列表\n头像\n全选\n头像\n昵称/姓名\n状态\n提交时间\n操作\n编号28\n陈建荣\n多\n提交成功\n2026-06-12 18:27\n查看详情>\n编号26\n肖志\n提交成功\n2026-06-12 11:26\n查看",
+    "buttons": [
+      {
+        "text": "知你客服",
+        "href": "https://zhinikefu.com/?hmsr=xcx&hmpl=bmgj",
+        "tag": "A"
+      },
+      {
+        "text": "小小签到",
+        "href": "http://xiaoqiandao.com/?hmsr=xcx&hmpl=bmgj",
+        "tag": "A"
+      },
+      {
+        "text": "立吉答题",
+        "href": "http://xiaoxiaodati.com/?hmsr=xcx&hmpl=bmgj",
+        "tag": "A"
+      },
+      {
+        "text": "抽奖工具",
+        "href": "https://52choujiang.cn/?hmsr=xcx&hmpl=bmgj",
+        "tag": "A"
+      },
+      {
+        "text": "知你客服",
+        "href": "https://zhinikefu.com/?hmsr=xcx&hmpl=bmgj",
+        "tag": "A"
+      },
+      {
+        "text": "小小签到",
+        "href": "http://xiaoqiandao.com/?hmsr=xcx&hmpl=bmgj",
+        "tag": "A"
+      },
+      {
+        "text": "立吉答题",
+        "href": "http://xiaoxiaodati.com/?hmsr=xcx&hmpl=bmgj",
+        "tag": "A"
+      },
+      {
+        "text": "抽奖工具",
+        "href": "https://52choujiang.cn/?hmsr=xcx&hmpl=bmgj",
+        "tag": "A"
+      },
+      {
+        "text": "帮助",
+        "href": "https://www.baominggongju.com/strategy",
+        "tag": "A"
+      },
+      {
+        "text": "帮助",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "取 消",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "确认",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "退出所有设备",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "仅退出当前设备",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "搜索",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "详情 >",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "详情 >",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "详情 >",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "详情 >",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "详情 >",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "详情 >",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "详情 >",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "详情 >",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "详情 >",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "详情 >",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "取 消",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "确 定",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "取消",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "确定",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "分享",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "创建查询",
+        "href": "https://p.baominggongju.com/search/index.html",
+        "tag": "A"
+      },
+      {
+        "text": "批量打印",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "查找/排序",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "取 消",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "确 定",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "取 消",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "确 定",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "我知道了",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "取 消",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "确 定",
+        "href": "",
+        "tag": "BUTTON"
+      }
+    ]
+  },
+  "form_/form/setting": {
+    "text": "知你客服\n小小签到\n立吉答题\n抽奖工具\n模板中心\n小程序\n进入\n好用的报名统计收款工具\n学校招生、疫苗预约、活动聚会、信息统计、培训讲座、 团购拼单、活动收款在线数据收集\n电脑PC、 微信小程序、 网页链接\n免费发起报名\n信息登记 >\n团购拼单 >\n预约挂号 >\n在线选座 >\n多种功能满足你的各种业务场景\n 强大的自定义字段\n 一键导出报名数据\n 提交人名单限制\n 支持报名收款、退款\n强大的自定义字段\n\n可以根据需要自定义多种字段，满足各种信息统计需求，比如：单行文本、手机号、数字、日期、单选、多选、地理位置、图片等。\n\n免费发起活动\n一键导出报名数据\n\n报名活动的所有数据，都支持一键导出。也可以自定义时间范围进行导出，同时支持图片/签名类型的数据，打包下载。\n\n免费发起活动\n提交人名单限制\n\n报名活动支持提交人名单限制，可以设置指定的人参与你发的活动支持仅粉丝、仅会员或者自定义白名单。只有符合条件才能参与活动。\n\n免费发起活动\n支持报名收款、退款\n\n无论是活动聚会，还是课程缴费，团购拼单等，可以轻松实现在线收款。如果临时需要取消报名，费用自动原路退款。\n\n免费发起活动\n多渠道提醒、管"
+  },
+  "form_/form/fields": {
+    "text": "知你客服\n小小签到\n立吉答题\n抽奖工具\n模板中心\n小程序\n进入\n好用的报名统计收款工具\n学校招生、疫苗预约、活动聚会、信息统计、培训讲座、 团购拼单、活动收款在线数据收集\n电脑PC、 微信小程序、 网页链接\n免费发起报名\n信息登记 >\n团购拼单 >\n预约挂号 >\n在线选座 >\n多种功能满足你的各种业务场景\n 强大的自定义字段\n 一键导出报名数据\n 提交人名单限制\n 支持报名收款、退款\n强大的自定义字段\n\n可以根据需要自定义多种字段，满足各种信息统计需求，比如：单行文本、手机号、数字、日期、单选、多选、地理位置、图片等。\n\n免费发起活动\n一键导出报名数据\n\n报名活动的所有数据，都支持一键导出。也可以自定义时间范围进行导出，同时支持图片/签名类型的数据，打包下载。\n\n免费发起活动\n提交人名单限制\n\n报名活动支持提交人名单限制，可以设置指定的人参与你发的活动支持仅粉丝、仅会员或者自定义白名单。只有符合条件才能参与活动。\n\n免费发起活动\n支持报名收款、退款\n\n无论是活动聚会，还是课程缴费，团购拼单等，可以轻松实现在线收款。如果临时需要取消报名，费用自动原路退款。\n\n免费发起活动\n多渠道提醒、管"
+  },
+  "form_/activity/form": {
+    "text": "知你客服\n小小签到\n立吉答题\n抽奖工具\n模板中心\n小程序\n进入\n好用的报名统计收款工具\n学校招生、疫苗预约、活动聚会、信息统计、培训讲座、 团购拼单、活动收款在线数据收集\n电脑PC、 微信小程序、 网页链接\n免费发起报名\n信息登记 >\n团购拼单 >\n预约挂号 >\n在线选座 >\n多种功能满足你的各种业务场景\n 强大的自定义字段\n 一键导出报名数据\n 提交人名单限制\n 支持报名收款、退款\n强大的自定义字段\n\n可以根据需要自定义多种字段，满足各种信息统计需求，比如：单行文本、手机号、数字、日期、单选、多选、地理位置、图片等。\n\n免费发起活动\n一键导出报名数据\n\n报名活动的所有数据，都支持一键导出。也可以自定义时间范围进行导出，同时支持图片/签名类型的数据，打包下载。\n\n免费发起活动\n提交人名单限制\n\n报名活动支持提交人名单限制，可以设置指定的人参与你发的活动支持仅粉丝、仅会员或者自定义白名单。只有符合条件才能参与活动。\n\n免费发起活动\n支持报名收款、退款\n\n无论是活动聚会，还是课程缴费，团购拼单等，可以轻松实现在线收款。如果临时需要取消报名，费用自动原路退款。\n\n免费发起活动\n多渠道提醒、管"
+  },
+  "form_/template": {
+    "text": "知你客服\n小小签到\n立吉答题\n抽奖工具\n模板中心\n小程序\n进入\n热门精选\n信息登记\n招生报名\n生活服务\n办公效率\n中小学生\n大学生活\n运动健身\n活动促销\n场馆预约\n问卷调查\n在线选座\n户外郊游\n商品团购\nXX职业培训学校招生报名\n城市不限 🍠红书 时尚探店/高颜值 小姐姐看图写文\n周末骑行活动\n课程报名（选课）\n亲子烘焙体验\n活动/课程反馈调查\n羽毛球组局\n社区生鲜团购（买菜）\n模拟面试/简历指导工作坊预约\n讲座/工作坊门票抢票\n户外山地自行车赛报名\n今日作业收集\n运动康复体验课\n每日阅读打卡计划\n访客来访登记表\n新产品需求调研\n数据统计：快速收集参与人信息，支持排队\n收费退款：收集信息并收费，支持随时退款\n活动预约：按时间段预约，限制名额\n团购拼单：发起团购，快速成团\n在线选座：线上选座，灵活的座位图\n帮助中心\n上手攻略\n使用小技巧\n案例集锦\n接入公众号\n友情链接\n微友助手\n小小签到\n立吉答题\n知你客服\n我们爱抽奖\n扫码接收报名，收款提醒\n版权所有 © 武汉从心信息科技有限公司 鄂ICP备17008487号-8 鄂公网安备 42018502003327号"
+  },
+  "templates": {
+    "text": "知你客服\n小小签到\n立吉答题\n抽奖工具\n模板中心\n小程序\n进入\n好用的报名统计收款工具\n学校招生、疫苗预约、活动聚会、信息统计、培训讲座、 团购拼单、活动收款在线数据收集\n电脑PC、 微信小程序、 网页链接\n免费发起报名\n信息登记 >\n团购拼单 >\n预约挂号 >\n在线选座 >\n多种功能满足你的各种业务场景\n 强大的自定义字段\n 一键导出报名数据\n 提交人名单限制\n 支持报名收款、退款\n强大的自定义字段\n\n可以根据需要自定义多种字段，满足各种信息统计需求，比如：单行文本、手机号、数字、日期、单选、多选、地理位置、图片等。\n\n免费发起活动\n一键导出报名数据\n\n报名活动的所有数据，都支持一键导出。也可以自定义时间范围进行导出，同时支持图片/签名类型的数据，打包下载。\n\n免费发起活动\n提交人名单限制\n\n报名活动支持提交人名单限制，可以设置指定的人参与你发的活动支持仅粉丝、仅会员或者自定义白名单。只有符合条件才能参与活动。\n\n免费发起活动\n支持报名收款、退款\n\n无论是活动聚会，还是课程缴费，团购拼单等，可以轻松实现在线收款。如果临时需要取消报名，费用自动原路退款。\n\n免费发起活动\n多渠道提醒、管理员帮你管理活动\n 设置管理员\n 服务通知/短信通知\n 企业微信群/钉钉群提醒\n 多种形式的分享\n设置管理员\n\n如果活动比较大，参与人太多，发起人可以设置多个管理员，帮忙管理活动、减轻发起人的工作。\n\n免费发起活动\n服务通知/短信通知\n\n当有新用户报名，收款成功、删除报名、审核通过或者审核不通过时，都会及时发送通知告知。有手机号的活动，支持发起人给参与者发送手机短信通知。\n\n免费发起活动\n企业微信群/钉钉群提醒\n\n当有新用户报名、收款成功、删除报名、审核结果、留言提醒，机器人都会自动发送提醒到企业微信群/钉钉群内，方便群内所有成员查看和处理。\n\n免费发起活动\n多种形式的分享\n\n报名活动支持生成海报分享图、小程序码、普通二维码，同时也支持网页链接、小程序页面链接，方便接入公众号菜单。\n\n免费发起活动\n专属主页和会员管理助力管理效率\n 自动排队功能\n 专属个人主页\n 会员管理\n自动排队功能\n\n线下活动，场地和名额有限，为了避免中途有人会退出，可以使用排队功能，当有人退出报名活动后，排队中的名额会自动补上，避免场地浪费。\n\n免费发起活动\n专属个人主页\n\n每位用户都有一个专属的个人主页，你可以",
+    "links": [
+      {
+        "text": "知你客服",
+        "href": "https://zhinikefu.com/?hmsr=xcx&hmpl=bmgj",
+        "tag": "A"
+      },
+      {
+        "text": "小小签到",
+        "href": "http://xiaoqiandao.com/?hmsr=xcx&hmpl=bmgj",
+        "tag": "A"
+      },
+      {
+        "text": "立吉答题",
+        "href": "http://xiaoxiaodati.com/?hmsr=xcx&hmpl=bmgj",
+        "tag": "A"
+      },
+      {
+        "text": "抽奖工具",
+        "href": "https://52choujiang.cn/?hmsr=xcx&hmpl=bmgj",
+        "tag": "A"
+      },
+      {
+        "text": "知你客服",
+        "href": "https://zhinikefu.com/?hmsr=xcx&hmpl=bmgj",
+        "tag": "A"
+      },
+      {
+        "text": "小小签到",
+        "href": "http://xiaoqiandao.com/?hmsr=xcx&hmpl=bmgj",
+        "tag": "A"
+      },
+      {
+        "text": "立吉答题",
+        "href": "http://xiaoxiaodati.com/?hmsr=xcx&hmpl=bmgj",
+        "tag": "A"
+      },
+      {
+        "text": "抽奖工具",
+        "href": "https://52choujiang.cn/?hmsr=xcx&hmpl=bmgj",
+        "tag": "A"
+      },
+      {
+        "text": "进入",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "电脑PC、",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "微信小程序、",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "网页链接",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "网页链接",
+        "href": "https://p.baominggongju.com/recommend",
+        "tag": "A"
+      },
+      {
+        "text": "免费发起报名",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "信息登记 >",
+        "href": "https://baominggongju.com/message/",
+        "tag": "A"
+      },
+      {
+        "text": "团购拼单 >",
+        "href": "https://baominggongju.com/group/",
+        "tag": "A"
+      },
+      {
+        "text": "预约挂号 >",
+        "href": "https://baominggongju.com/reverse/",
+        "tag": "A"
+      },
+      {
+        "text": "在线选座 >",
+        "href": "https://baominggongju.com/seat/",
+        "tag": "A"
+      },
+      {
+        "text": "免费发起活动",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "免费发起活动",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "免费发起活动",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "免费发起活动",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "免费发起活动",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "免费发起活动",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "免费发起活动",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "免费发起活动",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "免费发起活动",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "免费发起活动",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "免费发起活动",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "免费发起活动",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "免费发起活动",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "免费发起活动",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "免费发起活动",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "免费发起活动",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "免费发起活动",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "免费发起活动",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "免费发起活动",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "免费发起活动",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "免费发起活动",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "免费发起活动",
+        "href": "",
+        "tag": "BUTTON"
+      }
+    ]
+  },
+  "page_设置": {
+    "text": "知你客服\n小小签到\n立吉答题\n抽奖工具\n模板中心\n小程序\n进入\n好用的报名统计收款工具\n学校招生、疫苗预约、活动聚会、信息统计、培训讲座、 团购拼单、活动收款在线数据收集\n电脑PC、 微信小程序、 网页链接\n免费发起报名\n信息登记 >\n团购拼单 >\n预约挂号 >\n在线选座 >\n多种功能满足你的各种业务场景\n 强大的自定义字段\n 一键导出报名数据\n 提交人名单限制\n 支持报名收款、退款\n强大的自定义字段\n\n可以根据需要自定义多种字段，满足各种信息统计需求，比如：单行文本、手机号、数字、日期、单选、多选、地理位置、图片等。\n\n免费发起活动\n一键导出报名数据\n\n报名活动的所有数据，都支持一键导出。也可以自定义时间范围进行导出，同时支持图片/签名类型的数据，打包下载。\n\n免费发起活动\n提交人名单限制\n\n报名活动支持提交人名单限制，可以设置指定的人参与你发的活动支持仅粉丝、仅会员或者自定义白名单。只有符合条件才能参与活动。\n\n免费发起活动\n支持报名收款、退款\n\n无论是活动聚会，还是课程缴费，团购拼单等，可以轻松实现在线收款。如果临时需要取消报名，费用自动原路退款。\n\n免费发起活动\n多渠道提醒、管理员帮你管理活动\n 设置管理员\n 服务通知/短信通知\n 企业微信群/钉钉群提醒\n 多种形式的分享\n设置管理员\n\n如果活动比较大，参与人太多，发起人可以设置多个管理员，帮忙管理活动、减轻发起人的工作。\n\n免费发起活动\n服务通知/短信通知\n\n当有新用户报名，收款成功、删除报名、审核通过或者审核不通过时，都会及时发送通知告知。有手机号的活动，支持发起人给参与者发送手机短信通知。\n\n免费发起活动\n企业微信群/钉钉群提醒\n\n当有新用户报名、收款成功、删除报名、审核结果、留言提醒，机器人都会自动发送提醒到企业微信群/钉钉群内，方便群内所有成员查看和处理。\n\n免费发起活动\n多种形式的分享\n\n报名活动支持生成",
+    "links": [
+      {
+        "text": "知你客服",
+        "href": "https://zhinikefu.com/?hmsr=xcx&hmpl=bmgj",
+        "tag": "A"
+      },
+      {
+        "text": "小小签到",
+        "href": "http://xiaoqiandao.com/?hmsr=xcx&hmpl=bmgj",
+        "tag": "A"
+      },
+      {
+        "text": "立吉答题",
+        "href": "http://xiaoxiaodati.com/?hmsr=xcx&hmpl=bmgj",
+        "tag": "A"
+      },
+      {
+        "text": "抽奖工具",
+        "href": "https://52choujiang.cn/?hmsr=xcx&hmpl=bmgj",
+        "tag": "A"
+      },
+      {
+        "text": "知你客服",
+        "href": "https://zhinikefu.com/?hmsr=xcx&hmpl=bmgj",
+        "tag": "A"
+      },
+      {
+        "text": "小小签到",
+        "href": "http://xiaoqiandao.com/?hmsr=xcx&hmpl=bmgj",
+        "tag": "A"
+      },
+      {
+        "text": "立吉答题",
+        "href": "http://xiaoxiaodati.com/?hmsr=xcx&hmpl=bmgj",
+        "tag": "A"
+      },
+      {
+        "text": "抽奖工具",
+        "href": "https://52choujiang.cn/?hmsr=xcx&hmpl=bmgj",
+        "tag": "A"
+      },
+      {
+        "text": "进入",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "电脑PC、",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "微信小程序、",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "网页链接",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "网页链接",
+        "href": "https://p.baominggongju.com/recommend",
+        "tag": "A"
+      },
+      {
+        "text": "免费发起报名",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "信息登记 >",
+        "href": "https://baominggongju.com/message/",
+        "tag": "A"
+      },
+      {
+        "text": "团购拼单 >",
+        "href": "https://baominggongju.com/group/",
+        "tag": "A"
+      },
+      {
+        "text": "预约挂号 >",
+        "href": "https://baominggongju.com/reverse/",
+        "tag": "A"
+      },
+      {
+        "text": "在线选座 >",
+        "href": "https://baominggongju.com/seat/",
+        "tag": "A"
+      },
+      {
+        "text": "免费发起活动",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "免费发起活动",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "免费发起活动",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "免费发起活动",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "免费发起活动",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "免费发起活动",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "免费发起活动",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "免费发起活动",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "免费发起活动",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "免费发起活动",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "免费发起活动",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "免费发起活动",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "免费发起活动",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "免费发起活动",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "免费发起活动",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "免费发起活动",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "免费发起活动",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "免费发起活动",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "免费发起活动",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "免费发起活动",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "免费发起活动",
+        "href": "",
+        "tag": "BUTTON"
+      },
+      {
+        "text": "免费发起活动",
+        "href": "",
+        "tag": "BUTTON"
+      }
+    ]
+  }
+}

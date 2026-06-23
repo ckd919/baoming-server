@@ -1,0 +1,17 @@
+{
+  "name": "baoming-h5",
+  "version": "1.0.0",
+  "description": "报名工具H5 - 自定义表单收集与活动报名系统",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "server": "cd server && node index.js",
+    "server:dev": "cd server && node --watch index.js",
+    "server:install": "cd server && npm install"
+  },
+  "devDependencies": {
+    "vite": "^5.4.0"
+  }
+}

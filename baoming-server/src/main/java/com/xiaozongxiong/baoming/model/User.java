@@ -28,6 +28,12 @@ public class User {
     @TableField("avatar_url")
     private String avatarUrl;
 
+    @TableField("real_name")
+    private String realName;
+
+    @TableField("id_card")
+    private String idCard;
+
     @TableField("created_at")
     private LocalDateTime createdAt;
 }

@@ -211,6 +211,8 @@ public class AuthService {
 
         if (req.getNickname() != null) user.setNickname(req.getNickname());
         if (req.getAvatarUrl() != null) user.setAvatarUrl(req.getAvatarUrl());
+        if (req.getRealName() != null) user.setRealName(req.getRealName());
+        if (req.getIdCard() != null) user.setIdCard(req.getIdCard());
         if (req.getPhone() != null) {
             // 检查手机号是否已被其他用户绑定
             LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();

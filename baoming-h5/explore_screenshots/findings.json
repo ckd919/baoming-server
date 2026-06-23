@@ -1,0 +1,233 @@
+{
+  "pages": {
+    "home": {
+      "title": "报名工具-活动报名收款与数据收集系统【官网】",
+      "url": "https://www.baominggongju.com/"
+    },
+    "logged_in": {
+      "url": "https://www.baominggongju.com/login"
+    },
+    "create": {
+      "url": "https://www.baominggongju.com/home"
+    }
+  },
+  "features": [
+    "信息登记 >",
+    "支持报名收款、退款",
+    "抽奖工具",
+    "企业微信群/钉钉群提醒",
+    "微信小程序、",
+    "设置管理员",
+    "电脑PC、",
+    "设置管理员 如果活动比较大，参与人太多，发起人可以设置多个管理员，帮忙管理活动、减轻发起人的工作。 免费发起活动",
+    "提交人名单限制",
+    "预约挂号 >",
+    "强大的自定义字段",
+    "知你客服",
+    "多种形式的分享",
+    "立吉答题",
+    "在线选座 >",
+    "服务通知/短信通知",
+    "模板中心",
+    "团购拼单 >",
+    "微信扫一扫，使用小程序 小程序",
+    "网页链接",
+    "小小签到",
+    "一键导出报名数据"
+  ],
+  "field_types": [
+    {
+      "text": "知你客服",
+      "cls": "menu-item"
+    },
+    {
+      "text": "小小签到",
+      "cls": "menu-item"
+    },
+    {
+      "text": "立吉答题",
+      "cls": "menu-item"
+    },
+    {
+      "text": "抽奖工具",
+      "cls": "menu-item"
+    },
+    {
+      "text": "模板中心",
+      "cls": "menu-item"
+    },
+    {
+      "text": "微信扫一扫，使用小程序 小程序",
+      "cls": "menu-item"
+    },
+    {
+      "text": "电脑PC、",
+      "cls": "el-button classify-item el-button--text"
+    },
+    {
+      "text": "微信小程序、",
+      "cls": "el-button classify-item el-button--text el-popover__reference"
+    },
+    {
+      "text": "网页链接",
+      "cls": "el-button classify-item el-button--text"
+    },
+    {
+      "text": "信息登记 >",
+      "cls": "menu-items"
+    },
+    {
+      "text": "团购拼单 >",
+      "cls": "menu-items"
+    },
+    {
+      "text": "预约挂号 >",
+      "cls": "menu-items"
+    },
+    {
+      "text": "在线选座 >",
+      "cls": "menu-items"
+    },
+    {
+      "text": "强大的自定义字段",
+      "cls": "tab-items"
+    },
+    {
+      "text": "一键导出报名数据",
+      "cls": "tab-items tab-focus-blue"
+    },
+    {
+      "text": "提交人名单限制",
+      "cls": "tab-items"
+    },
+    {
+      "text": "支持报名收款、退款",
+      "cls": "tab-items"
+    },
+    {
+      "text": "设置管理员",
+      "cls": "tab-items"
+    },
+    {
+      "text": "服务通知/短信通知",
+      "cls": "tab-items tab-focus-yellow"
+    },
+    {
+      "text": "企业微信群/钉钉群提醒",
+      "cls": "tab-items"
+    },
+    {
+      "text": "多种形式的分享",
+      "cls": "tab-items"
+    },
+    {
+      "text": "自动排队功能",
+      "cls": "tab-items"
+    },
+    {
+      "text": "专属个人主页",
+      "cls": "tab-items tab-focus-green"
+    },
+    {
+      "text": "会员管理",
+      "cls": "tab-items"
+    }
+  ],
+  "api_calls": [
+    {
+      "url": "https://apiplugin.h5bqb.top/wykf/api/v1/enterprise/webplugin/newlogin?version=0.1.2",
+      "method": "POST",
+      "type": "xhr"
+    },
+    {
+      "url": "https://sentry.weiyoubot.cn/api/5/envelope/?sentry_key=49321d537cd7496da8d78eda4570dad6&sentry_version=7",
+      "method": "POST",
+      "type": "fetch"
+    },
+    {
+      "url": "https://api-xcx-qunsou.weiyoubot.cn/xcx/enroll_web/v1/pc_code",
+      "method": "GET",
+      "type": "xhr"
+    },
+    {
+      "url": "https://api-xcx-qunsou.weiyoubot.cn/xcx/enroll_web/v1/pc_code",
+      "method": "GET",
+      "type": "xhr"
+    },
+    {
+      "url": "https://apiplugin.h5bqb.top/wykf/api/v1/enterprise/webplugin/newlogin?version=0.1.2",
+      "method": "POST",
+      "type": "xhr"
+    },
+    {
+      "url": "https://api-xcx-qunsou.weiyoubot.cn/xcx/enroll_web/v1/pc_login?code=7och5t6zg2msiuflpk49wyx8rn13vjea&source=pc",
+      "method": "GET",
+      "type": "xhr"
+    },
+    {
+      "url": "https://api-xcx-qunsou.weiyoubot.cn/xcx/enroll_web/v1/pc_login?code=1i5ohnp9bcwj0zs6ke4adgf3v8ltumry&source=pc",
+      "method": "GET",
+      "type": "xhr"
+    },
+    {
+      "url": "https://sentry.weiyoubot.cn/api/5/envelope/?sentry_key=49321d537cd7496da8d78eda4570dad6&sentry_version=7",
+      "method": "POST",
+      "type": "fetch"
+    },
+    {
+      "url": "https://api-xcx-qunsou.weiyoubot.cn/xcx/enroll_web/v1/pc_login?code=7och5t6zg2msiuflpk49wyx8rn13vjea&source=pc",
+      "method": "GET",
+      "type": "xhr"
+    },
+    {
+      "url": "https://api-xcx-qunsou.weiyoubot.cn/xcx/enroll_web/v1/pc_login?code=1i5ohnp9bcwj0zs6ke4adgf3v8ltumry&source=pc",
+      "method": "GET",
+      "type": "xhr"
+    },
+    {
+      "url": "https://api-xcx-qunsou.weiyoubot.cn/xcx/enroll/v1/notice/switch",
+      "method": "GET",
+      "type": "xhr"
+    },
+    {
+      "url": "https://api-xcx-qunsou.weiyoubot.cn/xcx/enroll/v1/userinfo",
+      "method": "GET",
+      "type": "xhr"
+    },
+    {
+      "url": "https://api-xcx-qunsou.weiyoubot.cn/xcx/enroll/v1/notice/switch",
+      "method": "GET",
+      "type": "xhr"
+    },
+    {
+      "url": "https://apiplugin.h5bqb.top/wykf/api/v1/enterprise/webplugin/newlogin?version=0.1.2",
+      "method": "POST",
+      "type": "xhr"
+    },
+    {
+      "url": "https://api-xcx-qunsou.weiyoubot.cn/xcx/enroll/v1/userinfo",
+      "method": "GET",
+      "type": "xhr"
+    },
+    {
+      "url": "https://api-xcx-qunsou.weiyoubot.cn/xcx/enroll/v1/userinfo",
+      "method": "GET",
+      "type": "xhr"
+    },
+    {
+      "url": "https://sentry.weiyoubot.cn/api/5/envelope/?sentry_key=49321d537cd7496da8d78eda4570dad6&sentry_version=7",
+      "method": "POST",
+      "type": "fetch"
+    },
+    {
+      "url": "https://sentry.weiyoubot.cn/api/5/envelope/?sentry_key=49321d537cd7496da8d78eda4570dad6&sentry_version=7",
+      "method": "POST",
+      "type": "fetch"
+    },
+    {
+      "url": "https://sentry.weiyoubot.cn/api/5/envelope/?sentry_key=49321d537cd7496da8d78eda4570dad6&sentry_version=7",
+      "method": "POST",
+      "type": "fetch"
+    }
+  ]
+}

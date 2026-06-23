@@ -344,6 +344,24 @@ var _api = __webpack_require__(/*! @/store/api.js */ 46);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var _default = {
   data: function data() {
     return {
@@ -361,6 +379,10 @@ var _default = {
       userNickname: '',
       userPhone: '',
       userRole: '',
+      // 快速填写
+      quickName: '',
+      quickPhone: '',
+      quickIdCard: '',
       // 手机手工输入
       showPhoneInput: false,
       manualPhone: '',
@@ -386,6 +408,9 @@ var _default = {
           this.userNickname = user.nickname || uni.getStorageSync('bm_nickname') || '';
           this.userAvatar = user.avatarUrl || uni.getStorageSync('bm_avatar') || '';
           this.userRole = user.role || 'USER';
+          this.quickName = user.realName || '';
+          this.quickPhone = user.phone || '';
+          this.quickIdCard = user.idCard || '';
           getApp().globalData.token = token;
           getApp().globalData.user = user;
           this.refreshProfile();
@@ -652,7 +677,7 @@ var _default = {
         }, _callee4, null, [[4, 15, 18, 21]]);
       }))();
     },
-    /** 修改昵称 */saveNickname: function saveNickname() {
+    /** 保存快速填写信息 */saveQuickFill: function saveQuickFill() {
       var _this5 = this;
       return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee5() {
         var user;
@@ -660,55 +685,30 @@ var _default = {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
-                if (_this5.editNickname.trim()) {
-                  _context5.next = 3;
-                  break;
-                }
-                uni.showToast({
-                  title: '请输入新昵称',
-                  icon: 'none'
-                });
-                return _context5.abrupt("return");
-              case 3:
-                _this5.savingNickname = true;
-                _context5.prev = 4;
-                _context5.next = 7;
+                _context5.prev = 0;
+                _context5.next = 3;
                 return (0, _api.updateProfile)({
-                  nickname: _this5.editNickname.trim()
+                  realName: _this5.quickName,
+                  phone: _this5.quickPhone,
+                  idCard: _this5.quickIdCard
                 });
-              case 7:
+              case 3:
                 user = _context5.sent;
                 getApp().globalData.user = user;
-                _this5.userNickname = user.nickname || _this5.editNickname.trim();
-                uni.setStorageSync('bm_nickname', _this5.userNickname);
-                _this5.showNicknameEdit = false;
-                uni.showToast({
-                  title: '昵称已更新',
-                  icon: 'success'
-                });
-                _context5.next = 18;
+                _context5.next = 9;
                 break;
-              case 15:
-                _context5.prev = 15;
-                _context5.t0 = _context5["catch"](4);
-                uni.showToast({
-                  title: _context5.t0.message || '更新失败',
-                  icon: 'none'
-                });
-              case 18:
-                _context5.prev = 18;
-                _this5.savingNickname = false;
-                return _context5.finish(18);
-              case 21:
+              case 7:
+                _context5.prev = 7;
+                _context5.t0 = _context5["catch"](0);
+              case 9:
               case "end":
                 return _context5.stop();
             }
           }
-        }, _callee5, null, [[4, 15, 18, 21]]);
+        }, _callee5, null, [[0, 7]]);
       }))();
     },
-    // ========== 开发者登录 ==========
-    handleDevLogin: function handleDevLogin() {
+    /** 修改昵称 */saveNickname: function saveNickname() {
       var _this6 = this;
       return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee6() {
         var user;
@@ -716,61 +716,117 @@ var _default = {
           while (1) {
             switch (_context6.prev = _context6.next) {
               case 0:
-                if (_this6.agreed) {
+                if (_this6.editNickname.trim()) {
                   _context6.next = 3;
+                  break;
+                }
+                uni.showToast({
+                  title: '请输入新昵称',
+                  icon: 'none'
+                });
+                return _context6.abrupt("return");
+              case 3:
+                _this6.savingNickname = true;
+                _context6.prev = 4;
+                _context6.next = 7;
+                return (0, _api.updateProfile)({
+                  nickname: _this6.editNickname.trim()
+                });
+              case 7:
+                user = _context6.sent;
+                getApp().globalData.user = user;
+                _this6.userNickname = user.nickname || _this6.editNickname.trim();
+                uni.setStorageSync('bm_nickname', _this6.userNickname);
+                _this6.showNicknameEdit = false;
+                uni.showToast({
+                  title: '昵称已更新',
+                  icon: 'success'
+                });
+                _context6.next = 18;
+                break;
+              case 15:
+                _context6.prev = 15;
+                _context6.t0 = _context6["catch"](4);
+                uni.showToast({
+                  title: _context6.t0.message || '更新失败',
+                  icon: 'none'
+                });
+              case 18:
+                _context6.prev = 18;
+                _this6.savingNickname = false;
+                return _context6.finish(18);
+              case 21:
+              case "end":
+                return _context6.stop();
+            }
+          }
+        }, _callee6, null, [[4, 15, 18, 21]]);
+      }))();
+    },
+    // ========== 开发者登录 ==========
+    handleDevLogin: function handleDevLogin() {
+      var _this7 = this;
+      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee7() {
+        var user;
+        return _regenerator.default.wrap(function _callee7$(_context7) {
+          while (1) {
+            switch (_context7.prev = _context7.next) {
+              case 0:
+                if (_this7.agreed) {
+                  _context7.next = 3;
                   break;
                 }
                 uni.showToast({
                   title: '请先同意隐私协议',
                   icon: 'none'
                 });
-                return _context6.abrupt("return");
+                return _context7.abrupt("return");
               case 3:
-                _this6.loading = true;
-                _context6.prev = 4;
-                _context6.next = 7;
-                return (0, _api.login)(_this6.devPhone, _this6.devPassword);
+                _this7.loading = true;
+                _context7.prev = 4;
+                _context7.next = 7;
+                return (0, _api.login)(_this7.devPhone, _this7.devPassword);
               case 7:
-                user = _context6.sent;
+                user = _context7.sent;
                 getApp().globalData.user = user;
                 uni.showToast({
                   title: '登录成功',
                   icon: 'success'
                 });
                 setTimeout(function () {
-                  _this6.checkLoginState();
+                  _this7.checkLoginState();
                 }, 300);
-                _context6.next = 16;
+                _context7.next = 16;
                 break;
               case 13:
-                _context6.prev = 13;
-                _context6.t0 = _context6["catch"](4);
+                _context7.prev = 13;
+                _context7.t0 = _context7["catch"](4);
                 uni.showToast({
-                  title: _context6.t0.message || '登录失败',
+                  title: _context7.t0.message || '登录失败',
                   icon: 'none'
                 });
               case 16:
-                _context6.prev = 16;
-                _this6.loading = false;
-                return _context6.finish(16);
+                _context7.prev = 16;
+                _this7.loading = false;
+                return _context7.finish(16);
               case 19:
               case "end":
-                return _context6.stop();
+                return _context7.stop();
             }
           }
-        }, _callee6, null, [[4, 13, 16, 19]]);
+        }, _callee7, null, [[4, 13, 16, 19]]);
       }))();
     },
     // ========== 退出登录 ==========
     handleDeleteAccount: function handleDeleteAccount() {
-      var _this7 = this;
-      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee7() {
+      var _this8 = this;
+      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee8() {
         var res, res2;
-        return _regenerator.default.wrap(function _callee7$(_context7) {
+        return _regenerator.default.wrap(function _callee8$(_context8) {
           while (1) {
-            switch (_context7.prev = _context7.next) {
+            switch (_context8.prev = _context8.next) {
               case 0:
-                _context7.next = 2;
+                _context8.next = 2;
                 return new Promise(function (r) {
                   return uni.showModal({
                     title: '注销账号',
@@ -783,14 +839,14 @@ var _default = {
                   });
                 });
               case 2:
-                res = _context7.sent;
+                res = _context8.sent;
                 if (res) {
-                  _context7.next = 5;
+                  _context8.next = 5;
                   break;
                 }
-                return _context7.abrupt("return");
+                return _context8.abrupt("return");
               case 5:
-                _context7.next = 7;
+                _context8.next = 7;
                 return new Promise(function (r) {
                   return uni.showModal({
                     title: '再次确认',
@@ -803,15 +859,15 @@ var _default = {
                   });
                 });
               case 7:
-                res2 = _context7.sent;
+                res2 = _context8.sent;
                 if (res2) {
-                  _context7.next = 10;
+                  _context8.next = 10;
                   break;
                 }
-                return _context7.abrupt("return");
+                return _context8.abrupt("return");
               case 10:
-                _context7.prev = 10;
-                _context7.next = 13;
+                _context8.prev = 10;
+                _context8.next = 13;
                 return (0, _api.deleteAccount)();
               case 13:
                 uni.removeStorageSync('bm_token');
@@ -823,27 +879,27 @@ var _default = {
                   icon: 'success'
                 });
                 setTimeout(function () {
-                  return _this7.checkLoginState();
+                  return _this8.checkLoginState();
                 }, 500);
-                _context7.next = 24;
+                _context8.next = 24;
                 break;
               case 21:
-                _context7.prev = 21;
-                _context7.t0 = _context7["catch"](10);
+                _context8.prev = 21;
+                _context8.t0 = _context8["catch"](10);
                 uni.showToast({
-                  title: '注销失败: ' + _context7.t0.message,
+                  title: '注销失败: ' + _context8.t0.message,
                   icon: 'none'
                 });
               case 24:
               case "end":
-                return _context7.stop();
+                return _context8.stop();
             }
           }
-        }, _callee7, null, [[10, 21]]);
+        }, _callee8, null, [[10, 21]]);
       }))();
     },
     handleLogout: function handleLogout() {
-      var _this8 = this;
+      var _this9 = this;
       uni.showModal({
         title: '退出登录',
         content: '确定要退出登录吗？',
@@ -853,11 +909,11 @@ var _default = {
             uni.removeStorageSync('bm_user');
             getApp().globalData.token = '';
             getApp().globalData.user = null;
-            _this8.isLoggedIn = false;
-            _this8.userPhone = '';
-            _this8.userNickname = '';
-            _this8.userAvatar = '';
-            _this8.userRole = '';
+            _this9.isLoggedIn = false;
+            _this9.userPhone = '';
+            _this9.userNickname = '';
+            _this9.userAvatar = '';
+            _this9.userRole = '';
             uni.showToast({
               title: '已退出',
               icon: 'success'
