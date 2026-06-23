@@ -260,7 +260,6 @@ export default {
         }
 
         // 初始化表单数据，并从用户信息自动填充
-        const userStr = uni.getStorageSync('bm_user')
         let userProfile = {}
         if (userStr) {
           try { userProfile = JSON.parse(userStr) } catch (e) {}
