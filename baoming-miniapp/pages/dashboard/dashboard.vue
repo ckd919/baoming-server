@@ -61,6 +61,8 @@
           <button class="btn-outline btn-sm" @click.stop="goPage('/pages/builder/builder', { id: a.id })">📝 表单</button>
           <button class="btn-outline btn-sm" @click.stop="goPage('/pages/publish/publish', { id: a.id })">🚀 发布</button>
           <button class="btn-outline btn-sm" @click.stop="goPage('/pages/data/data', { id: a.id })">📊 数据</button>
+          <button v-if="a.status === 'published'" class="btn-outline btn-sm" style="color:#D32F2F;border-color:#D32F2F" @click.stop="handleStop(a.id)">🛑 截止</button>
+          <button v-if="a.status === 'ended'" class="btn-outline btn-sm" style="color:#4CAF50;border-color:#4CAF50" @click.stop="handleRestart(a.id)">▶️ 开启</button>
           <button class="btn-outline btn-sm" @click.stop="goPage('/pages/admins/admins', { id: a.id })">👥 管理员</button>
           <button class="btn-outline btn-sm" @click.stop="handleCopy(a)">📋 复制</button>
           <button class="btn-delete" @click.stop="handleDelete(a.id)">🗑</button>
@@ -79,7 +81,7 @@
 </template>
 
 <script>
-import { getActivities, deleteActivity, duplicateActivity } from '@/store/api.js'
+import { getActivities, deleteActivity, duplicateActivity, stopRegistration, restartRegistration } from '@/store/api.js'
 
 export default {
   data() {
@@ -151,6 +153,20 @@ export default {
       if (!ts) return '未设置'
       const d = new Date(ts)
       return `${d.getMonth()+1}月${d.getDate()}日`
+    },
+    async handleStop(id) {
+      try {
+        await stopRegistration(id)
+        uni.showToast({ title: '已截止', icon: 'success' })
+        this.loadActivities()
+      } catch (err) { uni.showToast({ title: '操作失败', icon: 'none' }) }
+    },
+    async handleRestart(id) {
+      try {
+        await restartRegistration(id)
+        uni.showToast({ title: '已开启', icon: 'success' })
+        this.loadActivities()
+      } catch (err) { uni.showToast({ title: '操作失败', icon: 'none' }) }
     },
     async handleCopy(activity) {
       const res1 = await new Promise(r => {

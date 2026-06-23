@@ -58,23 +58,11 @@
       </text>
     </view>
 
-    <!-- 发布/取消发布 -->
-    <view class="card" v-if="activity">
-      <button v-if="activity.status !== 'published'" class="btn-primary btn-block" @click="publishNow">
+    <!-- 发布 -->
+    <view class="card" v-if="activity && activity.status !== 'published'">
+      <button class="btn-primary btn-block" @click="publishNow">
         🚀 立即发布
       </button>
-      <button v-else class="btn-block btn-secondary" @click="unpublish">
-        取消发布
-      </button>
-    </view>
-
-    <!-- 一键截止/开启 -->
-    <view class="card" v-if="activity && activity.status === 'published'">
-      <text class="card-title">⏰ 报名控制</text>
-      <view class="stop-row">
-        <button class="btn-outline" style="flex:1" @click="handleStopRegistration">🛑 一键截止</button>
-        <button class="btn-primary" style="flex:1" @click="handleRestartRegistration">▶️ 恢复报名</button>
-      </view>
     </view>
 
     <!-- 预览 -->
@@ -85,7 +73,7 @@
 </template>
 
 <script>
-import { getActivity, updateActivity, stopRegistration, restartRegistration } from '@/store/api.js'
+import { getActivity, updateActivity } from '@/store/api.js'
 
 export default {
   data() {
@@ -185,20 +173,6 @@ export default {
         await updateActivity(this.activity.id, { status: 'draft' })
         this.activity.status = 'draft'
         uni.showToast({ title: '已取消', icon: 'success' })
-      } catch (err) { uni.showToast({ title: '操作失败', icon: 'none' }) }
-    },
-    async handleStopRegistration() {
-      try {
-        await stopRegistration(this.activity.id)
-        uni.showToast({ title: '已截止报名', icon: 'success' })
-        this.loadActivity(this.activity.id)
-      } catch (err) { uni.showToast({ title: '操作失败', icon: 'none' }) }
-    },
-    async handleRestartRegistration() {
-      try {
-        await restartRegistration(this.activity.id)
-        uni.showToast({ title: '已恢复报名', icon: 'success' })
-        this.loadActivity(this.activity.id)
       } catch (err) { uni.showToast({ title: '操作失败', icon: 'none' }) }
     },
     previewForm() {

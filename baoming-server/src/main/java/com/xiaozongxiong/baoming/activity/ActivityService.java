@@ -254,14 +254,14 @@ public class ActivityService {
     public Map<String, Object> stopRegistration(String id, Integer userId) {
         Activity a = findOwned(id, userId);
         long now = System.currentTimeMillis();
-        // 保存原始截止时间
         if (a.getOriginalEndTime() == null && a.getEndTime() != null) {
             a.setOriginalEndTime(a.getEndTime());
         }
         a.setEndTime(now);
+        a.setStatus("ended");
         a.setUpdatedAt(now);
         activityMapper.updateById(a);
-        return Map.of("ok", true, "endTime", now);
+        return Map.of("ok", true, "endTime", now, "status", "ended");
     }
 
     @Transactional
@@ -272,9 +272,10 @@ public class ActivityService {
             a.setEndTime(a.getOriginalEndTime());
             a.setOriginalEndTime(null);
         }
+        a.setStatus("published");
         a.setUpdatedAt(now);
         activityMapper.updateById(a);
-        return Map.of("ok", true, "endTime", a.getEndTime());
+        return Map.of("ok", true, "endTime", a.getEndTime(), "status", "published");
     }
 
     // ==================== 管理员管理 ====================

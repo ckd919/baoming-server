@@ -29,7 +29,7 @@
       </view>
       <view class="section">
         <text class="section-title">七、联系我们</text>
-        <text class="section-text">如对本协议有任何疑问，请通过以下方式联系：\n邮箱：admin@ledbell.cn</text>
+        <text class="section-text">如对本协议有任何疑问，请通过以下方式联系：\n邮箱：468356290@qq.com</text>
       </view>
     </view>
   </view>
