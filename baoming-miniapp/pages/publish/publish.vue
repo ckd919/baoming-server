@@ -72,6 +72,15 @@
       </button>
     </view>
 
+    <!-- 一键截止/开启 -->
+    <view class="card" v-if="activity && activity.status === 'published'">
+      <text class="card-title">⏰ 报名控制</text>
+      <view class="stop-row">
+        <button class="btn-outline" style="flex:1" @click="handleStopRegistration">🛑 一键截止</button>
+        <button class="btn-primary" style="flex:1" @click="handleRestartRegistration">▶️ 恢复报名</button>
+      </view>
+    </view>
+
     <!-- 预览 -->
     <view class="card" v-if="activity">
       <button class="btn-outline btn-block" @click="previewForm">👁 预览报名表</button>
@@ -80,7 +89,7 @@
 </template>
 
 <script>
-import { getActivity, updateActivity } from '@/store/api.js'
+import { getActivity, updateActivity, stopRegistration, restartRegistration } from '@/store/api.js'
 
 export default {
   data() {
@@ -189,6 +198,20 @@ export default {
         uni.showToast({ title: '已取消', icon: 'success' })
       } catch (err) { uni.showToast({ title: '操作失败', icon: 'none' }) }
     },
+    async handleStopRegistration() {
+      try {
+        await stopRegistration(this.activity.id)
+        uni.showToast({ title: '已截止报名', icon: 'success' })
+        this.loadActivity(this.activity.id)
+      } catch (err) { uni.showToast({ title: '操作失败', icon: 'none' }) }
+    },
+    async handleRestartRegistration() {
+      try {
+        await restartRegistration(this.activity.id)
+        uni.showToast({ title: '已恢复报名', icon: 'success' })
+        this.loadActivity(this.activity.id)
+      } catch (err) { uni.showToast({ title: '操作失败', icon: 'none' }) }
+    },
     previewForm() {
       const id = this.activity?.id
       if (id) uni.navigateTo({ url: `/pages/form/form?id=${id}&preview=1` })
@@ -254,6 +277,8 @@ export default {
   border-radius: 44rpx; font-size: 32rpx; font-weight: 600;
   padding: 24rpx 40rpx;
 }
+
+.stop-row { display: flex; gap: 16rpx; margin-top: 12rpx; }
 
 .wx-share-btn {
   width: 100%; height: 88rpx;

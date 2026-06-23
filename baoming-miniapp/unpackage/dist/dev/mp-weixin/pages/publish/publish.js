@@ -237,6 +237,15 @@ var _api = __webpack_require__(/*! @/store/api.js */ 46);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var _default = {
   data: function data() {
     return {
@@ -492,6 +501,72 @@ var _default = {
             }
           }
         }, _callee5, null, [[5, 12]]);
+      }))();
+    },
+    handleStopRegistration: function handleStopRegistration() {
+      var _this6 = this;
+      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee6() {
+        return _regenerator.default.wrap(function _callee6$(_context6) {
+          while (1) {
+            switch (_context6.prev = _context6.next) {
+              case 0:
+                _context6.prev = 0;
+                _context6.next = 3;
+                return (0, _api.stopRegistration)(_this6.activity.id);
+              case 3:
+                uni.showToast({
+                  title: '已截止报名',
+                  icon: 'success'
+                });
+                _this6.loadActivity(_this6.activity.id);
+                _context6.next = 10;
+                break;
+              case 7:
+                _context6.prev = 7;
+                _context6.t0 = _context6["catch"](0);
+                uni.showToast({
+                  title: '操作失败',
+                  icon: 'none'
+                });
+              case 10:
+              case "end":
+                return _context6.stop();
+            }
+          }
+        }, _callee6, null, [[0, 7]]);
+      }))();
+    },
+    handleRestartRegistration: function handleRestartRegistration() {
+      var _this7 = this;
+      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee7() {
+        return _regenerator.default.wrap(function _callee7$(_context7) {
+          while (1) {
+            switch (_context7.prev = _context7.next) {
+              case 0:
+                _context7.prev = 0;
+                _context7.next = 3;
+                return (0, _api.restartRegistration)(_this7.activity.id);
+              case 3:
+                uni.showToast({
+                  title: '已恢复报名',
+                  icon: 'success'
+                });
+                _this7.loadActivity(_this7.activity.id);
+                _context7.next = 10;
+                break;
+              case 7:
+                _context7.prev = 7;
+                _context7.t0 = _context7["catch"](0);
+                uni.showToast({
+                  title: '操作失败',
+                  icon: 'none'
+                });
+              case 10:
+              case "end":
+                return _context7.stop();
+            }
+          }
+        }, _callee7, null, [[0, 7]]);
       }))();
     },
     previewForm: function previewForm() {

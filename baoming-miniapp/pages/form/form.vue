@@ -103,12 +103,26 @@
               :loading="submitting" :disabled="submitting">
         📝 提交报名
       </button>
+
+      <!-- 留言区 -->
+      <view class="comment-section" v-if="activity">
+        <text class="comment-title">💬 留言 ({{ comments.length }})</text>
+        <view class="comment-item" v-for="c in comments" :key="c.id">
+          <text class="ci-name">{{ c.nickname || '用户' }}</text>
+          <text class="ci-content">{{ c.content }}</text>
+          <text class="ci-time">{{ formatTime(c.createdAt) }}</text>
+        </view>
+        <view class="comment-input-row">
+          <input class="form-input" v-model="newComment" placeholder="输入留言..." />
+          <button class="btn-primary btn-sm" @click="handleAddComment">发送</button>
+        </view>
+      </view>
     </view>
   </view>
 </template>
 
 <script>
-import { getPublicActivity, getActivity, addSubmission } from '@/store/api.js'
+import { getPublicActivity, getActivity, addSubmission, getComments, addComment } from '@/store/api.js'
 import { trackView } from '@/utils/recentViews.js'
 
 export default {
@@ -118,8 +132,10 @@ export default {
       formData: {},
       submitting: false,
       isPreview: false,
-      groupId: '',  // 微信群ID
-      canShare: true  // 当前用户是否可分享
+      groupId: '',
+      canShare: true,
+      comments: [],
+      newComment: ''
     }
   },
   computed: {
@@ -240,6 +256,7 @@ export default {
         // 记录浏览（非预览模式下）
         if (!this.isPreview) {
           trackView(this.activity)
+          this.loadComments()
         }
 
         // 初始化表单数据
@@ -309,6 +326,26 @@ export default {
         uni.showToast({ title: '提交失败: ' + err.message, icon: 'none' })
         this.submitting = false
       }
+    },
+    async loadComments() {
+      try { this.comments = await getComments(this.activity.id) }
+      catch { this.comments = [] }
+    },
+    async handleAddComment() {
+      if (!this.newComment.trim()) return
+      try {
+        await addComment(this.activity.id, this.newComment.trim())
+        this.newComment = ''
+        this.loadComments()
+      } catch (err) {
+        uni.showToast({ title: '留言失败', icon: 'none' })
+      }
+    },
+    formatTime(ts) {
+      if (!ts) return ''
+      const d = new Date(ts)
+      const pad = n => String(n).padStart(2, '0')
+      return `${pad(d.getMonth()+1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`
     }
   }
 }
@@ -371,4 +408,14 @@ export default {
 .fee-symbol { font-size: 28rpx; color: #D4720D; font-weight: 600; }
 .fee-val { font-size: 40rpx; color: #D4720D; font-weight: 700; }
 .btn-sm { padding: 12rpx 20rpx; font-size: 24rpx; }
+
+.comment-section { margin-top: 40rpx; padding-top: 28rpx; border-top: 2rpx solid #f0ede9; }
+.comment-title { font-size: 28rpx; font-weight: 600; display: block; margin-bottom: 16rpx; }
+.comment-item { padding: 16rpx 0; border-bottom: 1rpx solid #f5f1ec; }
+.ci-name { font-size: 24rpx; color: #D4720D; font-weight: 500; display: block; }
+.ci-content { font-size: 26rpx; color: #333; display: block; margin: 6rpx 0; }
+.ci-time { font-size: 20rpx; color: #ccc; }
+.comment-input-row { display: flex; gap: 12rpx; margin-top: 16rpx; align-items: center; }
+.comment-input-row .form-input { flex: 1; }
+.comment-input-row .btn-sm { padding: 14rpx 24rpx; white-space: nowrap; }
 </style>

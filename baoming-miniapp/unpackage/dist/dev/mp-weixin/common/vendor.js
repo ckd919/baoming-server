@@ -12386,6 +12386,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.acceptAdminInvite = acceptAdminInvite;
 exports.addActivityAdmin = addActivityAdmin;
+exports.addComment = addComment;
 exports.addSubmission = addSubmission;
 exports.bindPhone = bindPhone;
 exports.cancelSubmission = cancelSubmission;
@@ -12399,6 +12400,9 @@ exports.generateAdminInviteToken = generateAdminInviteToken;
 exports.getActivities = getActivities;
 exports.getActivity = getActivity;
 exports.getActivityAdmins = getActivityAdmins;
+exports.getAdminHistory = getAdminHistory;
+exports.getCancelRequests = getCancelRequests;
+exports.getComments = getComments;
 exports.getManagedActivities = getManagedActivities;
 exports.getMyProfile = getMyProfile;
 exports.getMySubmissions = getMySubmissions;
@@ -12407,8 +12411,12 @@ exports.getSubmissions = getSubmissions;
 exports.getTemplates = getTemplates;
 exports.login = login;
 exports.removeActivityAdmin = removeActivityAdmin;
+exports.requestCancel = requestCancel;
+exports.restartRegistration = restartRegistration;
 exports.restoreActivity = restoreActivity;
+exports.reviewCancelRequest = reviewCancelRequest;
 exports.setToken = setToken;
+exports.stopRegistration = stopRegistration;
 exports.updateActivity = updateActivity;
 exports.updateProfile = updateProfile;
 exports.wechatAuthLogin = wechatAuthLogin;
@@ -13026,7 +13034,7 @@ function _generateAdminInviteToken() {
 }
 function acceptAdminInvite(_x26, _x27) {
   return _acceptAdminInvite.apply(this, arguments);
-} // ==================== 用户记录 ====================
+}
 function _acceptAdminInvite() {
   _acceptAdminInvite = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee24(activityId, token) {
     return _regenerator.default.wrap(function _callee24$(_context24) {
@@ -13046,21 +13054,21 @@ function _acceptAdminInvite() {
   }));
   return _acceptAdminInvite.apply(this, arguments);
 }
-function getManagedActivities() {
-  return _getManagedActivities.apply(this, arguments);
-}
-function _getManagedActivities() {
-  _getManagedActivities = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee25() {
+function getAdminHistory() {
+  return _getAdminHistory.apply(this, arguments);
+} // ==================== 留言 ====================
+function _getAdminHistory() {
+  _getAdminHistory = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee25() {
     var data;
     return _regenerator.default.wrap(function _callee25$(_context25) {
       while (1) {
         switch (_context25.prev = _context25.next) {
           case 0:
             _context25.next = 2;
-            return request('GET', '/user/managed-activities');
+            return request('GET', '/user/admin-history');
           case 2:
             data = _context25.sent;
-            return _context25.abrupt("return", data.activities || []);
+            return _context25.abrupt("return", data.history || []);
           case 4:
           case "end":
             return _context25.stop();
@@ -13068,23 +13076,23 @@ function _getManagedActivities() {
       }
     }, _callee25);
   }));
-  return _getManagedActivities.apply(this, arguments);
+  return _getAdminHistory.apply(this, arguments);
 }
-function getMySubmissions() {
-  return _getMySubmissions.apply(this, arguments);
+function getComments(_x28) {
+  return _getComments.apply(this, arguments);
 }
-function _getMySubmissions() {
-  _getMySubmissions = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee26() {
+function _getComments() {
+  _getComments = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee26(activityId) {
     var data;
     return _regenerator.default.wrap(function _callee26$(_context26) {
       while (1) {
         switch (_context26.prev = _context26.next) {
           case 0:
             _context26.next = 2;
-            return request('GET', '/user/submissions');
+            return request('GET', "/activities/".concat(activityId, "/comments"));
           case 2:
             data = _context26.sent;
-            return _context26.abrupt("return", data.submissions || []);
+            return _context26.abrupt("return", data.comments || []);
           case 4:
           case "end":
             return _context26.stop();
@@ -13092,25 +13100,213 @@ function _getMySubmissions() {
       }
     }, _callee26);
   }));
-  return _getMySubmissions.apply(this, arguments);
+  return _getComments.apply(this, arguments);
 }
-function cancelSubmission(_x28) {
-  return _cancelSubmission.apply(this, arguments);
-}
-function _cancelSubmission() {
-  _cancelSubmission = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee27(submissionId) {
+function addComment(_x29, _x30) {
+  return _addComment.apply(this, arguments);
+} // ==================== 取消审核 ====================
+function _addComment() {
+  _addComment = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee27(activityId, content) {
     return _regenerator.default.wrap(function _callee27$(_context27) {
       while (1) {
         switch (_context27.prev = _context27.next) {
           case 0:
             _context27.next = 2;
-            return request('DELETE', "/submissions/".concat(submissionId, "/cancel"));
+            return request('POST', "/activities/".concat(activityId, "/comments"), {
+              content: content
+            });
           case 2:
+            return _context27.abrupt("return", _context27.sent);
+          case 3:
           case "end":
             return _context27.stop();
         }
       }
     }, _callee27);
+  }));
+  return _addComment.apply(this, arguments);
+}
+function requestCancel(_x31, _x32) {
+  return _requestCancel.apply(this, arguments);
+}
+function _requestCancel() {
+  _requestCancel = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee28(submissionId, reason) {
+    return _regenerator.default.wrap(function _callee28$(_context28) {
+      while (1) {
+        switch (_context28.prev = _context28.next) {
+          case 0:
+            _context28.next = 2;
+            return request('POST', "/submissions/".concat(submissionId, "/request-cancel"), {
+              reason: reason || ''
+            });
+          case 2:
+            return _context28.abrupt("return", _context28.sent);
+          case 3:
+          case "end":
+            return _context28.stop();
+        }
+      }
+    }, _callee28);
+  }));
+  return _requestCancel.apply(this, arguments);
+}
+function getCancelRequests(_x33) {
+  return _getCancelRequests.apply(this, arguments);
+}
+function _getCancelRequests() {
+  _getCancelRequests = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee29(activityId) {
+    var data;
+    return _regenerator.default.wrap(function _callee29$(_context29) {
+      while (1) {
+        switch (_context29.prev = _context29.next) {
+          case 0:
+            _context29.next = 2;
+            return request('GET', "/activities/".concat(activityId, "/cancel-requests"));
+          case 2:
+            data = _context29.sent;
+            return _context29.abrupt("return", data.requests || []);
+          case 4:
+          case "end":
+            return _context29.stop();
+        }
+      }
+    }, _callee29);
+  }));
+  return _getCancelRequests.apply(this, arguments);
+}
+function reviewCancelRequest(_x34, _x35) {
+  return _reviewCancelRequest.apply(this, arguments);
+} // ==================== 一键截止/开启 ====================
+function _reviewCancelRequest() {
+  _reviewCancelRequest = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee30(requestId, action) {
+    return _regenerator.default.wrap(function _callee30$(_context30) {
+      while (1) {
+        switch (_context30.prev = _context30.next) {
+          case 0:
+            _context30.next = 2;
+            return request('POST', "/cancel-requests/".concat(requestId, "/review"), {
+              action: action
+            });
+          case 2:
+            return _context30.abrupt("return", _context30.sent);
+          case 3:
+          case "end":
+            return _context30.stop();
+        }
+      }
+    }, _callee30);
+  }));
+  return _reviewCancelRequest.apply(this, arguments);
+}
+function stopRegistration(_x36) {
+  return _stopRegistration.apply(this, arguments);
+}
+function _stopRegistration() {
+  _stopRegistration = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee31(activityId) {
+    return _regenerator.default.wrap(function _callee31$(_context31) {
+      while (1) {
+        switch (_context31.prev = _context31.next) {
+          case 0:
+            _context31.next = 2;
+            return request('POST', "/activities/".concat(activityId, "/stop-registration"));
+          case 2:
+            return _context31.abrupt("return", _context31.sent);
+          case 3:
+          case "end":
+            return _context31.stop();
+        }
+      }
+    }, _callee31);
+  }));
+  return _stopRegistration.apply(this, arguments);
+}
+function restartRegistration(_x37) {
+  return _restartRegistration.apply(this, arguments);
+} // ==================== 用户记录 ====================
+function _restartRegistration() {
+  _restartRegistration = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee32(activityId) {
+    return _regenerator.default.wrap(function _callee32$(_context32) {
+      while (1) {
+        switch (_context32.prev = _context32.next) {
+          case 0:
+            _context32.next = 2;
+            return request('POST', "/activities/".concat(activityId, "/restart-registration"));
+          case 2:
+            return _context32.abrupt("return", _context32.sent);
+          case 3:
+          case "end":
+            return _context32.stop();
+        }
+      }
+    }, _callee32);
+  }));
+  return _restartRegistration.apply(this, arguments);
+}
+function getManagedActivities() {
+  return _getManagedActivities.apply(this, arguments);
+}
+function _getManagedActivities() {
+  _getManagedActivities = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee33() {
+    var data;
+    return _regenerator.default.wrap(function _callee33$(_context33) {
+      while (1) {
+        switch (_context33.prev = _context33.next) {
+          case 0:
+            _context33.next = 2;
+            return request('GET', '/user/managed-activities');
+          case 2:
+            data = _context33.sent;
+            return _context33.abrupt("return", data.activities || []);
+          case 4:
+          case "end":
+            return _context33.stop();
+        }
+      }
+    }, _callee33);
+  }));
+  return _getManagedActivities.apply(this, arguments);
+}
+function getMySubmissions() {
+  return _getMySubmissions.apply(this, arguments);
+}
+function _getMySubmissions() {
+  _getMySubmissions = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee34() {
+    var data;
+    return _regenerator.default.wrap(function _callee34$(_context34) {
+      while (1) {
+        switch (_context34.prev = _context34.next) {
+          case 0:
+            _context34.next = 2;
+            return request('GET', '/user/submissions');
+          case 2:
+            data = _context34.sent;
+            return _context34.abrupt("return", data.submissions || []);
+          case 4:
+          case "end":
+            return _context34.stop();
+        }
+      }
+    }, _callee34);
+  }));
+  return _getMySubmissions.apply(this, arguments);
+}
+function cancelSubmission(_x38) {
+  return _cancelSubmission.apply(this, arguments);
+}
+function _cancelSubmission() {
+  _cancelSubmission = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee35(submissionId) {
+    return _regenerator.default.wrap(function _callee35$(_context35) {
+      while (1) {
+        switch (_context35.prev = _context35.next) {
+          case 0:
+            _context35.next = 2;
+            return request('DELETE', "/submissions/".concat(submissionId, "/cancel"));
+          case 2:
+          case "end":
+            return _context35.stop();
+        }
+      }
+    }, _callee35);
   }));
   return _cancelSubmission.apply(this, arguments);
 }

@@ -59,6 +59,8 @@
   border-radius: 44rpx; font-size: 32rpx; font-weight: 600;
   padding: 24rpx 40rpx;
 }
+.stop-row.data-v-177a8126 { display: flex; gap: 16rpx; margin-top: 12rpx;
+}
 .wx-share-btn.data-v-177a8126 {
   width: 100%; height: 88rpx;
   background: #07C160; color: #fff;

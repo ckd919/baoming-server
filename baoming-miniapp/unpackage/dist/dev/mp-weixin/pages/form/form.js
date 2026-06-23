@@ -133,6 +133,21 @@ var render = function () {
           }
         })
       : null
+  var g4 =
+    _vm.activity && _vm.activity.fields && _vm.activity
+      ? _vm.comments.length
+      : null
+  var l2 =
+    _vm.activity && _vm.activity.fields && _vm.activity
+      ? _vm.__map(_vm.comments, function (c, __i3__) {
+          var $orig = _vm.__get_orig(c)
+          var m1 = _vm.formatTime(c.createdAt)
+          return {
+            $orig: $orig,
+            m1: m1,
+          }
+        })
+      : null
   if (!_vm._isMounted) {
     _vm.e0 = function (e, f) {
       var args = [],
@@ -182,6 +197,8 @@ var render = function () {
       $root: {
         m0: m0,
         l1: l1,
+        g4: g4,
+        l2: l2,
       },
     }
   )
@@ -241,11 +258,11 @@ var _default = {
       submitting: false,
       isPreview: false,
       groupId: '',
-      // 微信群ID
-      canShare: true // 当前用户是否可分享
+      canShare: true,
+      comments: [],
+      newComment: ''
     };
   },
-
   computed: {
     isEnded: function isEnded() {
       var _this$activity;
@@ -408,6 +425,7 @@ var _default = {
                 // 记录浏览（非预览模式下）
                 if (!_this.isPreview) {
                   (0, _recentViews.trackView)(_this.activity);
+                  _this.loadComments();
                 }
 
                 // 初始化表单数据
@@ -551,6 +569,76 @@ var _default = {
           }
         }, _callee2, null, [[1, 14, 17, 20], [21, 30]]);
       }))();
+    },
+    loadComments: function loadComments() {
+      var _this5 = this;
+      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee3() {
+        return _regenerator.default.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.prev = 0;
+                _context3.next = 3;
+                return (0, _api.getComments)(_this5.activity.id);
+              case 3:
+                _this5.comments = _context3.sent;
+                _context3.next = 9;
+                break;
+              case 6:
+                _context3.prev = 6;
+                _context3.t0 = _context3["catch"](0);
+                _this5.comments = [];
+              case 9:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3, null, [[0, 6]]);
+      }))();
+    },
+    handleAddComment: function handleAddComment() {
+      var _this6 = this;
+      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee4() {
+        return _regenerator.default.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                if (_this6.newComment.trim()) {
+                  _context4.next = 2;
+                  break;
+                }
+                return _context4.abrupt("return");
+              case 2:
+                _context4.prev = 2;
+                _context4.next = 5;
+                return (0, _api.addComment)(_this6.activity.id, _this6.newComment.trim());
+              case 5:
+                _this6.newComment = '';
+                _this6.loadComments();
+                _context4.next = 12;
+                break;
+              case 9:
+                _context4.prev = 9;
+                _context4.t0 = _context4["catch"](2);
+                uni.showToast({
+                  title: '留言失败',
+                  icon: 'none'
+                });
+              case 12:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4, null, [[2, 9]]);
+      }))();
+    },
+    formatTime: function formatTime(ts) {
+      if (!ts) return '';
+      var d = new Date(ts);
+      var pad = function pad(n) {
+        return String(n).padStart(2, '0');
+      };
+      return "".concat(pad(d.getMonth() + 1), "-").concat(pad(d.getDate()), " ").concat(pad(d.getHours()), ":").concat(pad(d.getMinutes()));
     }
   }
 };
