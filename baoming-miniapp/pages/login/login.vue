@@ -35,7 +35,7 @@
         <text>{{ loading ? '登录中...' : '微信授权登录' }}</text>
       </button>
 
-      <text class="bottom-tip">首次使用点击授权即自动注册 · 无需手机号</text>
+      <text class="bottom-tip">首次使用点击授权即自动注册</text>
 
       <!-- 返回首页 -->
       <view class="back-link" @click="goHome">

@@ -102,23 +102,24 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  var g0 = !_vm.loading ? _vm.filteredList.length : null
+  var g0 = _vm.activities.length
+  var g1 = !_vm.loading ? _vm.filteredList.length : null
   var l0 =
-    !_vm.loading && !(g0 === 0)
+    !_vm.loading && !(g1 === 0)
       ? _vm.__map(_vm.filteredList, function (a, __i1__) {
           var $orig = _vm.__get_orig(a)
           var m0 = _vm.statusClass(a.status)
           var m1 = _vm.statusLabel(a.status)
           var m2 = a.maxParticipants > 0 ? _vm.progressPct(a) : null
           var m3 = _vm.formatDate(a.startTime)
-          var g1 = (a.fields || []).length
+          var g2 = (a.fields || []).length
           return {
             $orig: $orig,
             m0: m0,
             m1: m1,
             m2: m2,
             m3: m3,
-            g1: g1,
+            g2: g2,
           }
         })
       : null
@@ -127,6 +128,7 @@ var render = function () {
     {
       $root: {
         g0: g0,
+        g1: g1,
         l0: l0,
       },
     }
@@ -273,6 +275,8 @@ var _api = __webpack_require__(/*! @/store/api.js */ 46);
 //
 //
 //
+//
+//
 var _default = {
   data: function data() {
     return {
@@ -296,6 +300,11 @@ var _default = {
     };
   },
   computed: {
+    totalSubmissions: function totalSubmissions() {
+      return this.activities.reduce(function (sum, a) {
+        return sum + (a.submissionCount || 0);
+      }, 0);
+    },
     filteredList: function filteredList() {
       var _this = this;
       var list = this.activities;

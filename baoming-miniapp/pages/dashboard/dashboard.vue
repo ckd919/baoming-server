@@ -2,22 +2,24 @@
   <view class="page">
     <!-- 顶部 -->
     <view class="header">
+      <view class="header-bg-deco"></view>
       <view class="bear-row">
-        <view class="bear-logo">
-          <view class="bear-face">
-            <view class="bear-ear left"></view>
-            <view class="bear-ear right"></view>
-            <view class="bear-eyes">
-              <view class="bear-eye"></view>
-              <view class="bear-eye"></view>
-            </view>
-            <view class="bear-nose"></view>
-            <view class="bear-mouth"></view>
-          </view>
+        <view class="bear-avatar">
+          <text class="bear-emoji">🐻</text>
         </view>
         <view class="header-text">
-          <view class="greeting">Hi~ 欢迎回来</view>
+          <view class="greeting">Hello~ 👋</view>
           <view class="title">熊熊活动助手</view>
+        </view>
+      </view>
+      <view class="header-stats">
+        <view class="stat-pill">
+          <text class="stat-num">{{ activities.length }}</text>
+          <text class="stat-label">全部活动</text>
+        </view>
+        <view class="stat-pill">
+          <text class="stat-num">{{ totalSubmissions }}</text>
+          <text class="stat-label">总报名</text>
         </view>
       </view>
     </view>
@@ -115,6 +117,9 @@ export default {
     }
   },
   computed: {
+    totalSubmissions() {
+      return this.activities.reduce((sum, a) => sum + (a.submissionCount || 0), 0)
+    },
     filteredList() {
       let list = this.activities
       if (this.currentTab !== 'all') {
@@ -241,55 +246,69 @@ export default {
 .page { padding-bottom: 40rpx; }
 
 .header {
-  background: linear-gradient(160deg, #FF6B35, #E55A2B);
-  color: #fff; padding: 36rpx 32rpx 32rpx;
+  background: linear-gradient(135deg, #FF6B35 0%, #FF8C5A 50%, #FFA374 100%);
+  color: #fff; padding: 40rpx 32rpx 80rpx;
+  position: relative; overflow: hidden;
+  border-radius: 0 0 40rpx 40rpx;
 }
-.bear-row { display: flex; align-items: center; gap: 24rpx; }
-.header-text { flex: 1; }
-.greeting { font-size: 24rpx; opacity: 0.8; }
-.title { font-size: 40rpx; font-weight: 700; margin-top: 4rpx; }
+.header-bg-deco {
+  position: absolute; top: -100rpx; right: -100rpx;
+  width: 300rpx; height: 300rpx;
+  background: rgba(255,255,255,0.1);
+  border-radius: 50%;
+}
+.header-bg-deco::after {
+  content: ''; position: absolute; bottom: -120rpx; left: -200rpx;
+  width: 250rpx; height: 250rpx;
+  background: rgba(255,255,255,0.08);
+  border-radius: 50%;
+}
 
-/* 小棕熊吉祥物 */
-.bear-logo { flex-shrink: 0; }
-.bear-face {
-  width: 100rpx; height: 88rpx; background: #C68642;
-  border-radius: 50rpx 50rpx 36rpx 36rpx; position: relative;
-  box-shadow: inset 0 -6rpx 12rpx rgba(0,0,0,0.15);
+.bear-row {
+  display: flex; align-items: center; gap: 20rpx;
+  position: relative; z-index: 1;
 }
-.bear-ear {
-  position: absolute; top: -10rpx; width: 28rpx; height: 28rpx;
-  background: #C68642; border-radius: 50%;
-  box-shadow: inset 0 -3rpx 6rpx rgba(0,0,0,0.1);
+.header-text { flex: 1; }
+.greeting { font-size: 26rpx; opacity: 0.9; font-weight: 500; }
+.title { font-size: 44rpx; font-weight: 700; margin-top: 4rpx; letter-spacing: 2rpx; }
+
+/* 熊熊头像 */
+.bear-avatar {
+  width: 96rpx; height: 96rpx;
+  background: rgba(255,255,255,0.25);
+  border-radius: 24rpx;
+  display: flex; align-items: center; justify-content: center;
+  backdrop-filter: blur(20rpx);
+  border: 2rpx solid rgba(255,255,255,0.3);
+  box-shadow: 0 8rpx 24rpx rgba(0,0,0,0.1);
 }
-.bear-ear.left { left: 8rpx; }
-.bear-ear.right { right: 8rpx; }
-.bear-ear::after {
-  content: ''; position: absolute; top: 6rpx; left: 6rpx;
-  width: 14rpx; height: 14rpx; background: #E8B88A; border-radius: 50%;
+.bear-emoji { font-size: 56rpx; }
+
+/* 统计卡片 */
+.header-stats {
+  display: flex; gap: 16rpx; margin-top: 28rpx;
+  position: relative; z-index: 1;
 }
-.bear-eyes {
-  position: absolute; top: 30rpx; left: 50%; transform: translateX(-50%);
-  display: flex; gap: 20rpx;
+.stat-pill {
+  flex: 1; background: rgba(255,255,255,0.18);
+  backdrop-filter: blur(20rpx);
+  border-radius: 24rpx;
+  padding: 20rpx 24rpx;
+  display: flex; flex-direction: column;
+  border: 2rpx solid rgba(255,255,255,0.25);
 }
-.bear-eye {
-  width: 10rpx; height: 12rpx; background: #3E2723; border-radius: 50%;
-}
-.bear-nose {
-  position: absolute; top: 48rpx; left: 50%; transform: translateX(-50%);
-  width: 20rpx; height: 14rpx; background: #3E2723;
-  border-radius: 50%; border-bottom: 2rpx solid #FFF;
-}
-.bear-mouth {
-  position: absolute; top: 58rpx; left: 50%; transform: translateX(-50%);
-  width: 6rpx; height: 10rpx; background: #3E2723; border-radius: 0 0 4rpx 4rpx;
-}
+.stat-num { font-size: 44rpx; font-weight: 700; line-height: 1; }
+.stat-label { font-size: 22rpx; opacity: 0.85; margin-top: 6rpx; }
 
 .search-bar {
   display: flex; align-items: center; gap: 12rpx;
-  background: #fff; padding: 8rpx 20rpx; margin: 20rpx;
-  border-radius: 40rpx;
+  background: #fff; padding: 12rpx 24rpx; margin: -32rpx 24rpx 20rpx;
+  border-radius: 32rpx;
+  box-shadow: 0 8rpx 32rpx rgba(0,0,0,0.08);
+  position: relative; z-index: 2;
 }
 .search-bar input { flex: 1; font-size: 28rpx; height: 64rpx; }
+.search-icon { font-size: 30rpx; }
 
 .tab-scroll {
   white-space: nowrap; padding: 0 20rpx 16rpx;

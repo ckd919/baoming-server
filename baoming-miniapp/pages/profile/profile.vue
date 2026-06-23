@@ -2,10 +2,20 @@
   <view class="page">
     <!-- ========== 未登录状态 ========== -->
     <view v-if="!isLoggedIn" class="unlogged">
+      <view class="bg-orbs">
+        <view class="orb orb-1"></view>
+        <view class="orb orb-2"></view>
+        <view class="orb orb-3"></view>
+      </view>
       <view class="profile-header-outer">
-        <view class="ph-logo">🐻</view>
+        <view class="ph-logo">
+          <view class="ph-logo-inner">
+            <text class="ph-bear">🐻</text>
+          </view>
+          <view class="ph-logo-ring"></view>
+        </view>
         <view class="ph-title">熊熊活动助手</view>
-        <view class="ph-desc">微信授权登录，无需手机号</view>
+        <view class="ph-desc">让活动报名更简单</view>
       </view>
 
       <view class="login-card">
@@ -18,7 +28,7 @@
           <view class="wx-name-box">
             <input class="nickname-input" type="nickname" v-model="loginNickname"
                    placeholder="点击获取微信昵称" />
-            <text class="wx-tip">选填，可设置或跳过</text>
+            <text class="wx-tip">可选，跳过也可登录</text>
           </view>
         </view>
 
@@ -33,10 +43,10 @@
         <button class="wx-auth-btn" @click="handleWechatAuth"
                 :loading="loading" :disabled="loading || !agreed">
           <text class="wx-icon">💬</text>
-          <text>{{ loading ? '登录中...' : '微信授权登录' }}</text>
+          <text>{{ loading ? '正在登录...' : '微信一键登录' }}</text>
         </button>
 
-        <text class="bottom-tip">点击授权即表示同意上述协议 · 无需手机号</text>
+        <text class="bottom-tip">登录即代表同意上述协议</text>
 
       </view>
     </view>
@@ -526,63 +536,144 @@ export default {
 /* ====== 未登录 ====== */
 .unlogged {
   min-height: 100vh;
-  background: linear-gradient(160deg, #FF6B35, #E55A2B, #2D1F18);
+  background: linear-gradient(160deg, #FF6B35 0%, #FF8C5A 40%, #FFA374 70%, #FFE0CC 100%);
   padding: 60rpx 40rpx;
+  position: relative;
+  overflow: hidden;
 }
+
+/* 背景装饰光球 */
+.bg-orbs {
+  position: absolute; inset: 0;
+  pointer-events: none;
+}
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(40rpx);
+  opacity: 0.4;
+}
+.orb-1 {
+  width: 400rpx; height: 400rpx;
+  background: #FFD7B5;
+  top: -100rpx; right: -100rpx;
+}
+.orb-2 {
+  width: 300rpx; height: 300rpx;
+  background: #FF8C5A;
+  bottom: 200rpx; left: -80rpx;
+}
+.orb-3 {
+  width: 200rpx; height: 200rpx;
+  background: #FFFFFF;
+  top: 50%; right: 50%;
+}
+
 .profile-header-outer {
   text-align: center; color: #fff;
-  padding: 60rpx 0 48rpx;
+  padding: 80rpx 0 56rpx;
+  position: relative; z-index: 1;
 }
+
+/* 熊熊 Logo 容器 */
 .ph-logo {
-  width: 140rpx; height: 140rpx;
-  background: rgba(255,255,255,0.18);
-  border-radius: 28rpx;
+  position: relative;
+  width: 200rpx; height: 200rpx;
+  margin: 0 auto 28rpx;
   display: flex; align-items: center; justify-content: center;
-  font-size: 64rpx; margin: 0 auto 20rpx;
 }
-.ph-title { font-size: 44rpx; font-weight: 700; }
-.ph-desc { font-size: 26rpx; opacity: 0.7; margin-top: 8rpx; }
+.ph-logo-inner {
+  width: 160rpx; height: 160rpx;
+  background: rgba(255,255,255,0.95);
+  border-radius: 48rpx;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 20rpx 60rpx rgba(0,0,0,0.2),
+              inset 0 -8rpx 20rpx rgba(255,107,53,0.1);
+  position: relative; z-index: 2;
+  transform: rotate(-6deg);
+}
+.ph-bear {
+  font-size: 100rpx;
+  transform: rotate(6deg);
+  display: block;
+}
+.ph-logo-ring {
+  position: absolute; inset: 0;
+  border: 4rpx solid rgba(255,255,255,0.5);
+  border-radius: 60rpx;
+  transform: rotate(15deg);
+}
+.ph-logo-ring::before {
+  content: '';
+  position: absolute; inset: 12rpx;
+  border: 2rpx dashed rgba(255,255,255,0.4);
+  border-radius: 50rpx;
+}
+
+.ph-title {
+  font-size: 48rpx; font-weight: 700;
+  letter-spacing: 4rpx;
+  text-shadow: 0 4rpx 16rpx rgba(0,0,0,0.15);
+}
+.ph-desc {
+  font-size: 26rpx; opacity: 0.85;
+  margin-top: 12rpx;
+  letter-spacing: 2rpx;
+}
 
 .login-card {
-  background: #fff; border-radius: 24rpx;
-  padding: 48rpx 36rpx 36rpx;
-  box-shadow: 0 16rpx 64rpx rgba(0,0,0,0.15);
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(40rpx);
+  border-radius: 36rpx;
+  padding: 48rpx 36rpx 40rpx;
+  box-shadow: 0 24rpx 80rpx rgba(0,0,0,0.18);
+  position: relative;
+  z-index: 1;
+  border: 2rpx solid rgba(255,255,255,0.4);
 }
 
-.wx-info { display: flex; align-items: center; gap: 20rpx; margin-bottom: 32rpx; }
+.wx-info { display: flex; align-items: center; gap: 20rpx; margin-bottom: 36rpx; }
 .avatar-btn {
   width: 120rpx; height: 120rpx; border-radius: 50%;
-  border: none; background: #F5F3F0; padding: 0;
+  border: none; background: linear-gradient(135deg, #FFF5F0, #FFE0CC);
+  padding: 0;
   display: flex; align-items: center; justify-content: center;
   flex-shrink: 0; overflow: hidden;
+  box-shadow: 0 8rpx 24rpx rgba(255,107,53,0.15);
 }
 .wx-avatar { width: 120rpx; height: 120rpx; border-radius: 50%; }
 .avatar-placeholder { font-size: 44rpx; }
 .wx-name-box { flex: 1; }
 .nickname-input {
-  width: 100%; height: 80rpx; padding: 0 20rpx;
-  background: #F9F8F6; border-radius: 12rpx; font-size: 30rpx;
+  width: 100%; height: 80rpx; padding: 0 24rpx;
+  background: #F8F8FA; border-radius: 18rpx; font-size: 30rpx;
+  border: 2rpx solid transparent;
+  transition: all 0.2s;
 }
-.wx-tip { font-size: 22rpx; color: #999; margin-top: 6rpx; display: block; }
+.nickname-input:focus { border-color: #FF6B35; background: #fff; }
+.wx-tip { font-size: 22rpx; color: #999; margin-top: 8rpx; display: block; }
 
 .agree-row {
   display: flex; align-items: center; gap: 4rpx;
-  padding: 8rpx 0; margin-bottom: 20rpx;
+  padding: 12rpx 0; margin-bottom: 24rpx;
 }
-.agree-text { font-size: 24rpx; color: #999; }
-.agree-link { font-size: 24rpx; color: #FF6B35; }
+.agree-text { font-size: 24rpx; color: #888; }
+.agree-link { font-size: 24rpx; color: #FF6B35; font-weight: 500; }
 
 /* 微信授权登录按钮 — 微信绿 */
 .wx-auth-btn {
-  width: 100%; height: 96rpx;
-  background: #07C160; color: #fff;
-  border: none; border-radius: 48rpx;
+  width: 100%; height: 100rpx;
+  background: linear-gradient(135deg, #07C160, #08D068);
+  color: #fff;
+  border: none; border-radius: 50rpx;
   font-size: 32rpx; font-weight: 600;
   display: flex; align-items: center; justify-content: center; gap: 12rpx;
+  box-shadow: 0 10rpx 28rpx rgba(7, 193, 96, 0.35);
+  letter-spacing: 2rpx;
 }
-.wx-auth-btn[disabled] { opacity: 0.5; }
+.wx-auth-btn[disabled] { opacity: 0.5; box-shadow: none; }
 .wx-icon { font-size: 40rpx; }
-.bottom-tip { display: block; text-align: center; font-size: 24rpx; color: #999; margin-top: 12rpx; }
+.bottom-tip { display: block; text-align: center; font-size: 24rpx; color: #999; margin-top: 16rpx; }
 
 /* ====== 已登录 ====== */
 .logged { padding: 20rpx; }
