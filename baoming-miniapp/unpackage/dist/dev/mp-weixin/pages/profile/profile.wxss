@@ -217,6 +217,10 @@
 }
 .mi-arrow.data-v-60cb334c { font-size: 36rpx; color: #ccc;
 }
-.version-info.data-v-60cb334c { text-align: center; font-size: 24rpx; color: #ccc; padding: 20rpx;
+.version-info.data-v-60cb334c { text-align: center; font-size: 24rpx; color: #ccc; padding: 20rpx 20rpx 4rpx;
+}
+.icp-info.data-v-60cb334c { text-align: center; padding: 0 20rpx 40rpx;
+}
+.icp-link.data-v-60cb334c { font-size: 22rpx; color: #999; text-decoration: underline;
 }
 

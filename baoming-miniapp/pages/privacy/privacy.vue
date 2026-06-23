@@ -31,6 +31,10 @@
         <text class="section-title">七、联系我们</text>
         <text class="section-text">如对本协议有任何疑问，请通过以下方式联系：\n邮箱：468356290@qq.com</text>
       </view>
+      <view class="section">
+        <text class="section-title">八、备案信息</text>
+        <text class="section-text">ICP备案号：粤ICP备123456号\n备案查询：http://beian.miit.gov.cn</text>
+      </view>
     </view>
   </view>
 </template>

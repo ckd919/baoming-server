@@ -413,6 +413,9 @@ var _api = __webpack_require__(/*! @/store/api.js */ 46);
 //
 //
 //
+//
+//
+//
 var _default = {
   data: function data() {
     return {
@@ -992,6 +995,16 @@ var _default = {
     goPrivacy: function goPrivacy() {
       uni.navigateTo({
         url: '/pages/privacy/privacy'
+      });
+    },
+    openIcp: function openIcp() {
+      uni.setClipboardData({
+        data: 'http://beian.miit.gov.cn',
+        success: function success() {
+          return uni.showToast({
+            title: '备案号已复制，浏览器打开查验'
+          });
+        }
       });
     },
     showAbout: function showAbout() {

@@ -226,6 +226,9 @@
       </view>
 
       <view class="version-info">版本 1.0.0</view>
+      <view class="icp-info">
+        <text class="icp-link" @click="openIcp">粤ICP备123456号</text>
+      </view>
     </view>
   </view>
 </template>
@@ -545,6 +548,9 @@ export default {
       uni.navigateTo({ url: '/pages/privacy/privacy' })
     },
 
+    openIcp() {
+      uni.setClipboardData({ data: 'http://beian.miit.gov.cn', success: () => uni.showToast({ title: '备案号已复制，浏览器打开查验' }) })
+    },
     showAbout() {
       uni.showModal({
         title: '关于我们',
@@ -728,5 +734,7 @@ export default {
 .mi-label { font-size: 28rpx; }
 .mi-arrow { font-size: 36rpx; color: #ccc; }
 
-.version-info { text-align: center; font-size: 24rpx; color: #ccc; padding: 20rpx; }
+.version-info { text-align: center; font-size: 24rpx; color: #ccc; padding: 20rpx 20rpx 4rpx; }
+.icp-info { text-align: center; padding: 0 20rpx 40rpx; }
+.icp-link { font-size: 22rpx; color: #999; text-decoration: underline; }
 </style>
