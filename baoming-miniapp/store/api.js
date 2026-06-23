@@ -50,14 +50,6 @@ async function request(method, path, data = null) {
 
 // ==================== 登录 ====================
 
-/** 管理员登录：手机号 + 密码（开发测试用） */
-export async function login(phone, password) {
-  const data = await request('POST', '/auth/admin/login', { phone, password })
-  setToken(data.token)
-  uni.setStorageSync('bm_user', JSON.stringify(data.user))
-  return data.user
-}
-
 /**
  * 微信授权登录（不强制手机号）
  * @param {Object} params - { code, nickname?, avatarUrl? }
