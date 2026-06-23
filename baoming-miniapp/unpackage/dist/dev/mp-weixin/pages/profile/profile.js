@@ -102,6 +102,10 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
+  var g0 =
+    !!_vm.isLoggedIn && _vm.quickIdCard ? _vm.quickIdCard.slice(0, 3) : null
+  var g1 =
+    !!_vm.isLoggedIn && _vm.quickIdCard ? _vm.quickIdCard.slice(-3) : null
   if (!_vm._isMounted) {
     _vm.e0 = function ($event) {
       _vm.agreed = !_vm.agreed
@@ -110,12 +114,30 @@ var render = function () {
       _vm.showDevLogin = !_vm.showDevLogin
     }
     _vm.e2 = function ($event) {
-      _vm.showPhoneInput = !_vm.showPhoneInput
+      _vm.showQuickFill = true
     }
     _vm.e3 = function ($event) {
+      _vm.showQuickFill = false
+    }
+    _vm.e4 = function ($event) {
+      _vm.showQuickFill = false
+    }
+    _vm.e5 = function ($event) {
+      _vm.showPhoneInput = !_vm.showPhoneInput
+    }
+    _vm.e6 = function ($event) {
       _vm.showNicknameEdit = !_vm.showNicknameEdit
     }
   }
+  _vm.$mp.data = Object.assign(
+    {},
+    {
+      $root: {
+        g0: g0,
+        g1: g1,
+      },
+    }
+  )
 }
 var recyclableRender = false
 var staticRenderFns = []
@@ -362,6 +384,35 @@ var _api = __webpack_require__(/*! @/store/api.js */ 46);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var _default = {
   data: function data() {
     return {
@@ -380,6 +431,8 @@ var _default = {
       userPhone: '',
       userRole: '',
       // 快速填写
+      showQuickFill: false,
+      quickSaving: false,
       quickName: '',
       quickPhone: '',
       quickIdCard: '',
@@ -685,27 +738,41 @@ var _default = {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
-                _context5.prev = 0;
-                _context5.next = 3;
+                _this5.quickSaving = true;
+                _context5.prev = 1;
+                _context5.next = 4;
                 return (0, _api.updateProfile)({
                   realName: _this5.quickName,
                   phone: _this5.quickPhone,
                   idCard: _this5.quickIdCard
                 });
-              case 3:
+              case 4:
                 user = _context5.sent;
                 getApp().globalData.user = user;
-                _context5.next = 9;
+                _this5.showQuickFill = false;
+                uni.showToast({
+                  title: '已保存',
+                  icon: 'success'
+                });
+                _context5.next = 13;
                 break;
-              case 7:
-                _context5.prev = 7;
-                _context5.t0 = _context5["catch"](0);
-              case 9:
+              case 10:
+                _context5.prev = 10;
+                _context5.t0 = _context5["catch"](1);
+                uni.showToast({
+                  title: '保存失败',
+                  icon: 'none'
+                });
+              case 13:
+                _context5.prev = 13;
+                _this5.quickSaving = false;
+                return _context5.finish(13);
+              case 16:
               case "end":
                 return _context5.stop();
             }
           }
-        }, _callee5, null, [[0, 7]]);
+        }, _callee5, null, [[1, 10, 13, 16]]);
       }))();
     },
     /** 修改昵称 */saveNickname: function saveNickname() {

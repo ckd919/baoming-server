@@ -79,21 +79,50 @@
         </view>
       </view>
 
-      <!-- 快速填写信息 -->
-      <view class="section-card">
-        <text class="section-title">⚡ 快速填写</text>
-        <text class="section-desc">报名时自动填充以下信息到对应字段</text>
-        <view class="qf-row">
-          <text class="qf-label">姓名</text>
-          <input class="form-input" v-model="quickName" placeholder="未设置" @blur="saveQuickFill" />
+      <!-- 快速填写入口 -->
+      <view class="section-card" @click="showQuickFill = true">
+        <view class="qf-entry">
+          <view class="qf-left">
+            <text class="qf-icon">⚡</text>
+            <view>
+              <text class="qf-title">快速填写</text>
+              <text class="qf-sub">报名时自动填充姓名、手机号、身份证</text>
+            </view>
+          </view>
+          <text class="qf-arrow">›</text>
         </view>
-        <view class="qf-row">
-          <text class="qf-label">手机号</text>
-          <input class="form-input" v-model="quickPhone" type="number" maxlength="11" placeholder="未设置" @blur="saveQuickFill" />
+        <view class="qf-preview">
+          <text class="qfp-item">{{ quickName || '姓名未设' }}</text>
+          <text class="qfp-divider">|</text>
+          <text class="qfp-item">{{ quickPhone || '手机未设' }}</text>
+          <text class="qfp-divider">|</text>
+          <text class="qfp-item">{{ quickIdCard ? (quickIdCard.slice(0,3)+'****'+quickIdCard.slice(-3)) : '身份证未设' }}</text>
         </view>
-        <view class="qf-row">
-          <text class="qf-label">身份证</text>
-          <input class="form-input" v-model="quickIdCard" maxlength="18" placeholder="未设置" @blur="saveQuickFill" />
+      </view>
+
+      <!-- 快速填写弹框 -->
+      <view class="modal-overlay" v-if="showQuickFill" @click="showQuickFill = false">
+        <view class="modal-content" @click.stop>
+          <view class="modal-header">
+            <text class="modal-title">⚡ 快速填写</text>
+            <button class="modal-close" @click="showQuickFill = false">✕</button>
+          </view>
+          <text class="modal-desc">设置后报名时自动填充到对应字段</text>
+          <view class="qf-row">
+            <text class="qf-label">姓名</text>
+            <input class="form-input" v-model="quickName" placeholder="请输入姓名" />
+          </view>
+          <view class="qf-row">
+            <text class="qf-label">手机号</text>
+            <input class="form-input" v-model="quickPhone" type="number" maxlength="11" placeholder="请输入手机号" />
+          </view>
+          <view class="qf-row">
+            <text class="qf-label">身份证</text>
+            <input class="form-input" v-model="quickIdCard" maxlength="18" placeholder="请输入身份证号" />
+          </view>
+          <button class="btn-primary btn-block" @click="saveQuickFill" :loading="quickSaving">
+            💾 保存
+          </button>
         </view>
       </view>
 
@@ -224,6 +253,8 @@ export default {
       userRole: '',
 
       // 快速填写
+      showQuickFill: false,
+      quickSaving: false,
       quickName: '',
       quickPhone: '',
       quickIdCard: '',
@@ -399,6 +430,7 @@ export default {
 
     /** 保存快速填写信息 */
     async saveQuickFill() {
+      this.quickSaving = true
       try {
         const user = await updateProfile({
           realName: this.quickName,
@@ -406,7 +438,13 @@ export default {
           idCard: this.quickIdCard
         })
         getApp().globalData.user = user
-      } catch (e) { /* 静默保存 */ }
+        this.showQuickFill = false
+        uni.showToast({ title: '已保存', icon: 'success' })
+      } catch (e) {
+        uni.showToast({ title: '保存失败', icon: 'none' })
+      } finally {
+        this.quickSaving = false
+      }
     },
 
     /** 修改昵称 */
@@ -620,9 +658,27 @@ export default {
 .section-title { font-size: 30rpx; font-weight: 600; display: block; margin-bottom: 6rpx; }
 .section-desc { font-size: 24rpx; color: #999; display: block; margin-bottom: 24rpx; }
 
-.qf-row { display: flex; align-items: center; gap: 16rpx; margin-bottom: 16rpx; }
+.qf-entry { display: flex; align-items: center; justify-content: space-between; }
+.qf-left { display: flex; align-items: center; gap: 16rpx; }
+.qf-icon { font-size: 40rpx; }
+.qf-title { font-size: 28rpx; font-weight: 600; display: block; }
+.qf-sub { font-size: 22rpx; color: #999; }
+.qf-arrow { font-size: 32rpx; color: #ccc; }
+.qf-preview { display: flex; align-items: center; gap: 8rpx; margin-top: 16rpx; padding-top: 16rpx; border-top: 2rpx solid #f5f1ec; }
+.qfp-item { font-size: 22rpx; color: #999; }
+.qfp-divider { font-size: 20rpx; color: #ddd; }
+
+.qf-row { display: flex; align-items: center; gap: 16rpx; margin-bottom: 20rpx; }
 .qf-label { font-size: 26rpx; font-weight: 500; width: 100rpx; flex-shrink: 0; }
 .qf-row .form-input { flex: 1; height: 72rpx; font-size: 26rpx; }
+
+/* modal */
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 100; display: flex; align-items: flex-end; }
+.modal-content { width: 100%; background: #fff; border-radius: 32rpx 32rpx 0 0; padding: 32rpx; }
+.modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8rpx; }
+.modal-title { font-size: 34rpx; font-weight: 600; }
+.modal-close { background: #f5f3f0; border: none; width: 56rpx; height: 56rpx; border-radius: 50%; font-size: 24rpx; }
+.modal-desc { font-size: 24rpx; color: #999; display: block; margin-bottom: 28rpx; }
 
 .privacy-field {
   display: flex; align-items: center; justify-content: space-between;
