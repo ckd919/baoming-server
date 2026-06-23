@@ -81,8 +81,21 @@ public class ActivityController {
 
     @PostMapping("/activities/{id}/duplicate")
     public ResponseEntity<?> duplicate(@PathVariable String id,
+                                       @RequestParam(defaultValue = "false") boolean copyAdmins,
                                        @AuthenticationPrincipal UserPrincipal principal) {
-        return ResponseEntity.ok(activityService.duplicateActivity(id, principal.getId()));
+        return ResponseEntity.ok(activityService.duplicateActivity(id, principal.getId(), copyAdmins));
+    }
+
+    @PostMapping("/activities/{id}/stop-registration")
+    public ResponseEntity<?> stopRegistration(@PathVariable String id,
+                                              @AuthenticationPrincipal UserPrincipal principal) {
+        return ResponseEntity.ok(activityService.stopRegistration(id, principal.getId()));
+    }
+
+    @PostMapping("/activities/{id}/restart-registration")
+    public ResponseEntity<?> restartRegistration(@PathVariable String id,
+                                                 @AuthenticationPrincipal UserPrincipal principal) {
+        return ResponseEntity.ok(activityService.restartRegistration(id, principal.getId()));
     }
 
     // ==================== 管理员管理 ====================

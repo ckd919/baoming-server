@@ -64,6 +64,9 @@ public class Activity {
     @TableField("admin_invite_token")
     private String adminInviteToken;
 
+    @TableField("original_end_time")
+    private Long originalEndTime;
+
     @TableField("created_at")
     private Long createdAt;
 

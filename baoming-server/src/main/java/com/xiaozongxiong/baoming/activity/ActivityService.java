@@ -7,6 +7,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xiaozongxiong.baoming.activity.dto.*;
 import com.xiaozongxiong.baoming.activity.mapper.ActivityAdminMapper;
+import com.xiaozongxiong.baoming.activity.mapper.ActivityFeatureMapper;
 import com.xiaozongxiong.baoming.activity.mapper.ActivityMapper;
 import com.xiaozongxiong.baoming.auth.mapper.UserMapper;
 import com.xiaozongxiong.baoming.model.Activity;
@@ -26,6 +27,7 @@ import java.util.stream.Collectors;
 public class ActivityService {
     private final ActivityMapper activityMapper;
     private final ActivityAdminMapper activityAdminMapper;
+    private final ActivityFeatureMapper activityFeatureMapper;
     private final UserMapper userMapper;
     private final ObjectMapper objectMapper;
 
@@ -200,7 +202,7 @@ public class ActivityService {
     // ==================== 复制活动 ====================
 
     @Transactional
-    public Map<String, Object> duplicateActivity(String id, Integer userId) {
+    public Map<String, Object> duplicateActivity(String id, Integer userId, boolean copyAdmins) {
         Activity original = findManaged(id, userId);
         long now = System.currentTimeMillis();
 
@@ -232,7 +234,47 @@ public class ActivityService {
                 .build();
         activityMapper.insert(copy);
 
+        // 复制管理员关联
+        if (copyAdmins) {
+            List<ActivityAdmin> admins = activityAdminMapper.findByActivityId(id);
+            for (ActivityAdmin a : admins) {
+                ActivityAdmin copyAdmin = ActivityAdmin.builder()
+                    .activityId(newId).userId(a.getUserId()).role(a.getRole())
+                    .createdAt(now).build();
+                activityAdminMapper.insert(copyAdmin);
+            }
+        }
+
         return Map.of("ok", true, "id", newId);
+    }
+
+    // ==================== 一键截止/开启 ====================
+
+    @Transactional
+    public Map<String, Object> stopRegistration(String id, Integer userId) {
+        Activity a = findOwned(id, userId);
+        long now = System.currentTimeMillis();
+        // 保存原始截止时间
+        if (a.getOriginalEndTime() == null && a.getEndTime() != null) {
+            a.setOriginalEndTime(a.getEndTime());
+        }
+        a.setEndTime(now);
+        a.setUpdatedAt(now);
+        activityMapper.updateById(a);
+        return Map.of("ok", true, "endTime", now);
+    }
+
+    @Transactional
+    public Map<String, Object> restartRegistration(String id, Integer userId) {
+        Activity a = findOwned(id, userId);
+        long now = System.currentTimeMillis();
+        if (a.getOriginalEndTime() != null) {
+            a.setEndTime(a.getOriginalEndTime());
+            a.setOriginalEndTime(null);
+        }
+        a.setUpdatedAt(now);
+        activityMapper.updateById(a);
+        return Map.of("ok", true, "endTime", a.getEndTime());
     }
 
     // ==================== 管理员管理 ====================
@@ -355,6 +397,9 @@ public class ActivityService {
                 .createdAt(Instant.now().toEpochMilli())
                 .build();
         activityAdminMapper.insert(admin);
+
+        // 记录管理员历史
+        activityFeatureMapper.upsertHistory(ownerUserId, targetUser.getId(), Instant.now().toEpochMilli());
 
         return Map.of("ok", true);
     }

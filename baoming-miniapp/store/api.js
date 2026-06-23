@@ -193,6 +193,44 @@ export async function acceptAdminInvite(activityId, token) {
   return await request('POST', `/activities/${activityId}/admins/accept?token=${encodeURIComponent(token)}`)
 }
 
+export async function getAdminHistory() {
+  const data = await request('GET', '/user/admin-history')
+  return data.history || []
+}
+
+// ==================== 留言 ====================
+export async function getComments(activityId) {
+  const data = await request('GET', `/activities/${activityId}/comments`)
+  return data.comments || []
+}
+
+export async function addComment(activityId, content) {
+  return await request('POST', `/activities/${activityId}/comments`, { content })
+}
+
+// ==================== 取消审核 ====================
+export async function requestCancel(submissionId, reason) {
+  return await request('POST', `/submissions/${submissionId}/request-cancel`, { reason: reason || '' })
+}
+
+export async function getCancelRequests(activityId) {
+  const data = await request('GET', `/activities/${activityId}/cancel-requests`)
+  return data.requests || []
+}
+
+export async function reviewCancelRequest(requestId, action) {
+  return await request('POST', `/cancel-requests/${requestId}/review`, { action })
+}
+
+// ==================== 一键截止/开启 ====================
+export async function stopRegistration(activityId) {
+  return await request('POST', `/activities/${activityId}/stop-registration`)
+}
+
+export async function restartRegistration(activityId) {
+  return await request('POST', `/activities/${activityId}/restart-registration`)
+}
+
 // ==================== 用户记录 ====================
 export async function getManagedActivities() {
   const data = await request('GET', '/user/managed-activities')
