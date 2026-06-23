@@ -69,7 +69,7 @@
         </view>
         <view class="form-group flex-row">
           <text class="form-label">是否必填</text>
-          <switch :checked="editingField.required" @change="editingField.required = $event.detail.value" color="#D4720D" />
+          <switch :checked="editingField.required" @change="editingField.required = $event.detail.value" color="#FF6B35" />
         </view>
         <view v-if="hasOptions(editingField.type)" class="form-group">
           <text class="form-label">选项列表</text>
@@ -217,9 +217,9 @@ export default {
 .group-scroll { white-space: nowrap; padding: 16rpx 20rpx; background: #fff; }
 .group-tag {
   display: inline-block; padding: 10rpx 24rpx; font-size: 26rpx;
-  background: #f5f3f0; border-radius: 24rpx; margin-right: 12rpx; color: #666;
+  background: #F0F0F2; border-radius: 24rpx; margin-right: 12rpx; color: #666;
 }
-.group-tag.active { background: #FFF3E6; color: #D4720D; font-weight: 600; }
+.group-tag.active { background: #FFF5F0; color: #FF6B35; font-weight: 600; }
 
 .field-grid {
   display: flex; flex-wrap: wrap; gap: 12rpx;
@@ -227,7 +227,7 @@ export default {
 }
 .field-btn {
   width: calc(25% - 9rpx); display: flex; flex-direction: column; align-items: center;
-  padding: 20rpx 0; background: #f9f8f6; border-radius: 12rpx; font-size: 24rpx;
+  padding: 20rpx 0; background: #F8F8FA; border-radius: 12rpx; font-size: 24rpx;
 }
 .ft-icon { font-size: 36rpx; }
 .ft-name { color: #666; margin-top: 4rpx; }
@@ -238,7 +238,7 @@ export default {
 
 .field-card {
   background: #fff; border-radius: 16rpx; padding: 24rpx; margin-bottom: 12rpx;
-  border-left: 6rpx solid #D4720D; box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.03);
+  border-left: 6rpx solid #FF6B35; box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.03);
 }
 .fc-header { display: flex; align-items: center; justify-content: space-between; }
 .fc-label { font-size: 28rpx; font-weight: 500; }
@@ -248,7 +248,7 @@ export default {
 .fixed-bottom {
   position: fixed; bottom: 0; left: 0; right: 0;
   display: flex; gap: 16rpx; padding: 20rpx; background: #fff;
-  border-top: 2rpx solid #f0ede9;
+  border-top: 2rpx solid #F0F0F2;
 }
 
 /* Modal */
@@ -262,7 +262,7 @@ export default {
 }
 .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 28rpx; }
 .modal-title { font-size: 34rpx; font-weight: 600; }
-.modal-close { background: #f5f3f0; border: none; width: 56rpx; height: 56rpx; border-radius: 50%; }
+.modal-close { background: #F0F0F2; border: none; width: 56rpx; height: 56rpx; border-radius: 50%; }
 .flex-row { display: flex; align-items: center; justify-content: space-between; }
 .option-row { display: flex; align-items: center; gap: 8rpx; margin-bottom: 12rpx; }
 .btn-sm { padding: 12rpx 24rpx; font-size: 24rpx; }

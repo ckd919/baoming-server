@@ -24,7 +24,7 @@
 
         <!-- 隐私协议 -->
         <view class="agree-row">
-          <checkbox :checked="agreed" @click="agreed = !agreed" color="#D4720D" style="transform:scale(0.7)" />
+          <checkbox :checked="agreed" @click="agreed = !agreed" color="#FF6B35" style="transform:scale(0.7)" />
           <text class="agree-text">我已阅读并同意</text>
           <text class="agree-link" @click.stop="goPrivacy">《用户服务协议及隐私政策》</text>
         </view>
@@ -227,7 +227,7 @@
 
       <view class="version-info">版本 1.0.0</view>
       <view class="icp-info">
-        <text class="icp-link" @click="openIcp">粤ICP备123456号</text>
+        <text class="icp-link" @click="openIcp">粤ICP备TBC号</text>
       </view>
     </view>
   </view>
@@ -569,7 +569,7 @@ export default {
 /* ====== 未登录 ====== */
 .unlogged {
   min-height: 100vh;
-  background: linear-gradient(160deg, #D4720D, #B85D0A, #5D4037);
+  background: linear-gradient(160deg, #FF6B35, #E55A2B, #2D1F18);
   padding: 60rpx 40rpx;
 }
 .profile-header-outer {
@@ -613,7 +613,7 @@ export default {
   padding: 8rpx 0; margin-bottom: 20rpx;
 }
 .agree-text { font-size: 24rpx; color: #999; }
-.agree-link { font-size: 24rpx; color: #D4720D; }
+.agree-link { font-size: 24rpx; color: #FF6B35; }
 
 /* 微信授权登录按钮 — 微信绿 */
 .wx-auth-btn {
@@ -641,7 +641,7 @@ export default {
 }
 .phc-bg {
   height: 120rpx;
-  background: linear-gradient(160deg, #D4720D, #B85D0A);
+  background: linear-gradient(160deg, #FF6B35, #E55A2B);
 }
 .phc-content {
   display: flex; align-items: center; gap: 24rpx;
@@ -670,7 +670,7 @@ export default {
 .qf-title { font-size: 28rpx; font-weight: 600; display: block; }
 .qf-sub { font-size: 22rpx; color: #999; }
 .qf-arrow { font-size: 32rpx; color: #ccc; }
-.qf-preview { display: flex; align-items: center; gap: 8rpx; margin-top: 16rpx; padding-top: 16rpx; border-top: 2rpx solid #f5f1ec; }
+.qf-preview { display: flex; align-items: center; gap: 8rpx; margin-top: 16rpx; padding-top: 16rpx; border-top: 2rpx solid #F5F5F7; }
 .qfp-item { font-size: 22rpx; color: #999; }
 .qfp-divider { font-size: 20rpx; color: #ddd; }
 
@@ -683,12 +683,12 @@ export default {
 .modal-content { width: 100%; background: #fff; border-radius: 32rpx 32rpx 0 0; padding: 32rpx; }
 .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8rpx; }
 .modal-title { font-size: 34rpx; font-weight: 600; }
-.modal-close { background: #f5f3f0; border: none; width: 56rpx; height: 56rpx; border-radius: 50%; font-size: 24rpx; }
+.modal-close { background: #F0F0F2; border: none; width: 56rpx; height: 56rpx; border-radius: 50%; font-size: 24rpx; }
 .modal-desc { font-size: 24rpx; color: #999; display: block; margin-bottom: 28rpx; }
 
 .privacy-field {
   display: flex; align-items: center; justify-content: space-between;
-  padding: 20rpx 0; border-bottom: 2rpx solid #f5f1ec;
+  padding: 20rpx 0; border-bottom: 2rpx solid #F5F5F7;
 }
 .privacy-field:last-child { border-bottom: none; }
 .pf-left { display: flex; align-items: center; gap: 16rpx; flex: 1; }
@@ -701,8 +701,8 @@ export default {
 
 /* 绑定按钮 */
 .bind-btn {
-  background: none; border: 2rpx solid #D4720D;
-  color: #D4720D; font-size: 22rpx;
+  background: none; border: 2rpx solid #FF6B35;
+  color: #FF6B35; font-size: 22rpx;
   padding: 8rpx 20rpx; border-radius: 24rpx;
   flex-shrink: 0; margin-left: 12rpx;
 }
@@ -712,7 +712,7 @@ export default {
 
 .phone-input-row {
   display: flex; gap: 12rpx; align-items: center;
-  padding: 12rpx 0 20rpx; border-bottom: 2rpx solid #f5f1ec;
+  padding: 12rpx 0 20rpx; border-bottom: 2rpx solid #F5F5F7;
 }
 .phone-input-row .form-input { flex: 1; }
 .phone-input-row .btn-sm { padding: 14rpx 24rpx; font-size: 24rpx; white-space: nowrap; }
@@ -726,7 +726,7 @@ export default {
 }
 .menu-item {
   display: flex; align-items: center; justify-content: space-between;
-  padding: 32rpx 28rpx; border-bottom: 2rpx solid #f5f1ec;
+  padding: 32rpx 28rpx; border-bottom: 2rpx solid #F5F5F7;
 }
 .menu-item:last-child { border-bottom: none; }
 .mi-left { display: flex; align-items: center; gap: 16rpx; }

@@ -33,7 +33,7 @@
       </view>
       <view class="section">
         <text class="section-title">八、备案信息</text>
-        <text class="section-text">ICP备案号：粤ICP备123456号\n备案查询：http://beian.miit.gov.cn</text>
+        <text class="section-text">ICP备案号：粤ICP备TBC号\n备案查询：http://beian.miit.gov.cn</text>
       </view>
     </view>
   </view>
@@ -53,6 +53,6 @@ export default {
 .title { font-size: 36rpx; font-weight: 700; text-align: center; margin-bottom: 8rpx; }
 .update-time { font-size: 24rpx; color: #999; text-align: center; margin-bottom: 32rpx; }
 .section { margin-bottom: 28rpx; }
-.section-title { display: block; font-size: 30rpx; font-weight: 600; margin-bottom: 10rpx; color: #D4720D; }
+.section-title { display: block; font-size: 30rpx; font-weight: 600; margin-bottom: 10rpx; color: #FF6B35; }
 .section-text { font-size: 26rpx; line-height: 1.8; color: #333; white-space: pre-line; }
 </style>

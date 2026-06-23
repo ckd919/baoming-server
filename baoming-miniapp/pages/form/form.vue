@@ -54,7 +54,7 @@
           <view class="option-item" v-for="opt in f.options" :key="opt"
                 :class="{ selected: formData[f.id] === opt }"
                 @click="formData[f.id] = opt">
-            <radio :checked="formData[f.id] === opt" color="#D4720D" />
+            <radio :checked="formData[f.id] === opt" color="#FF6B35" />
             <text>{{ opt }}</text>
           </view>
         </view>
@@ -63,7 +63,7 @@
         <view v-if="f.type === 'checkbox'" class="option-group">
           <view class="option-item" v-for="opt in f.options" :key="opt"
                 @click="toggleCheck(f.id, opt)">
-            <checkbox :checked="(formData[f.id]||[]).includes(opt)" color="#D4720D" />
+            <checkbox :checked="(formData[f.id]||[]).includes(opt)" color="#FF6B35" />
             <text>{{ opt }}</text>
           </view>
         </view>
@@ -365,7 +365,7 @@ export default {
 .page { min-height: 100vh; background: #F8F6F3; padding-bottom: 60rpx; }
 
 .cover {
-  background: linear-gradient(160deg, #D4720D, #B85D0A);
+  background: linear-gradient(160deg, #FF6B35, #E55A2B);
   color: #fff; padding: 60rpx 40rpx; text-align: center;
   position: relative;
 }
@@ -390,13 +390,13 @@ export default {
 .field-item { margin-bottom: 32rpx; }
 .field-label { display: block; font-size: 28rpx; font-weight: 500; margin-bottom: 12rpx; }
 
-.form-textarea { width: 100%; min-height: 160rpx; padding: 20rpx; background: #f9f8f6; border-radius: 12rpx; font-size: 28rpx; }
+.form-textarea { width: 100%; min-height: 160rpx; padding: 20rpx; background: #F8F8FA; border-radius: 12rpx; font-size: 28rpx; }
 
-.picker-box { padding: 20rpx 28rpx; background: #f9f8f6; border-radius: 12rpx; font-size: 28rpx; color: #666; }
+.picker-box { padding: 20rpx 28rpx; background: #F8F8FA; border-radius: 12rpx; font-size: 28rpx; color: #666; }
 
 .option-group { display: flex; flex-direction: column; gap: 16rpx; }
-.option-item { display: flex; align-items: center; gap: 16rpx; padding: 20rpx 24rpx; background: #f9f8f6; border-radius: 12rpx; }
-.option-item.selected { background: #FFF3E6; }
+.option-item { display: flex; align-items: center; gap: 16rpx; padding: 20rpx 24rpx; background: #F8F8FA; border-radius: 12rpx; }
+.option-item.selected { background: #FFF5F0; }
 
 .img-upload { display: flex; flex-wrap: wrap; gap: 12rpx; }
 .img-thumb { width: 140rpx; height: 140rpx; border-radius: 12rpx; }
@@ -414,15 +414,15 @@ export default {
 }
 
 .loc-box { display: flex; gap: 12rpx; }
-.fee-box { display: flex; align-items: center; gap: 8rpx; padding: 20rpx; background: #FFF3E6; border-radius: 12rpx; }
-.fee-symbol { font-size: 28rpx; color: #D4720D; font-weight: 600; }
-.fee-val { font-size: 40rpx; color: #D4720D; font-weight: 700; }
+.fee-box { display: flex; align-items: center; gap: 8rpx; padding: 20rpx; background: #FFF5F0; border-radius: 12rpx; }
+.fee-symbol { font-size: 28rpx; color: #FF6B35; font-weight: 600; }
+.fee-val { font-size: 40rpx; color: #FF6B35; font-weight: 700; }
 .btn-sm { padding: 12rpx 20rpx; font-size: 24rpx; }
 
-.comment-section { margin-top: 40rpx; padding-top: 28rpx; border-top: 2rpx solid #f0ede9; }
+.comment-section { margin-top: 40rpx; padding-top: 28rpx; border-top: 2rpx solid #F0F0F2; }
 .comment-title { font-size: 28rpx; font-weight: 600; display: block; margin-bottom: 16rpx; }
-.comment-item { padding: 16rpx 0; border-bottom: 1rpx solid #f5f1ec; }
-.ci-name { font-size: 24rpx; color: #D4720D; font-weight: 500; display: block; }
+.comment-item { padding: 16rpx 0; border-bottom: 1rpx solid #F5F5F7; }
+.ci-name { font-size: 24rpx; color: #FF6B35; font-weight: 500; display: block; }
 .ci-content { font-size: 26rpx; color: #333; display: block; margin: 6rpx 0; }
 .ci-time { font-size: 20rpx; color: #ccc; }
 .comment-input-row { display: flex; gap: 12rpx; margin-top: 16rpx; align-items: center; }

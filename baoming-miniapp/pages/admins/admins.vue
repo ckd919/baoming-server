@@ -295,12 +295,12 @@ export default {
 .admin-list { display: flex; flex-direction: column; gap: 12rpx; }
 .admin-item {
   display: flex; align-items: center; justify-content: space-between;
-  padding: 20rpx; background: #f9f8f6; border-radius: 16rpx;
+  padding: 20rpx; background: #F8F8FA; border-radius: 16rpx;
 }
 .ai-left { display: flex; align-items: center; gap: 16rpx; }
 .ai-avatar {
   width: 72rpx; height: 72rpx; border-radius: 50%;
-  background: #f0ede9; display: flex; align-items: center;
+  background: #F0F0F2; display: flex; align-items: center;
   justify-content: center; font-size: 32rpx; overflow: hidden;
 }
 .ai-avatar image { width: 100%; height: 100%; }
@@ -340,7 +340,7 @@ export default {
 .perm-icon { font-size: 24rpx; width: 40rpx; text-align: center; }
 .perm-text { font-size: 26rpx; color: #555; }
 .perm-divider {
-  height: 2rpx; background: #f0ede9; margin: 8rpx 0;
+  height: 2rpx; background: #F0F0F2; margin: 8rpx 0;
 }
 
 .wx-share-btn {
@@ -352,11 +352,11 @@ export default {
   margin-top: 16rpx;
 }
 
-.history-item { display: flex; align-items: center; gap: 16rpx; padding: 16rpx; background: #f9f8f6; border-radius: 12rpx; margin-bottom: 10rpx; }
+.history-item { display: flex; align-items: center; gap: 16rpx; padding: 16rpx; background: #F8F8FA; border-radius: 12rpx; margin-bottom: 10rpx; }
 .hi-avatar { width: 64rpx; height: 64rpx; border-radius: 50%; }
 .hi-avatar-text { font-size: 32rpx; width: 64rpx; text-align: center; }
 .hi-info { flex: 1; }
 .hi-name { font-size: 26rpx; font-weight: 500; display: block; }
 .hi-phone { font-size: 22rpx; color: #999; }
-.hi-add { color: #D4720D; font-size: 24rpx; font-weight: 500; }
+.hi-add { color: #FF6B35; font-size: 24rpx; font-weight: 500; }
 </style>

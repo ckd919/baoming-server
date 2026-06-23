@@ -5,7 +5,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(160deg, #D4720D, #B85D0A, #5D4037);
+  background: linear-gradient(160deg, #FF6B35, #E55A2B, #2D1F18);
   padding: 60rpx;
 }
 .login-logo.data-v-b237504c {
@@ -52,7 +52,7 @@
 }
 .agree-text.data-v-b237504c { font-size: 24rpx; color: #999;
 }
-.agree-link.data-v-b237504c { font-size: 24rpx; color: #D4720D;
+.agree-link.data-v-b237504c { font-size: 24rpx; color: #FF6B35;
 }
 /* 微信授权登录按钮 */
 .wx-auth-btn.data-v-b237504c {

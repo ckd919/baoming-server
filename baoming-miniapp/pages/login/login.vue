@@ -23,7 +23,7 @@
 
       <!-- 隐私协议 -->
       <view class="agree-row">
-        <checkbox :checked="agreed" @click="agreed = !agreed" color="#D4720D" style="transform:scale(0.7)" />
+        <checkbox :checked="agreed" @click="agreed = !agreed" color="#FF6B35" style="transform:scale(0.7)" />
         <text class="agree-text">我已阅读并同意</text>
         <text class="agree-link" @click.stop="goPrivacy">《用户服务协议及隐私政策》</text>
       </view>
@@ -161,7 +161,7 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(160deg, #D4720D, #B85D0A, #5D4037);
+  background: linear-gradient(160deg, #FF6B35, #E55A2B, #2D1F18);
   padding: 60rpx;
 }
 .login-logo {
@@ -201,7 +201,7 @@ export default {
   padding: 8rpx 0; margin-bottom: 20rpx;
 }
 .agree-text { font-size: 24rpx; color: #999; }
-.agree-link { font-size: 24rpx; color: #D4720D; }
+.agree-link { font-size: 24rpx; color: #FF6B35; }
 
 /* 微信授权登录按钮 */
 .wx-auth-btn {

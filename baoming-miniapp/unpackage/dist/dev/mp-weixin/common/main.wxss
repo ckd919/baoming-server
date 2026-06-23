@@ -1,42 +1,48 @@
 @charset "UTF-8";
-/* 全局样式 */
+/* 全局样式 — 现代简约风 */
 page {
-  font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-family: -apple-system, "PingFang SC", "SF Pro Display", "Helvetica Neue", sans-serif;
   font-size: 28rpx;
-  color: #1A1A1A;
-  background: #F8F6F3;
-  line-height: 1.6;
+  color: #1a1a1a;
+  background: #F5F5F7;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
 }
-/* 主题色 */
+/* 主题色 — 温暖橘 */
 /* 通用按钮 */
 .btn-primary {
-  background: linear-gradient(135deg, #D4720D, #E8892A);
+  background: linear-gradient(135deg, #FF6B35, #FF8C5A);
   color: #fff;
   border: none;
-  border-radius: 44rpx;
-  font-size: 32rpx;
+  border-radius: 50rpx;
+  font-size: 30rpx;
   font-weight: 600;
-  padding: 24rpx 40rpx;
+  padding: 26rpx 40rpx;
+  letter-spacing: 1rpx;
+  box-shadow: 0 6rpx 20rpx rgba(255, 107, 53, 0.25);
+  transition: all 0.2s;
 }
 .btn-outline {
-  background: transparent;
-  color: #D4720D;
-  border: 2rpx solid #D4720D;
-  border-radius: 44rpx;
-  font-size: 28rpx;
-  padding: 16rpx 32rpx;
+  background: #fff;
+  color: #FF6B35;
+  border: 2rpx solid #FFD5C5;
+  border-radius: 50rpx;
+  font-size: 26rpx;
+  padding: 16rpx 28rpx;
+  font-weight: 500;
 }
 .btn-block {
   width: 100%;
 }
 .btn-sm {
-  padding: 12rpx 24rpx;
-  font-size: 24rpx;
+  padding: 10rpx 22rpx;
+  font-size: 22rpx;
+  border-radius: 40rpx;
 }
 /* 卡片 */
 .card {
   background: #fff;
-  border-radius: 16rpx;
+  border-radius: 20rpx;
   padding: 28rpx;
   margin-bottom: 20rpx;
   box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.04);
@@ -44,80 +50,84 @@ page {
 /* 输入框 */
 .form-input {
   width: 100%;
-  height: 88rpx;
+  height: 92rpx;
   padding: 0 28rpx;
   font-size: 28rpx;
-  background: #F9F8F6;
+  background: #F8F8FA;
   border: 2rpx solid transparent;
-  border-radius: 12rpx;
+  border-radius: 16rpx;
+  transition: all 0.2s;
 }
 .form-input:focus {
-  border-color: #D4720D;
+  border-color: #FF6B35;
   background: #fff;
+  box-shadow: 0 0 0 4rpx rgba(255, 107, 53, 0.08);
 }
 /* 标签 */
 .badge {
   display: inline-block;
-  padding: 4rpx 16rpx;
+  padding: 6rpx 18rpx;
   font-size: 22rpx;
-  border-radius: 8rpx;
+  border-radius: 10rpx;
+  font-weight: 500;
 }
 .badge-success {
-  background: #E8F5E9;
-  color: #2E7D32;
+  background: #E8F8ED;
+  color: #34C759;
 }
 .badge-warning {
-  background: #FFF3E0;
-  color: #ED6C02;
+  background: #FFF2E8;
+  color: #FF6B35;
 }
 .badge-info {
-  background: #E3F2FD;
-  color: #1565C0;
+  background: #E8F0FE;
+  color: #007AFF;
 }
 .badge-primary {
-  background: #FFF3E6;
-  color: #D4720D;
+  background: #FFF5F0;
+  color: #FF6B35;
 }
 /* 空状态 */
 .empty-state {
   text-align: center;
-  padding: 80rpx 40rpx;
+  padding: 100rpx 40rpx;
 }
 .empty-state .empty-icon {
-  font-size: 100rpx;
-  margin-bottom: 20rpx;
+  font-size: 80rpx;
+  margin-bottom: 24rpx;
   opacity: 0.5;
 }
 .empty-state .empty-text {
   font-size: 28rpx;
-  color: #9E9E9E;
+  color: #B0B0B5;
 }
 /* 分段控制器 */
 .segment-bar {
   display: flex;
-  background: #f5f3f0;
-  border-radius: 16rpx;
+  background: #F0F0F2;
+  border-radius: 20rpx;
   padding: 6rpx;
   margin: 20rpx;
 }
 .segment-item {
   flex: 1;
   text-align: center;
-  padding: 16rpx 0;
+  padding: 18rpx 0;
   font-size: 26rpx;
-  color: #666;
-  border-radius: 12rpx;
-  transition: all 0.2s;
+  color: #8E8E93;
+  border-radius: 16rpx;
+  transition: all 0.25s;
+  font-weight: 500;
 }
 .segment-item.active {
   background: #fff;
-  color: #D4720D;
+  color: #FF6B35;
   font-weight: 600;
-  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.06);
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.08);
 }
 /* 头部渐变 */
 .header-gradient {
-  background: linear-gradient(160deg, #D4720D, #B85D0A);
+  background: linear-gradient(160deg, #FF6B35, #FF8C5A);
   color: #fff;
-  padding: 40rpx 32rpx 30rpx;
+  padding: 44rpx 36rpx 34rpx;
 }

@@ -5,7 +5,7 @@
 /* ====== 未登录 ====== */
 .unlogged.data-v-60cb334c {
   min-height: 100vh;
-  background: linear-gradient(160deg, #D4720D, #B85D0A, #5D4037);
+  background: linear-gradient(160deg, #FF6B35, #E55A2B, #2D1F18);
   padding: 60rpx 40rpx;
 }
 .profile-header-outer.data-v-60cb334c {
@@ -54,7 +54,7 @@
 }
 .agree-text.data-v-60cb334c { font-size: 24rpx; color: #999;
 }
-.agree-link.data-v-60cb334c { font-size: 24rpx; color: #D4720D;
+.agree-link.data-v-60cb334c { font-size: 24rpx; color: #FF6B35;
 }
 
 /* 微信授权登录按钮 — 微信绿 */
@@ -90,7 +90,7 @@
 }
 .phc-bg.data-v-60cb334c {
   height: 120rpx;
-  background: linear-gradient(160deg, #D4720D, #B85D0A);
+  background: linear-gradient(160deg, #FF6B35, #E55A2B);
 }
 .phc-content.data-v-60cb334c {
   display: flex; align-items: center; gap: 24rpx;
@@ -129,7 +129,7 @@
 }
 .qf-arrow.data-v-60cb334c { font-size: 32rpx; color: #ccc;
 }
-.qf-preview.data-v-60cb334c { display: flex; align-items: center; gap: 8rpx; margin-top: 16rpx; padding-top: 16rpx; border-top: 2rpx solid #f5f1ec;
+.qf-preview.data-v-60cb334c { display: flex; align-items: center; gap: 8rpx; margin-top: 16rpx; padding-top: 16rpx; border-top: 2rpx solid #F5F5F7;
 }
 .qfp-item.data-v-60cb334c { font-size: 22rpx; color: #999;
 }
@@ -151,13 +151,13 @@
 }
 .modal-title.data-v-60cb334c { font-size: 34rpx; font-weight: 600;
 }
-.modal-close.data-v-60cb334c { background: #f5f3f0; border: none; width: 56rpx; height: 56rpx; border-radius: 50%; font-size: 24rpx;
+.modal-close.data-v-60cb334c { background: #F0F0F2; border: none; width: 56rpx; height: 56rpx; border-radius: 50%; font-size: 24rpx;
 }
 .modal-desc.data-v-60cb334c { font-size: 24rpx; color: #999; display: block; margin-bottom: 28rpx;
 }
 .privacy-field.data-v-60cb334c {
   display: flex; align-items: center; justify-content: space-between;
-  padding: 20rpx 0; border-bottom: 2rpx solid #f5f1ec;
+  padding: 20rpx 0; border-bottom: 2rpx solid #F5F5F7;
 }
 .privacy-field.data-v-60cb334c:last-child { border-bottom: none;
 }
@@ -178,8 +178,8 @@
 
 /* 绑定按钮 */
 .bind-btn.data-v-60cb334c {
-  background: none; border: 2rpx solid #D4720D;
-  color: #D4720D; font-size: 22rpx;
+  background: none; border: 2rpx solid #FF6B35;
+  color: #FF6B35; font-size: 22rpx;
   padding: 8rpx 20rpx; border-radius: 24rpx;
   flex-shrink: 0; margin-left: 12rpx;
 }
@@ -189,7 +189,7 @@
 }
 .phone-input-row.data-v-60cb334c {
   display: flex; gap: 12rpx; align-items: center;
-  padding: 12rpx 0 20rpx; border-bottom: 2rpx solid #f5f1ec;
+  padding: 12rpx 0 20rpx; border-bottom: 2rpx solid #F5F5F7;
 }
 .phone-input-row .form-input.data-v-60cb334c { flex: 1;
 }
@@ -205,7 +205,7 @@
 }
 .menu-item.data-v-60cb334c {
   display: flex; align-items: center; justify-content: space-between;
-  padding: 32rpx 28rpx; border-bottom: 2rpx solid #f5f1ec;
+  padding: 32rpx 28rpx; border-bottom: 2rpx solid #F5F5F7;
 }
 .menu-item.data-v-60cb334c:last-child { border-bottom: none;
 }

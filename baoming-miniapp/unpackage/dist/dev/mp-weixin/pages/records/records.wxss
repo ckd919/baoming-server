@@ -2,7 +2,7 @@
 .page.data-v-00c304e8 { min-height: 100vh; background: #F8F6F3; padding-bottom: 20rpx;
 }
 .header.data-v-00c304e8 {
-  background: linear-gradient(160deg, #D4720D, #B85D0A);
+  background: linear-gradient(160deg, #FF6B35, #E55A2B);
   color: #fff; padding: 40rpx 32rpx 30rpx;
 }
 .title.data-v-00c304e8 { font-size: 40rpx; font-weight: 700;
@@ -39,7 +39,7 @@
 }
 .rc-actions.data-v-00c304e8 {
   display: flex; gap: 10rpx; margin-top: 16rpx;
-  padding-top: 16rpx; border-top: 2rpx solid #f5f1ec;
+  padding-top: 16rpx; border-top: 2rpx solid #F5F5F7;
 }
 .rc-actions .btn-sm.data-v-00c304e8 { padding: 10rpx 20rpx; font-size: 24rpx;
 }

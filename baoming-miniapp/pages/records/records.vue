@@ -223,7 +223,7 @@ export default {
 .page { min-height: 100vh; background: #F8F6F3; padding-bottom: 20rpx; }
 
 .header {
-  background: linear-gradient(160deg, #D4720D, #B85D0A);
+  background: linear-gradient(160deg, #FF6B35, #E55A2B);
   color: #fff; padding: 40rpx 32rpx 30rpx;
 }
 .title { font-size: 40rpx; font-weight: 700; }
@@ -250,7 +250,7 @@ export default {
 .rc-bottom { margin-top: 12rpx; }
 .rc-actions {
   display: flex; gap: 10rpx; margin-top: 16rpx;
-  padding-top: 16rpx; border-top: 2rpx solid #f5f1ec;
+  padding-top: 16rpx; border-top: 2rpx solid #F5F5F7;
 }
 .rc-actions .btn-sm { padding: 10rpx 20rpx; font-size: 24rpx; }
 

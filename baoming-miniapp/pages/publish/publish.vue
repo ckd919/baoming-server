@@ -30,7 +30,7 @@
               :class="{ selected: shareLevel === opt.value }"
               @click="setShareLevel(opt.value)">
           <view class="sl-left">
-            <radio :checked="shareLevel === opt.value" color="#D4720D" />
+            <radio :checked="shareLevel === opt.value" color="#FF6B35" />
             <view class="sl-info">
               <text class="sl-label">{{ opt.label }}</text>
               <text class="sl-desc">{{ opt.desc }}</text>
@@ -50,7 +50,7 @@
       <text class="card-desc">开启后，表单分享到群后群成员无法再次转发，防止扩散到群外</text>
       <view class="flex-row">
         <text>禁止群成员转发</text>
-        <switch :checked="groupRestricted" color="#D4720D"
+        <switch :checked="groupRestricted" color="#FF6B35"
                 @change="toggleGroupRestricted" />
       </view>
       <text class="hint" style="margin-top:12rpx">
@@ -199,7 +199,7 @@ export default {
 .status-icon { font-size: 80rpx; }
 .status-text { display: block; font-size: 32rpx; font-weight: 600; margin: 12rpx 0 20rpx; }
 .stats { display: flex; justify-content: center; gap: 40rpx; }
-.stat-val { display: block; font-size: 40rpx; font-weight: 700; color: #D4720D; }
+.stat-val { display: block; font-size: 40rpx; font-weight: 700; color: #FF6B35; }
 .stat-lbl { font-size: 22rpx; color: #999; }
 
 .card-title { font-size: 30rpx; font-weight: 600; display: block; margin-bottom: 8rpx; }
@@ -207,7 +207,7 @@ export default {
 
 .url-box {
   display: flex; align-items: center; gap: 12rpx;
-  background: #f5f3f0; padding: 16rpx; border-radius: 12rpx;
+  background: #F0F0F2; padding: 16rpx; border-radius: 12rpx;
   word-break: break-all;
 }
 .url-text { flex: 1; font-size: 24rpx; color: #666; }
@@ -220,14 +220,14 @@ export default {
 }
 .share-level-item {
   padding: 20rpx 24rpx;
-  background: #f9f8f6;
+  background: #F8F8FA;
   border-radius: 16rpx;
   border: 3rpx solid transparent;
   transition: all 0.2s;
 }
 .share-level-item.selected {
-  background: #FFF3E6;
-  border-color: #D4720D;
+  background: #FFF5F0;
+  border-color: #FF6B35;
 }
 .sl-left { display: flex; align-items: flex-start; gap: 16rpx; }
 .sl-label { font-size: 28rpx; font-weight: 500; display: block; }

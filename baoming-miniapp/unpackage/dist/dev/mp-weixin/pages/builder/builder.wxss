@@ -7,9 +7,9 @@
 }
 .group-tag.data-v-0c098e3e {
   display: inline-block; padding: 10rpx 24rpx; font-size: 26rpx;
-  background: #f5f3f0; border-radius: 24rpx; margin-right: 12rpx; color: #666;
+  background: #F0F0F2; border-radius: 24rpx; margin-right: 12rpx; color: #666;
 }
-.group-tag.active.data-v-0c098e3e { background: #FFF3E6; color: #D4720D; font-weight: 600;
+.group-tag.active.data-v-0c098e3e { background: #FFF5F0; color: #FF6B35; font-weight: 600;
 }
 .field-grid.data-v-0c098e3e {
   display: flex; flex-wrap: wrap; gap: 12rpx;
@@ -17,7 +17,7 @@
 }
 .field-btn.data-v-0c098e3e {
   width: calc(25% - 9rpx); display: flex; flex-direction: column; align-items: center;
-  padding: 20rpx 0; background: #f9f8f6; border-radius: 12rpx; font-size: 24rpx;
+  padding: 20rpx 0; background: #F8F8FA; border-radius: 12rpx; font-size: 24rpx;
 }
 .ft-icon.data-v-0c098e3e { font-size: 36rpx;
 }
@@ -31,7 +31,7 @@
 }
 .field-card.data-v-0c098e3e {
   background: #fff; border-radius: 16rpx; padding: 24rpx; margin-bottom: 12rpx;
-  border-left: 6rpx solid #D4720D; box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.03);
+  border-left: 6rpx solid #FF6B35; box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.03);
 }
 .fc-header.data-v-0c098e3e { display: flex; align-items: center; justify-content: space-between;
 }
@@ -44,7 +44,7 @@
 .fixed-bottom.data-v-0c098e3e {
   position: fixed; bottom: 0; left: 0; right: 0;
   display: flex; gap: 16rpx; padding: 20rpx; background: #fff;
-  border-top: 2rpx solid #f0ede9;
+  border-top: 2rpx solid #F0F0F2;
 }
 /* Modal */
 .modal-overlay.data-v-0c098e3e {
@@ -59,7 +59,7 @@
 }
 .modal-title.data-v-0c098e3e { font-size: 34rpx; font-weight: 600;
 }
-.modal-close.data-v-0c098e3e { background: #f5f3f0; border: none; width: 56rpx; height: 56rpx; border-radius: 50%;
+.modal-close.data-v-0c098e3e { background: #F0F0F2; border: none; width: 56rpx; height: 56rpx; border-radius: 50%;
 }
 .flex-row.data-v-0c098e3e { display: flex; align-items: center; justify-content: space-between;
 }

@@ -225,7 +225,7 @@ export default {
 .page { padding-bottom: 40rpx; }
 
 .header {
-  background: linear-gradient(160deg, #D4720D, #B85D0A);
+  background: linear-gradient(160deg, #FF6B35, #E55A2B);
   color: #fff; padding: 40rpx 32rpx 30rpx;
 }
 .greeting { font-size: 24rpx; opacity: 0.8; }
@@ -240,13 +240,13 @@ export default {
 
 .tab-scroll {
   white-space: nowrap; padding: 0 20rpx 16rpx;
-  background: #fff; border-bottom: 2rpx solid #f0ede9;
+  background: #fff; border-bottom: 2rpx solid #F0F0F2;
 }
 .tab-item {
   display: inline-block; padding: 16rpx 28rpx;
   font-size: 28rpx; color: #666;
 }
-.tab-item.active { color: #D4720D; font-weight: 600; }
+.tab-item.active { color: #FF6B35; font-weight: 600; }
 
 .list-wrap { padding: 0 20rpx; }
 
@@ -262,11 +262,11 @@ export default {
 .meta-text { font-size: 24rpx; color: #999; }
 
 .progress-bar {
-  height: 6rpx; background: #f0ede9; border-radius: 3rpx;
+  height: 6rpx; background: #F0F0F2; border-radius: 3rpx;
   margin: 16rpx 0; overflow: hidden;
 }
 .progress-fill {
-  height: 6rpx; background: linear-gradient(90deg, #D4720D, #E8892A);
+  height: 6rpx; background: linear-gradient(90deg, #FF6B35, #FF8C5A);
   border-radius: 3rpx; transition: width 0.5s;
 }
 
@@ -277,7 +277,7 @@ export default {
 
 .card-actions {
   display: flex; flex-wrap: wrap; gap: 10rpx;
-  padding-top: 18rpx; border-top: 2rpx solid #f5f1ec;
+  padding-top: 18rpx; border-top: 2rpx solid #F5F5F7;
 }
 .card-actions .btn-sm { flex-shrink: 0; }
 .btn-delete { background: none; border: none; font-size: 24rpx; padding: 8rpx 12rpx; color: #999; }
@@ -286,7 +286,7 @@ export default {
 .fab {
   position: fixed; bottom: 120rpx; right: 40rpx;
   width: 100rpx; height: 100rpx;
-  background: linear-gradient(135deg, #D4720D, #E8892A);
+  background: linear-gradient(135deg, #FF6B35, #FF8C5A);
   border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
   box-shadow: 0 8rpx 24rpx rgba(212, 114, 13, 0.35);

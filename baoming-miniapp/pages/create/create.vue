@@ -3,7 +3,7 @@
     <view class="card">
       <view class="form-group">
         <text class="form-label">活动名称 <text style="color:#D32F2F">*</text></text>
-        <input class="form-input" v-model="form.name" placeholder="例如：2024年度技术分享会" />
+        <input class="form-input" v-model="form.name" placeholder="粤BA报名" />
       </view>
 
       <view class="form-group">
@@ -244,8 +244,8 @@ export default {
 .page { padding: 20rpx; padding-bottom: 60rpx; }
 .form-group { margin-bottom: 28rpx; }
 .form-label { display: block; font-size: 28rpx; font-weight: 500; margin-bottom: 12rpx; }
-.form-textarea { width: 100%; min-height: 140rpx; padding: 20rpx; background: #f9f8f6; border-radius: 12rpx; font-size: 28rpx; }
-.picker-box { padding: 20rpx 28rpx; background: #f9f8f6; border-radius: 12rpx; font-size: 28rpx; color: #666; }
+.form-textarea { width: 100%; min-height: 140rpx; padding: 20rpx; background: #F8F8FA; border-radius: 12rpx; font-size: 28rpx; }
+.picker-box { padding: 20rpx 28rpx; background: #F8F8FA; border-radius: 12rpx; font-size: 28rpx; color: #666; }
 .datetime-row { display: flex; gap: 16rpx; }
 .picker-half { flex: 1; }
 .card-title { font-size: 30rpx; font-weight: 600; display: block; margin-bottom: 20rpx; }
@@ -253,10 +253,10 @@ export default {
 .tpl-scroll { white-space: nowrap; }
 .tpl-card {
   display: inline-block; width: 180rpx; text-align: center;
-  padding: 24rpx 16rpx; background: #f9f8f6; border-radius: 16rpx;
+  padding: 24rpx 16rpx; background: #F8F8FA; border-radius: 16rpx;
   margin-right: 16rpx; border: 3rpx solid transparent;
 }
-.tpl-card.selected { border-color: #D4720D; background: #FFF3E6; }
+.tpl-card.selected { border-color: #FF6B35; background: #FFF5F0; }
 .tpl-icon { display: block; font-size: 48rpx; margin-bottom: 8rpx; }
 .tpl-name { font-size: 26rpx; font-weight: 500; }
 .tpl-fields { font-size: 22rpx; color: #999; margin-top: 4rpx; }

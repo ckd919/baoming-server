@@ -145,14 +145,14 @@ export default {
   flex: 1; background: #fff; border-radius: 16rpx;
   padding: 28rpx; text-align: center; box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.03);
 }
-.stat-val { display: block; font-size: 48rpx; font-weight: 700; color: #D4720D; }
+.stat-val { display: block; font-size: 48rpx; font-weight: 700; color: #FF6B35; }
 .stat-lbl { font-size: 24rpx; color: #999; }
 
 .table-wrap { overflow-x: auto; }
 .table-row { display: flex; }
-.table-row.header { background: #f5f3f0; font-weight: 600; }
+.table-row.header { background: #F0F0F2; font-weight: 600; }
 .table-cell {
-  padding: 16rpx 12rpx; font-size: 24rpx; border-bottom: 2rpx solid #f0ede9;
+  padding: 16rpx 12rpx; font-size: 24rpx; border-bottom: 2rpx solid #F0F0F2;
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   min-width: 120rpx; max-width: 200rpx;
 }
@@ -160,10 +160,10 @@ export default {
 .fixed-bottom {
   position: fixed; bottom: 0; left: 0; right: 0;
   display: flex; gap: 16rpx; padding: 20rpx; background: #fff;
-  border-top: 2rpx solid #f0ede9;
+  border-top: 2rpx solid #F0F0F2;
 }
 .card-title { font-size: 30rpx; font-weight: 600; display: block; margin-bottom: 16rpx; }
-.cancel-item { display: flex; justify-content: space-between; align-items: center; padding: 16rpx 0; border-bottom: 2rpx solid #f5f1ec; }
+.cancel-item { display: flex; justify-content: space-between; align-items: center; padding: 16rpx 0; border-bottom: 2rpx solid #F5F5F7; }
 .cr-name { font-size: 26rpx; font-weight: 500; }
 .cr-reason { font-size: 22rpx; color: #999; display: block; }
 .cr-actions { display: flex; gap: 12rpx; flex-shrink: 0; }
