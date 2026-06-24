@@ -1,7 +1,7 @@
 {
     "name" : "康康个人工具",
     "appid" : "__UNI__7D0675B",
-    "description" : "活动预约报名工具——培训讲座、聚会活动、场馆预约、信息登记，快速创建报名表，管理报名数据",
+    "description" : "个人日常信息收集小工具，方便自己及身边朋友创建报名表、收集信息",
     "versionName" : "1.0.0",
     "versionCode" : "100",
     "transformPx" : false,
