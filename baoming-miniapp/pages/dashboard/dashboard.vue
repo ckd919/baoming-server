@@ -9,7 +9,7 @@
         </view>
         <view class="header-text">
           <view class="greeting">Hello~ 👋</view>
-          <view class="title">熊熊活动助手</view>
+          <view class="title">康康个人工具</view>
         </view>
       </view>
       <view class="header-stats">

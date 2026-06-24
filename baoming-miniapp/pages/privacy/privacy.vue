@@ -5,7 +5,7 @@
       <view class="update-time">更新日期：2026年6月13日</view>
       <view class="section">
         <text class="section-title">一、引言</text>
-        <text class="section-text">熊熊活动助手（以下简称"本小程序"）非常重视用户的隐私和个人信息保护。本协议旨在向您说明我们如何收集、使用、存储和保护您的个人信息。请您在使用本小程序前仔细阅读本协议，点击"同意"即表示您已充分理解并接受本协议全部内容。</text>
+        <text class="section-text">康康个人工具（以下简称"本小程序"）非常重视用户的隐私和个人信息保护。本协议旨在向您说明我们如何收集、使用、存储和保护您的个人信息。请您在使用本小程序前仔细阅读本协议，点击"同意"即表示您已充分理解并接受本协议全部内容。</text>
       </view>
       <view class="section">
         <text class="section-title">二、信息收集</text>
