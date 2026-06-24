@@ -214,6 +214,16 @@ export async function reviewCancelRequest(requestId, action) {
   return await request('POST', `/cancel-requests/${requestId}/review`, { action })
 }
 
+// ==================== 支付 ====================
+export async function createPayment({ activityId, submissionId, amount }) {
+  return await request('POST', '/payments/prepay', { activityId, submissionId, amount })
+}
+
+export async function getPaymentStatus(submissionId) {
+  const data = await request('GET', `/payments/status/${submissionId}`)
+  return data
+}
+
 // ==================== 一键截止/开启 ====================
 export async function stopRegistration(activityId) {
   return await request('POST', `/activities/${activityId}/stop-registration`)

@@ -92,16 +92,32 @@
           <button class="btn-outline btn-sm" @click="getLocation(f.id)">📍 定位</button>
         </view>
 
-        <!-- 费用 -->
-        <view v-if="f.type === 'fee'" class="fee-box">
-          <text class="fee-symbol">¥</text>
-          <text class="fee-val">{{ activity.fee || '0.00' }}</text>
+        <!-- 门票/收费项 -->
+        <view v-if="f.type === 'ticket'" class="ticket-field">
+          <view class="ticket-header">
+            <text class="ticket-name">🎫 {{ f.label }}</text>
+            <text class="ticket-price">¥ {{ (f.price || 0).toFixed(2) }} / 张</text>
+          </view>
+          <view class="ticket-qty-row">
+            <text class="ticket-qty-label">数量</text>
+            <view class="stepper">
+              <button class="step-btn" @click="changeQty(f.id, -1)" :disabled="(formData[f.id]||0) <= 0">−</button>
+              <text class="step-val">{{ formData[f.id] || 0 }}</text>
+              <button class="step-btn" @click="changeQty(f.id, 1)" :disabled="(formData[f.id]||0) >= (f.maxQty || 10)">+</button>
+            </view>
+          </view>
         </view>
+      </view>
+
+      <!-- 费用汇总 -->
+      <view v-if="totalAmount > 0" class="total-bar">
+        <text class="total-label">合计</text>
+        <text class="total-amount">¥ {{ totalAmount.toFixed(2) }}</text>
       </view>
 
       <button v-if="canSubmit" class="btn-primary btn-block" @click="submitForm"
               :loading="submitting" :disabled="submitting">
-        📝 提交报名
+        {{ totalAmount > 0 ? '💳 提交并支付' : '📝 提交报名' }}
       </button>
 
       <!-- 留言区 -->
@@ -142,7 +158,13 @@ export default {
     isEnded() { return !this.isPreview && this.activity?.status !== 'published' },
     isFull() { return this.activity?.maxParticipants > 0 && this.activity?.submissionCount >= this.activity?.maxParticipants },
     canSubmit() { return this.activity?.fields?.length > 0 && !this.isEnded && !this.isFull && !this.isPreview },
-    needLogin() { return this.activity?.groupRestricted || this.activity?.requireLogin }
+    needLogin() { return this.activity?.groupRestricted || this.activity?.requireLogin },
+    totalAmount() {
+      if (!this.activity?.fields) return 0
+      return this.activity.fields
+        .filter(f => f.type === 'ticket')
+        .reduce((sum, f) => sum + (f.price || 0) * (this.formData[f.id] || 0), 0)
+    }
   },
   onLoad(options) {
     if (options.id) {
@@ -276,6 +298,13 @@ export default {
       } catch (err) {
         uni.showToast({ title: '加载失败', icon: 'none' })
       }
+    },
+    changeQty(fid, delta) {
+      const cur = this.formData[fid] || 0
+      const field = (this.activity.fields || []).find(f => f.id === fid)
+      const max = (field && field.maxQty) ? field.maxQty : 10
+      const next = Math.max(0, Math.min(max, cur + delta))
+      this.$set(this.formData, fid, next)
     },
     toggleCheck(fid, opt) {
       const arr = this.formData[fid] || []
@@ -417,6 +446,22 @@ export default {
 .fee-box { display: flex; align-items: center; gap: 8rpx; padding: 20rpx; background: #FFF5F0; border-radius: 12rpx; }
 .fee-symbol { font-size: 28rpx; color: #FF6B35; font-weight: 600; }
 .fee-val { font-size: 40rpx; color: #FF6B35; font-weight: 700; }
+
+.ticket-field { background: linear-gradient(135deg, #FFF8F0, #FFF0E5); padding: 24rpx; border-radius: 16rpx; border: 2rpx solid #FFD5C5; }
+.ticket-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16rpx; }
+.ticket-name { font-size: 28rpx; font-weight: 600; }
+.ticket-price { font-size: 26rpx; color: #FF6B35; font-weight: 600; }
+.ticket-qty-row { display: flex; justify-content: space-between; align-items: center; }
+.ticket-qty-label { font-size: 24rpx; color: #888; }
+.stepper { display: flex; align-items: center; gap: 4rpx; }
+.step-btn { width: 52rpx; height: 52rpx; background: #fff; border: 2rpx solid #ddd; border-radius: 12rpx; font-size: 28rpx; line-height: 1; display: flex; align-items: center; justify-content: center; padding: 0; }
+.step-btn[disabled] { opacity: 0.3; }
+.step-val { font-size: 32rpx; font-weight: 600; min-width: 56rpx; text-align: center; }
+
+.total-bar { display: flex; justify-content: space-between; align-items: center; padding: 24rpx 28rpx; background: #fff; border-radius: 16rpx; margin-top: 24rpx; box-shadow: 0 4rpx 16rpx rgba(0,0,0,0.06); }
+.total-label { font-size: 28rpx; color: #666; }
+.total-amount { font-size: 40rpx; font-weight: 700; color: #FF6B35; }
+
 .btn-sm { padding: 12rpx 20rpx; font-size: 24rpx; }
 
 .comment-section { margin-top: 40rpx; padding-top: 28rpx; border-top: 2rpx solid #F0F0F2; }

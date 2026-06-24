@@ -836,7 +836,7 @@ function populateParameters(result) {
 
   var parameters = {
     appId: "__UNI__7D0675B",
-    appName: "熊熊活动助手",
+    appName: "康康个人工具",
     appVersion: "1.0.0",
     appVersionCode: "100",
     appLanguage: getAppLanguage(hostLanguage),
@@ -937,7 +937,7 @@ var getAppBaseInfo = {
     var hostLanguage = (language || '').replace('_', '-');
     result = sortObject(Object.assign(result, {
       appId: "__UNI__7D0675B",
-      appName: "熊熊活动助手",
+      appName: "康康个人工具",
       appVersion: "1.0.0",
       appVersionCode: "100",
       appLanguage: getAppLanguage(hostLanguage),
@@ -1640,7 +1640,7 @@ function initData(vueOptions, context) {
     try {
       data = data.call(context); // 支持 Vue.prototype 上挂的数据
     } catch (e) {
-      if (Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"熊熊活动助手","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"康康个人工具","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.warn('根据 Vue 的 data 函数初始化小程序 data 失败，请尽量确保 data 函数中不访问 vm 对象，否则可能影响首次数据渲染速度。', data);
       }
     }
@@ -9228,7 +9228,7 @@ function rfdcCircles(opts) {
 
 function flushCallbacks$1(vm) {
     if (vm.__next_tick_callbacks && vm.__next_tick_callbacks.length) {
-        if (Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"熊熊活动助手","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+        if (Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"康康个人工具","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:flushCallbacks[' + vm.__next_tick_callbacks.length + ']');
@@ -9249,14 +9249,14 @@ function nextTick$1(vm, cb) {
     //1.nextTick 之前 已 setData 且 setData 还未回调完成
     //2.nextTick 之前存在 render watcher
     if (!vm.__next_tick_pending && !hasRenderWatcher(vm)) {
-        if(Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"熊熊活动助手","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"康康个人工具","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:nextVueTick');
         }
         return nextTick(cb, vm)
     }else{
-        if(Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"熊熊活动助手","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"康康个人工具","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance$1 = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance$1.is || mpInstance$1.route) + '][' + vm._uid +
                 ']:nextMPTick');
@@ -9354,7 +9354,7 @@ var patch = function(oldVnode, vnode) {
     });
     var diffData = this.$shouldDiffData === false ? data : diff(data, mpData);
     if (Object.keys(diffData).length) {
-      if (Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"熊熊活动助手","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"康康个人工具","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + this._uid +
           ']差量更新',
           JSON.stringify(diffData));
@@ -12393,6 +12393,7 @@ exports.cancelSubmission = cancelSubmission;
 exports.clearSubmissions = clearSubmissions;
 exports.clearToken = clearToken;
 exports.createActivity = createActivity;
+exports.createPayment = createPayment;
 exports.deleteAccount = deleteAccount;
 exports.deleteActivity = deleteActivity;
 exports.duplicateActivity = duplicateActivity;
@@ -12406,6 +12407,7 @@ exports.getComments = getComments;
 exports.getManagedActivities = getManagedActivities;
 exports.getMyProfile = getMyProfile;
 exports.getMySubmissions = getMySubmissions;
+exports.getPaymentStatus = getPaymentStatus;
 exports.getPublicActivity = getPublicActivity;
 exports.getSubmissions = getSubmissions;
 exports.getTemplates = getTemplates;
@@ -13148,7 +13150,7 @@ function _getCancelRequests() {
 }
 function reviewCancelRequest(_x32, _x33) {
   return _reviewCancelRequest.apply(this, arguments);
-} // ==================== 一键截止/开启 ====================
+} // ==================== 支付 ====================
 function _reviewCancelRequest() {
   _reviewCancelRequest = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee29(requestId, action) {
     return _regenerator.default.wrap(function _callee29$(_context29) {
@@ -13170,47 +13172,99 @@ function _reviewCancelRequest() {
   }));
   return _reviewCancelRequest.apply(this, arguments);
 }
-function stopRegistration(_x34) {
-  return _stopRegistration.apply(this, arguments);
+function createPayment(_x34) {
+  return _createPayment.apply(this, arguments);
 }
-function _stopRegistration() {
-  _stopRegistration = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee30(activityId) {
+function _createPayment() {
+  _createPayment = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee30(_ref3) {
+    var activityId, submissionId, amount;
     return _regenerator.default.wrap(function _callee30$(_context30) {
       while (1) {
         switch (_context30.prev = _context30.next) {
           case 0:
-            _context30.next = 2;
-            return request('POST', "/activities/".concat(activityId, "/stop-registration"));
-          case 2:
-            return _context30.abrupt("return", _context30.sent);
+            activityId = _ref3.activityId, submissionId = _ref3.submissionId, amount = _ref3.amount;
+            _context30.next = 3;
+            return request('POST', '/payments/prepay', {
+              activityId: activityId,
+              submissionId: submissionId,
+              amount: amount
+            });
           case 3:
+            return _context30.abrupt("return", _context30.sent);
+          case 4:
           case "end":
             return _context30.stop();
         }
       }
     }, _callee30);
   }));
-  return _stopRegistration.apply(this, arguments);
+  return _createPayment.apply(this, arguments);
 }
-function restartRegistration(_x35) {
-  return _restartRegistration.apply(this, arguments);
-} // ==================== 用户记录 ====================
-function _restartRegistration() {
-  _restartRegistration = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee31(activityId) {
+function getPaymentStatus(_x35) {
+  return _getPaymentStatus.apply(this, arguments);
+} // ==================== 一键截止/开启 ====================
+function _getPaymentStatus() {
+  _getPaymentStatus = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee31(submissionId) {
+    var data;
     return _regenerator.default.wrap(function _callee31$(_context31) {
       while (1) {
         switch (_context31.prev = _context31.next) {
           case 0:
             _context31.next = 2;
-            return request('POST', "/activities/".concat(activityId, "/restart-registration"));
+            return request('GET', "/payments/status/".concat(submissionId));
           case 2:
-            return _context31.abrupt("return", _context31.sent);
-          case 3:
+            data = _context31.sent;
+            return _context31.abrupt("return", data);
+          case 4:
           case "end":
             return _context31.stop();
         }
       }
     }, _callee31);
+  }));
+  return _getPaymentStatus.apply(this, arguments);
+}
+function stopRegistration(_x36) {
+  return _stopRegistration.apply(this, arguments);
+}
+function _stopRegistration() {
+  _stopRegistration = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee32(activityId) {
+    return _regenerator.default.wrap(function _callee32$(_context32) {
+      while (1) {
+        switch (_context32.prev = _context32.next) {
+          case 0:
+            _context32.next = 2;
+            return request('POST', "/activities/".concat(activityId, "/stop-registration"));
+          case 2:
+            return _context32.abrupt("return", _context32.sent);
+          case 3:
+          case "end":
+            return _context32.stop();
+        }
+      }
+    }, _callee32);
+  }));
+  return _stopRegistration.apply(this, arguments);
+}
+function restartRegistration(_x37) {
+  return _restartRegistration.apply(this, arguments);
+} // ==================== 用户记录 ====================
+function _restartRegistration() {
+  _restartRegistration = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee33(activityId) {
+    return _regenerator.default.wrap(function _callee33$(_context33) {
+      while (1) {
+        switch (_context33.prev = _context33.next) {
+          case 0:
+            _context33.next = 2;
+            return request('POST', "/activities/".concat(activityId, "/restart-registration"));
+          case 2:
+            return _context33.abrupt("return", _context33.sent);
+          case 3:
+          case "end":
+            return _context33.stop();
+        }
+      }
+    }, _callee33);
   }));
   return _restartRegistration.apply(this, arguments);
 }
@@ -13218,23 +13272,23 @@ function getManagedActivities() {
   return _getManagedActivities.apply(this, arguments);
 }
 function _getManagedActivities() {
-  _getManagedActivities = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee32() {
+  _getManagedActivities = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee34() {
     var data;
-    return _regenerator.default.wrap(function _callee32$(_context32) {
+    return _regenerator.default.wrap(function _callee34$(_context34) {
       while (1) {
-        switch (_context32.prev = _context32.next) {
+        switch (_context34.prev = _context34.next) {
           case 0:
-            _context32.next = 2;
+            _context34.next = 2;
             return request('GET', '/user/managed-activities');
           case 2:
-            data = _context32.sent;
-            return _context32.abrupt("return", data.activities || []);
+            data = _context34.sent;
+            return _context34.abrupt("return", data.activities || []);
           case 4:
           case "end":
-            return _context32.stop();
+            return _context34.stop();
         }
       }
-    }, _callee32);
+    }, _callee34);
   }));
   return _getManagedActivities.apply(this, arguments);
 }
@@ -13242,43 +13296,43 @@ function getMySubmissions() {
   return _getMySubmissions.apply(this, arguments);
 }
 function _getMySubmissions() {
-  _getMySubmissions = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee33() {
+  _getMySubmissions = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee35() {
     var data;
-    return _regenerator.default.wrap(function _callee33$(_context33) {
+    return _regenerator.default.wrap(function _callee35$(_context35) {
       while (1) {
-        switch (_context33.prev = _context33.next) {
+        switch (_context35.prev = _context35.next) {
           case 0:
-            _context33.next = 2;
+            _context35.next = 2;
             return request('GET', '/user/submissions');
           case 2:
-            data = _context33.sent;
-            return _context33.abrupt("return", data.submissions || []);
+            data = _context35.sent;
+            return _context35.abrupt("return", data.submissions || []);
           case 4:
           case "end":
-            return _context33.stop();
+            return _context35.stop();
         }
       }
-    }, _callee33);
+    }, _callee35);
   }));
   return _getMySubmissions.apply(this, arguments);
 }
-function cancelSubmission(_x36) {
+function cancelSubmission(_x38) {
   return _cancelSubmission.apply(this, arguments);
 }
 function _cancelSubmission() {
-  _cancelSubmission = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee34(submissionId) {
-    return _regenerator.default.wrap(function _callee34$(_context34) {
+  _cancelSubmission = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee36(submissionId) {
+    return _regenerator.default.wrap(function _callee36$(_context36) {
       while (1) {
-        switch (_context34.prev = _context34.next) {
+        switch (_context36.prev = _context36.next) {
           case 0:
-            _context34.next = 2;
+            _context36.next = 2;
             return request('DELETE', "/submissions/".concat(submissionId, "/cancel"));
           case 2:
           case "end":
-            return _context34.stop();
+            return _context36.stop();
         }
       }
-    }, _callee34);
+    }, _callee36);
   }));
   return _cancelSubmission.apply(this, arguments);
 }

@@ -35,6 +35,11 @@ app:
   wechat:
     appid: wxa0606d69df5b21f0
     secret: 4c3c58b0321b0ac44e75b84b415408bc
+    pay:
+      merchant-id: ${APP_WECHAT_PAY_MERCHANT_ID:}
+      api-key: ${APP_WECHAT_PAY_API_KEY:}
+      mch-serial: ${APP_WECHAT_PAY_MCH_SERIAL:}
+      notify-url: https://ledbell.cn/api/payments/notify
 
 logging:
   level:

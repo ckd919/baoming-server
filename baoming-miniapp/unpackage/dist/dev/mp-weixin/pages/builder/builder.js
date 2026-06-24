@@ -263,9 +263,11 @@ var FIELD_TYPES = {
     icon: '🖼️',
     name: '图片上传'
   },
-  fee: {
-    icon: '💰',
-    name: '报名费用'
+  ticket: {
+    icon: '🎫',
+    name: '门票/收费项',
+    price: 0,
+    maxQty: 10
   }
 };
 var GROUPS = [{
@@ -291,7 +293,7 @@ var GROUPS = [{
 }, {
   key: 'pay',
   label: '收款',
-  types: ['fee']
+  types: ['ticket']
 }];
 var _default = {
   data: function data() {

@@ -103,7 +103,7 @@ const FIELD_TYPES = {
   idcard: { icon: '🪪', name: '身份证' },
   location: { icon: '📍', name: '地理位置' },
   image: { icon: '🖼️', name: '图片上传' },
-  fee: { icon: '💰', name: '报名费用' },
+  ticket: { icon: '🎫', name: '门票/收费项', price: 0, maxQty: 10 },
 }
 
 const GROUPS = [
@@ -112,7 +112,7 @@ const GROUPS = [
   { key: 'date', label: '日期', types: ['date','time'] },
   { key: 'contact', label: '联系', types: ['phone','email','idcard','location'] },
   { key: 'media', label: '附件', types: ['image'] },
-  { key: 'pay', label: '收款', types: ['fee'] },
+  { key: 'pay', label: '收款', types: ['ticket'] },
 ]
 
 export default {

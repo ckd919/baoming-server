@@ -29,4 +29,10 @@ public class Submission {
 
     @TableField("submitted_at")
     private Long submittedAt;
+
+    private Boolean paid;
+    private Integer amount;
+
+    @TableField("wx_transaction_id")
+    private String wxTransactionId;
 }

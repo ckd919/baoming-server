@@ -67,6 +67,32 @@
 }
 .fee-val.data-v-c4d460f4 { font-size: 40rpx; color: #FF6B35; font-weight: 700;
 }
+.ticket-field.data-v-c4d460f4 { background: linear-gradient(135deg, #FFF8F0, #FFF0E5); padding: 24rpx; border-radius: 16rpx; border: 2rpx solid #FFD5C5;
+}
+.ticket-header.data-v-c4d460f4 { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16rpx;
+}
+.ticket-name.data-v-c4d460f4 { font-size: 28rpx; font-weight: 600;
+}
+.ticket-price.data-v-c4d460f4 { font-size: 26rpx; color: #FF6B35; font-weight: 600;
+}
+.ticket-qty-row.data-v-c4d460f4 { display: flex; justify-content: space-between; align-items: center;
+}
+.ticket-qty-label.data-v-c4d460f4 { font-size: 24rpx; color: #888;
+}
+.stepper.data-v-c4d460f4 { display: flex; align-items: center; gap: 4rpx;
+}
+.step-btn.data-v-c4d460f4 { width: 52rpx; height: 52rpx; background: #fff; border: 2rpx solid #ddd; border-radius: 12rpx; font-size: 28rpx; line-height: 1; display: flex; align-items: center; justify-content: center; padding: 0;
+}
+.step-btn[disabled].data-v-c4d460f4 { opacity: 0.3;
+}
+.step-val.data-v-c4d460f4 { font-size: 32rpx; font-weight: 600; min-width: 56rpx; text-align: center;
+}
+.total-bar.data-v-c4d460f4 { display: flex; justify-content: space-between; align-items: center; padding: 24rpx 28rpx; background: #fff; border-radius: 16rpx; margin-top: 24rpx; box-shadow: 0 4rpx 16rpx rgba(0,0,0,0.06);
+}
+.total-label.data-v-c4d460f4 { font-size: 28rpx; color: #666;
+}
+.total-amount.data-v-c4d460f4 { font-size: 40rpx; font-weight: 700; color: #FF6B35;
+}
 .btn-sm.data-v-c4d460f4 { padding: 12rpx 20rpx; font-size: 24rpx;
 }
 .comment-section.data-v-c4d460f4 { margin-top: 40rpx; padding-top: 28rpx; border-top: 2rpx solid #F0F0F2;

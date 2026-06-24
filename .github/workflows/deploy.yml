@@ -163,6 +163,12 @@ jobs:
             ALTER TABLE users ADD COLUMN IF NOT EXISTS real_name VARCHAR(50) DEFAULT '';
             ALTER TABLE users ADD COLUMN IF NOT EXISTS id_card VARCHAR(18) DEFAULT '';
 
+            -- V7: 支付
+            ALTER TABLE activities ADD COLUMN IF NOT EXISTS fee INTEGER DEFAULT 0;
+            ALTER TABLE submissions ADD COLUMN IF NOT EXISTS paid BOOLEAN DEFAULT false;
+            ALTER TABLE submissions ADD COLUMN IF NOT EXISTS amount INTEGER DEFAULT 0;
+            ALTER TABLE submissions ADD COLUMN IF NOT EXISTS wx_transaction_id VARCHAR(64);
+
             END $$;
             SQL_EOF
 

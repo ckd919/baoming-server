@@ -124,16 +124,22 @@ var render = function () {
                 })
               : null
           var g3 = f.type === "image" ? (_vm.formData[f.id] || []).length : null
+          var g4 = f.type === "ticket" ? (f.price || 0).toFixed(2) : null
           return {
             $orig: $orig,
             g0: g0,
             g1: g1,
             l0: l0,
             g3: g3,
+            g4: g4,
           }
         })
       : null
-  var g4 =
+  var g5 =
+    _vm.activity && _vm.activity.fields && _vm.totalAmount > 0
+      ? _vm.totalAmount.toFixed(2)
+      : null
+  var g6 =
     _vm.activity && _vm.activity.fields && _vm.activity
       ? _vm.comments.length
       : null
@@ -197,7 +203,8 @@ var render = function () {
       $root: {
         m0: m0,
         l1: l1,
-        g4: g4,
+        g5: g5,
+        g6: g6,
         l2: l2,
       },
     }
@@ -279,6 +286,16 @@ var _default = {
     needLogin: function needLogin() {
       var _this$activity6, _this$activity7;
       return ((_this$activity6 = this.activity) === null || _this$activity6 === void 0 ? void 0 : _this$activity6.groupRestricted) || ((_this$activity7 = this.activity) === null || _this$activity7 === void 0 ? void 0 : _this$activity7.requireLogin);
+    },
+    totalAmount: function totalAmount() {
+      var _this$activity8,
+        _this = this;
+      if (!((_this$activity8 = this.activity) !== null && _this$activity8 !== void 0 && _this$activity8.fields)) return 0;
+      return this.activity.fields.filter(function (f) {
+        return f.type === 'ticket';
+      }).reduce(function (sum, f) {
+        return sum + (f.price || 0) * (_this.formData[f.id] || 0);
+      }, 0);
     }
   },
   onLoad: function onLoad(options) {
@@ -331,7 +348,7 @@ var _default = {
       } catch (e) {/* ignore */}
     },
     loadActivity: function loadActivity(id) {
-      var _this = this;
+      var _this2 = this;
       return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee() {
         var token, userStr, isCreator, isAdmin, user, shareLevel, userProfile;
         return _regenerator.default.wrap(function _callee$(_context) {
@@ -339,29 +356,29 @@ var _default = {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.prev = 0;
-                if (!_this.isPreview) {
+                if (!_this2.isPreview) {
                   _context.next = 7;
                   break;
                 }
                 _context.next = 4;
                 return (0, _api.getActivity)(id);
               case 4:
-                _this.activity = _context.sent;
+                _this2.activity = _context.sent;
                 _context.next = 10;
                 break;
               case 7:
                 _context.next = 9;
                 return (0, _api.getPublicActivity)(id);
               case 9:
-                _this.activity = _context.sent;
+                _this2.activity = _context.sent;
               case 10:
-                if (_this.activity) {
+                if (_this2.activity) {
                   _context.next = 12;
                   break;
                 }
                 return _context.abrupt("return");
               case 12:
-                if (!(!_this.isPreview && _this.needLogin)) {
+                if (!(!_this2.isPreview && _this2.needLogin)) {
                   _context.next = 17;
                   break;
                 }
@@ -391,11 +408,11 @@ var _default = {
                 // 判断当前用户身份
                 userStr = uni.getStorageSync('bm_user');
                 isCreator = false;
-                isAdmin = _this.activity.isAdmin || false;
-                if (userStr && _this.activity.userId) {
+                isAdmin = _this2.activity.isAdmin || false;
+                if (userStr && _this2.activity.userId) {
                   try {
                     user = JSON.parse(userStr);
-                    isCreator = user.id === _this.activity.userId;
+                    isCreator = user.id === _this2.activity.userId;
                   } catch (e) {}
                 }
 
@@ -403,16 +420,16 @@ var _default = {
                 // "creator" → 仅创建者
                 // "admins"  → 创建者 + 管理员
                 // "all"     → 所有人
-                shareLevel = _this.activity.shareLevel || (_this.activity.allowShare === false ? 'creator' : 'all');
+                shareLevel = _this2.activity.shareLevel || (_this2.activity.allowShare === false ? 'creator' : 'all');
                 if (shareLevel === 'creator') {
-                  _this.canShare = isCreator; // 仅创建者
+                  _this2.canShare = isCreator; // 仅创建者
                 } else if (shareLevel === 'admins') {
-                  _this.canShare = isCreator || isAdmin; // 创建者 + 管理员
+                  _this2.canShare = isCreator || isAdmin; // 创建者 + 管理员
                 } else {
-                  _this.canShare = true; // 所有人
+                  _this2.canShare = true; // 所有人
                 }
 
-                if (_this.canShare) {
+                if (_this2.canShare) {
                   wx.showShareMenu({
                     menus: ['shareAppMessage', 'shareTimeline']
                   });
@@ -423,9 +440,9 @@ var _default = {
                 }
 
                 // 记录浏览（非预览模式下）
-                if (!_this.isPreview) {
-                  (0, _recentViews.trackView)(_this.activity);
-                  _this.loadComments();
+                if (!_this2.isPreview) {
+                  (0, _recentViews.trackView)(_this2.activity);
+                  _this2.loadComments();
                 }
 
                 // 初始化表单数据，并从用户信息自动填充
@@ -435,11 +452,11 @@ var _default = {
                     userProfile = JSON.parse(userStr);
                   } catch (e) {}
                 }
-                (_this.activity.fields || []).forEach(function (f) {
+                (_this2.activity.fields || []).forEach(function (f) {
                   var val = f.type === 'checkbox' ? [] : '';
                   // 快速填充：匹配字段类型
                   if (f.type === 'name' && userProfile.realName) val = userProfile.realName;else if (f.type === 'phone' && userProfile.phone) val = userProfile.phone;else if (f.type === 'idcard' && userProfile.idCard) val = userProfile.idCard;else if (f.type === 'email' && userProfile.email) val = userProfile.email || '';
-                  _this.formData[f.id] = val;
+                  _this2.formData[f.id] = val;
                 });
                 _context.next = 33;
                 break;
@@ -458,6 +475,15 @@ var _default = {
         }, _callee, null, [[0, 30]]);
       }))();
     },
+    changeQty: function changeQty(fid, delta) {
+      var cur = this.formData[fid] || 0;
+      var field = (this.activity.fields || []).find(function (f) {
+        return f.id === fid;
+      });
+      var max = field && field.maxQty ? field.maxQty : 10;
+      var next = Math.max(0, Math.min(max, cur + delta));
+      this.$set(this.formData, fid, next);
+    },
     toggleCheck: function toggleCheck(fid, opt) {
       var arr = this.formData[fid] || [];
       var idx = arr.indexOf(opt);
@@ -468,22 +494,22 @@ var _default = {
       this.formData[fid].splice(idx, 1);
     },
     uploadImg: function uploadImg(fid) {
-      var _this2 = this;
+      var _this3 = this;
       uni.chooseImage({
         count: 1,
         sizeType: ['compressed'],
         success: function success(res) {
-          var imgs = _this2.formData[fid] || [];
-          _this2.$set(_this2.formData, fid, [].concat((0, _toConsumableArray2.default)(imgs), [res.tempFilePaths[0]]));
+          var imgs = _this3.formData[fid] || [];
+          _this3.$set(_this3.formData, fid, [].concat((0, _toConsumableArray2.default)(imgs), [res.tempFilePaths[0]]));
         }
       });
     },
     getLocation: function getLocation(fid) {
-      var _this3 = this;
+      var _this4 = this;
       uni.getLocation({
         type: 'wgs84',
         success: function success(pos) {
-          _this3.formData[fid] = "".concat(pos.latitude, ", ").concat(pos.longitude);
+          _this4.formData[fid] = "".concat(pos.latitude, ", ").concat(pos.longitude);
         },
         fail: function fail() {
           return uni.showToast({
@@ -499,7 +525,7 @@ var _default = {
       return "".concat(d.getFullYear(), "-").concat(String(d.getMonth() + 1).padStart(2, '0'), "-").concat(String(d.getDate()).padStart(2, '0'));
     },
     submitForm: function submitForm() {
-      var _this4 = this;
+      var _this5 = this;
       return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee2() {
         var _iterator, _step, f, v, subData;
         return _regenerator.default.wrap(function _callee2$(_context2) {
@@ -507,7 +533,7 @@ var _default = {
             switch (_context2.prev = _context2.next) {
               case 0:
                 // 必填校验
-                _iterator = _createForOfIteratorHelper(_this4.activity.fields || []);
+                _iterator = _createForOfIteratorHelper(_this5.activity.fields || []);
                 _context2.prev = 1;
                 _iterator.s();
               case 3:
@@ -520,7 +546,7 @@ var _default = {
                   _context2.next = 10;
                   break;
                 }
-                v = _this4.formData[f.id];
+                v = _this5.formData[f.id];
                 if (!(!v || Array.isArray(v) && v.length === 0)) {
                   _context2.next = 10;
                   break;
@@ -545,22 +571,22 @@ var _default = {
                 _iterator.f();
                 return _context2.finish(17);
               case 20:
-                _this4.submitting = true;
+                _this5.submitting = true;
                 _context2.prev = 21;
                 subData = {
                   id: Date.now().toString(36),
-                  data: _this4.formData,
+                  data: _this5.formData,
                   submittedAt: Date.now()
                 }; // 带群ID（如有）
-                if (_this4.groupId) subData.groupId = _this4.groupId;
+                if (_this5.groupId) subData.groupId = _this5.groupId;
                 _context2.next = 26;
-                return (0, _api.addSubmission)(_this4.activity.id, subData);
+                return (0, _api.addSubmission)(_this5.activity.id, subData);
               case 26:
                 uni.showToast({
                   title: '报名成功',
                   icon: 'success'
                 });
-                _this4.submitting = false;
+                _this5.submitting = false;
                 _context2.next = 34;
                 break;
               case 30:
@@ -570,7 +596,7 @@ var _default = {
                   title: '提交失败: ' + _context2.t1.message,
                   icon: 'none'
                 });
-                _this4.submitting = false;
+                _this5.submitting = false;
               case 34:
               case "end":
                 return _context2.stop();
@@ -580,7 +606,7 @@ var _default = {
       }))();
     },
     loadComments: function loadComments() {
-      var _this5 = this;
+      var _this6 = this;
       return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee3() {
         return _regenerator.default.wrap(function _callee3$(_context3) {
           while (1) {
@@ -588,15 +614,15 @@ var _default = {
               case 0:
                 _context3.prev = 0;
                 _context3.next = 3;
-                return (0, _api.getComments)(_this5.activity.id);
+                return (0, _api.getComments)(_this6.activity.id);
               case 3:
-                _this5.comments = _context3.sent;
+                _this6.comments = _context3.sent;
                 _context3.next = 9;
                 break;
               case 6:
                 _context3.prev = 6;
                 _context3.t0 = _context3["catch"](0);
-                _this5.comments = [];
+                _this6.comments = [];
               case 9:
               case "end":
                 return _context3.stop();
@@ -606,13 +632,13 @@ var _default = {
       }))();
     },
     handleAddComment: function handleAddComment() {
-      var _this6 = this;
+      var _this7 = this;
       return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee4() {
         return _regenerator.default.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                if (_this6.newComment.trim()) {
+                if (_this7.newComment.trim()) {
                   _context4.next = 2;
                   break;
                 }
@@ -620,10 +646,10 @@ var _default = {
               case 2:
                 _context4.prev = 2;
                 _context4.next = 5;
-                return (0, _api.addComment)(_this6.activity.id, _this6.newComment.trim());
+                return (0, _api.addComment)(_this7.activity.id, _this7.newComment.trim());
               case 5:
-                _this6.newComment = '';
-                _this6.loadComments();
+                _this7.newComment = '';
+                _this7.loadComments();
                 _context4.next = 12;
                 break;
               case 9:
