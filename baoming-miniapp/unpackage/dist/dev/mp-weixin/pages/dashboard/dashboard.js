@@ -323,13 +323,6 @@ var _default = {
     }
   },
   onShow: function onShow() {
-    if (!uni.getStorageSync('bm_token')) {
-      // 未登录，跳转到个人中心tab进行登录
-      uni.switchTab({
-        url: '/pages/profile/profile'
-      });
-      return;
-    }
     this.loadActivities();
   },
   methods: {
@@ -371,13 +364,31 @@ var _default = {
       this.currentTab = key;
     },
     filterActivities: function filterActivities() {},
+    requireLogin: function requireLogin(action) {
+      if (!uni.getStorageSync('bm_token')) {
+        uni.showModal({
+          title: '需要登录',
+          content: '请先登录后再进行操作',
+          confirmText: '去登录',
+          success: function success(res) {
+            if (res.confirm) uni.switchTab({
+              url: '/pages/profile/profile'
+            });
+          }
+        });
+        return false;
+      }
+      return true;
+    },
     goCreate: function goCreate() {
+      if (!this.requireLogin()) return;
       uni.navigateTo({
         url: '/pages/create/create'
       });
     },
     goPage: function goPage(url) {
       var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+      if (!this.requireLogin()) return;
       var qs = Object.entries(params).map(function (_ref) {
         var _ref2 = (0, _slicedToArray2.default)(_ref, 2),
           k = _ref2[0],
@@ -419,7 +430,13 @@ var _default = {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                _context2.next = 2;
+                if (_this3.requireLogin()) {
+                  _context2.next = 2;
+                  break;
+                }
+                return _context2.abrupt("return");
+              case 2:
+                _context2.next = 4;
                 return new Promise(function (r) {
                   return uni.showModal({
                     title: '确认截止',
@@ -430,38 +447,38 @@ var _default = {
                     }
                   });
                 });
-              case 2:
+              case 4:
                 res = _context2.sent;
                 if (res) {
-                  _context2.next = 5;
+                  _context2.next = 7;
                   break;
                 }
                 return _context2.abrupt("return");
-              case 5:
-                _context2.prev = 5;
-                _context2.next = 8;
+              case 7:
+                _context2.prev = 7;
+                _context2.next = 10;
                 return (0, _api.stopRegistration)(id);
-              case 8:
+              case 10:
                 uni.showToast({
                   title: '已截止',
                   icon: 'success'
                 });
                 _this3.loadActivities();
-                _context2.next = 15;
+                _context2.next = 17;
                 break;
-              case 12:
-                _context2.prev = 12;
-                _context2.t0 = _context2["catch"](5);
+              case 14:
+                _context2.prev = 14;
+                _context2.t0 = _context2["catch"](7);
                 uni.showToast({
                   title: '操作失败',
                   icon: 'none'
                 });
-              case 15:
+              case 17:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, null, [[5, 12]]);
+        }, _callee2, null, [[7, 14]]);
       }))();
     },
     handleRestart: function handleRestart(id) {
@@ -472,7 +489,13 @@ var _default = {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                _context3.next = 2;
+                if (_this4.requireLogin()) {
+                  _context3.next = 2;
+                  break;
+                }
+                return _context3.abrupt("return");
+              case 2:
+                _context3.next = 4;
                 return new Promise(function (r) {
                   return uni.showModal({
                     title: '确认开启',
@@ -483,38 +506,38 @@ var _default = {
                     }
                   });
                 });
-              case 2:
+              case 4:
                 res = _context3.sent;
                 if (res) {
-                  _context3.next = 5;
+                  _context3.next = 7;
                   break;
                 }
                 return _context3.abrupt("return");
-              case 5:
-                _context3.prev = 5;
-                _context3.next = 8;
+              case 7:
+                _context3.prev = 7;
+                _context3.next = 10;
                 return (0, _api.restartRegistration)(id);
-              case 8:
+              case 10:
                 uni.showToast({
                   title: '已开启',
                   icon: 'success'
                 });
                 _this4.loadActivities();
-                _context3.next = 15;
+                _context3.next = 17;
                 break;
-              case 12:
-                _context3.prev = 12;
-                _context3.t0 = _context3["catch"](5);
+              case 14:
+                _context3.prev = 14;
+                _context3.t0 = _context3["catch"](7);
                 uni.showToast({
                   title: '操作失败',
                   icon: 'none'
                 });
-              case 15:
+              case 17:
               case "end":
                 return _context3.stop();
             }
           }
-        }, _callee3, null, [[5, 12]]);
+        }, _callee3, null, [[7, 14]]);
       }))();
     },
     handleCopy: function handleCopy(activity) {
@@ -525,7 +548,13 @@ var _default = {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                _context4.next = 2;
+                if (_this5.requireLogin()) {
+                  _context4.next = 2;
+                  break;
+                }
+                return _context4.abrupt("return");
+              case 2:
+                _context4.next = 4;
                 return new Promise(function (r) {
                   uni.showModal({
                     title: '复制活动',
@@ -536,15 +565,15 @@ var _default = {
                     }
                   });
                 });
-              case 2:
+              case 4:
                 res1 = _context4.sent;
                 if (res1) {
-                  _context4.next = 5;
+                  _context4.next = 7;
                   break;
                 }
                 return _context4.abrupt("return");
-              case 5:
-                _context4.next = 7;
+              case 7:
+                _context4.next = 9;
                 return new Promise(function (r) {
                   uni.showModal({
                     title: '同时复制管理员？',
@@ -556,32 +585,32 @@ var _default = {
                     }
                   });
                 });
-              case 7:
+              case 9:
                 res2 = _context4.sent;
-                _context4.prev = 8;
-                _context4.next = 11;
+                _context4.prev = 10;
+                _context4.next = 13;
                 return (0, _api.duplicateActivity)(activity.id, res2);
-              case 11:
+              case 13:
                 uni.showToast({
                   title: '复制成功',
                   icon: 'success'
                 });
                 _this5.loadActivities();
-                _context4.next = 18;
+                _context4.next = 20;
                 break;
-              case 15:
-                _context4.prev = 15;
-                _context4.t0 = _context4["catch"](8);
+              case 17:
+                _context4.prev = 17;
+                _context4.t0 = _context4["catch"](10);
                 uni.showToast({
                   title: '复制失败: ' + _context4.t0.message,
                   icon: 'none'
                 });
-              case 18:
+              case 20:
               case "end":
                 return _context4.stop();
             }
           }
-        }, _callee4, null, [[8, 15]]);
+        }, _callee4, null, [[10, 17]]);
       }))();
     },
     handleDelete: function handleDelete(id) {
@@ -592,7 +621,13 @@ var _default = {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
-                _context5.next = 2;
+                if (_this6.requireLogin()) {
+                  _context5.next = 2;
+                  break;
+                }
+                return _context5.abrupt("return");
+              case 2:
+                _context5.next = 4;
                 return new Promise(function (r) {
                   return uni.showModal({
                     title: '确认删除',
@@ -602,38 +637,38 @@ var _default = {
                     }
                   });
                 });
-              case 2:
+              case 4:
                 res = _context5.sent;
                 if (res) {
-                  _context5.next = 5;
+                  _context5.next = 7;
                   break;
                 }
                 return _context5.abrupt("return");
-              case 5:
-                _context5.prev = 5;
-                _context5.next = 8;
+              case 7:
+                _context5.prev = 7;
+                _context5.next = 10;
                 return (0, _api.deleteActivity)(id);
-              case 8:
+              case 10:
                 uni.showToast({
                   title: '已删除',
                   icon: 'success'
                 });
                 _this6.loadActivities();
-                _context5.next = 15;
+                _context5.next = 17;
                 break;
-              case 12:
-                _context5.prev = 12;
-                _context5.t0 = _context5["catch"](5);
+              case 14:
+                _context5.prev = 14;
+                _context5.t0 = _context5["catch"](7);
                 uni.showToast({
                   title: '删除失败',
                   icon: 'none'
                 });
-              case 15:
+              case 17:
               case "end":
                 return _context5.stop();
             }
           }
-        }, _callee5, null, [[5, 12]]);
+        }, _callee5, null, [[7, 14]]);
       }))();
     }
   }

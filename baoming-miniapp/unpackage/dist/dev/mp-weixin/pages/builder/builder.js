@@ -319,8 +319,15 @@ var _default = {
   },
   onLoad: function onLoad(options) {
     if (!uni.getStorageSync('bm_token')) {
-      uni.reLaunch({
-        url: '/pages/login/login'
+      uni.showModal({
+        title: '需要登录',
+        content: '请先登录后再编辑表单',
+        confirmText: '去登录',
+        success: function success(res) {
+          if (res.confirm) uni.switchTab({
+            url: '/pages/profile/profile'
+          });else uni.navigateBack();
+        }
       });
       return;
     }

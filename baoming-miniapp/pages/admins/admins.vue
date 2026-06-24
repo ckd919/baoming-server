@@ -161,7 +161,11 @@ export default {
   },
   onLoad(options) {
     if (!uni.getStorageSync('bm_token')) {
-      uni.switchTab({ url: '/pages/profile/profile' }); return
+      uni.showModal({ title: '需要登录', content: '管理活动权限需要先登录', confirmText: '去登录', success: res => {
+        if (res.confirm) uni.switchTab({ url: '/pages/profile/profile' })
+        else uni.navigateBack()
+      }})
+      return
     }
     if (options.id) {
       this.activityId = options.id

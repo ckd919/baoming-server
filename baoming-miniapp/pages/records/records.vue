@@ -44,7 +44,13 @@
 
     <!-- ========== 我管理的 ========== -->
     <view v-if="currentTab === 'managed'" class="tab-content">
-      <view v-if="managedLoading" class="empty-state">
+      <view v-if="!isLoggedIn" class="empty-state">
+        <text class="empty-icon">🔐</text>
+        <text class="empty-text">请先登录</text>
+        <text class="empty-sub">登录后可查看你管理的活动</text>
+        <button class="btn-primary btn-sm" style="margin-top:20rpx" @click="goLogin">去登录</button>
+      </view>
+      <view v-else-if="managedLoading" class="empty-state">
         <text class="empty-icon">⏳</text>
         <text class="empty-text">加载中...</text>
       </view>
@@ -81,7 +87,13 @@
 
     <!-- ========== 我参与的 ========== -->
     <view v-if="currentTab === 'participated'" class="tab-content">
-      <view v-if="participatedLoading" class="empty-state">
+      <view v-if="!isLoggedIn" class="empty-state">
+        <text class="empty-icon">🔐</text>
+        <text class="empty-text">请先登录</text>
+        <text class="empty-sub">登录后可查看你的报名记录</text>
+        <button class="btn-primary btn-sm" style="margin-top:20rpx" @click="goLogin">去登录</button>
+      </view>
+      <view v-else-if="participatedLoading" class="empty-state">
         <text class="empty-icon">⏳</text>
         <text class="empty-text">加载中...</text>
       </view>
@@ -131,12 +143,20 @@ export default {
       participatedLoading: false
     }
   },
+  computed: {
+    isLoggedIn() {
+      return !!uni.getStorageSync('bm_token')
+    }
+  },
   onShow() {
     this.loadRecentViews()
     this.loadManaged()
     this.loadParticipated()
   },
   methods: {
+    goLogin() {
+      uni.switchTab({ url: '/pages/profile/profile' })
+    },
     switchTab(key) {
       this.currentTab = key
     },

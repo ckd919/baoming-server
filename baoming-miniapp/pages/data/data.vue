@@ -65,7 +65,13 @@ export default {
     }
   },
   onLoad(options) {
-    if (!uni.getStorageSync('bm_token')) { uni.reLaunch({ url: '/pages/login/login' }); return }
+    if (!uni.getStorageSync('bm_token')) {
+      uni.showModal({ title: '需要登录', content: '查看报名数据需要先登录', confirmText: '去登录', success: res => {
+        if (res.confirm) uni.switchTab({ url: '/pages/profile/profile' })
+        else uni.navigateBack()
+      }})
+      return
+    }
     if (options.id) this.loadData(options.id)
   },
   methods: {

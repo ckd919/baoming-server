@@ -133,11 +133,6 @@ export default {
     }
   },
   onShow() {
-    if (!uni.getStorageSync('bm_token')) {
-      // 未登录，跳转到个人中心tab进行登录
-      uni.switchTab({ url: '/pages/profile/profile' })
-      return
-    }
     this.loadActivities()
   },
   methods: {
@@ -153,10 +148,26 @@ export default {
     },
     switchTab(key) { this.currentTab = key },
     filterActivities() {},
+    requireLogin(action) {
+      if (!uni.getStorageSync('bm_token')) {
+        uni.showModal({
+          title: '需要登录',
+          content: '请先登录后再进行操作',
+          confirmText: '去登录',
+          success: res => {
+            if (res.confirm) uni.switchTab({ url: '/pages/profile/profile' })
+          }
+        })
+        return false
+      }
+      return true
+    },
     goCreate() {
+      if (!this.requireLogin()) return
       uni.navigateTo({ url: '/pages/create/create' })
     },
     goPage(url, params = {}) {
+      if (!this.requireLogin()) return
       const qs = Object.entries(params).map(([k,v]) => `${k}=${v}`).join('&')
       uni.navigateTo({ url: qs ? `${url}?${qs}` : url })
     },
@@ -176,6 +187,7 @@ export default {
       return `${d.getMonth()+1}月${d.getDate()}日`
     },
     async handleStop(id) {
+      if (!this.requireLogin()) return
       const res = await new Promise(r => uni.showModal({
         title: '确认截止', content: '截止后报名将立即关闭，确定吗？',
         confirmText: '确定截止', success: e => r(e.confirm)
@@ -188,6 +200,7 @@ export default {
       } catch (err) { uni.showToast({ title: '操作失败', icon: 'none' }) }
     },
     async handleRestart(id) {
+      if (!this.requireLogin()) return
       const res = await new Promise(r => uni.showModal({
         title: '确认开启', content: '将恢复报名，确定吗？',
         confirmText: '确定开启', success: e => r(e.confirm)
@@ -200,6 +213,7 @@ export default {
       } catch (err) { uni.showToast({ title: '操作失败', icon: 'none' }) }
     },
     async handleCopy(activity) {
+      if (!this.requireLogin()) return
       const res1 = await new Promise(r => {
         uni.showModal({
           title: '复制活动',
@@ -228,6 +242,7 @@ export default {
       }
     },
     async handleDelete(id) {
+      if (!this.requireLogin()) return
       const res = await new Promise(r => uni.showModal({ title: '确认删除', content: '确定要删除这个活动吗？', success: e => r(e.confirm) }))
       if (!res) return
       try {

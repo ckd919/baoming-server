@@ -115,11 +115,14 @@ var render = function () {
         })
       : null
   var g1 =
-    _vm.currentTab === "managed" && !_vm.managedLoading
+    _vm.currentTab === "managed" && !!_vm.isLoggedIn && !_vm.managedLoading
       ? _vm.managedList.length
       : null
   var l1 =
-    _vm.currentTab === "managed" && !_vm.managedLoading && !(g1 === 0)
+    _vm.currentTab === "managed" &&
+    !!_vm.isLoggedIn &&
+    !_vm.managedLoading &&
+    !(g1 === 0)
       ? _vm.__map(_vm.managedList, function (a, __i2__) {
           var $orig = _vm.__get_orig(a)
           var m1 = _vm.statusClass(a.status)
@@ -132,11 +135,16 @@ var render = function () {
         })
       : null
   var g2 =
-    _vm.currentTab === "participated" && !_vm.participatedLoading
+    _vm.currentTab === "participated" &&
+    !!_vm.isLoggedIn &&
+    !_vm.participatedLoading
       ? _vm.participatedList.length
       : null
   var l2 =
-    _vm.currentTab === "participated" && !_vm.participatedLoading && !(g2 === 0)
+    _vm.currentTab === "participated" &&
+    !!_vm.isLoggedIn &&
+    !_vm.participatedLoading &&
+    !(g2 === 0)
       ? _vm.__map(_vm.participatedList, function (s, __i3__) {
           var $orig = _vm.__get_orig(s)
           var m3 = _vm.formatTime(s.submittedAt)
@@ -316,6 +324,18 @@ var _api = __webpack_require__(/*! @/store/api.js */ 46);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var _default = {
   data: function data() {
     return {
@@ -337,12 +357,22 @@ var _default = {
       participatedLoading: false
     };
   },
+  computed: {
+    isLoggedIn: function isLoggedIn() {
+      return !!uni.getStorageSync('bm_token');
+    }
+  },
   onShow: function onShow() {
     this.loadRecentViews();
     this.loadManaged();
     this.loadParticipated();
   },
   methods: {
+    goLogin: function goLogin() {
+      uni.switchTab({
+        url: '/pages/profile/profile'
+      });
+    },
     switchTab: function switchTab(key) {
       this.currentTab = key;
     },
